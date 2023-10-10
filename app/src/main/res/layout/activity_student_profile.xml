@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudentProfile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="25dp"
+        android:layout_marginBottom="20dp"
+        >
+
+        <ImageView
+            android:id="@+id/imageArrowBack"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageArrowBack"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/montserrate_semi_bold"
+            android:paddingTop="20dp"
+            android:text="Student Profile"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/studentImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/tv1"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/baseline_person"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="0dp" />
+
+        <TextView
+            android:id="@+id/studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentImage"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/montserrat_extra_bold"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="19sp" />
+
+        <LinearLayout
+            android:id="@+id/linear1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentName"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:text="Registration Number:"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/studentRegNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:text=""
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear1"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:text="Class/Grade:"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/studentClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:text=""
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="200dp"
+            android:layout_height="2dp"
+            android:layout_below="@id/linear2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="17dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Profile Details"
+            android:textSize="15dp"
+            android:textColor="@color/black" />
+        <ImageView
+            android:id="@+id/bullet"
+            android:layout_width="9dp"
+            android:layout_height="18dp"
+            android:layout_below="@id/tv3"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/bullet_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv3"
+            android:layout_marginTop="20dp"
+            android:text="Personal Information"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/bullet"
+            android:layout_marginLeft="6dp"
+            />
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bullet"
+            android:text="Address : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:id="@+id/studentAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv4"
+            android:layout_below="@id/bullet"
+            android:fontFamily="@font/montserrat_regular"
+            android:layout_marginTop="15dp"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentAddress"
+            android:text="Date of Birth : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            />
+        <TextView
+            android:id="@+id/studentDob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv5"
+            android:layout_below="@id/studentAddress"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text=""/>
+        <ImageView
+            android:id="@+id/bullet1"
+            android:layout_width="9dp"
+            android:layout_height="18dp"
+            android:layout_below="@id/studentDob"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/bullet_icon"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentDob"
+            android:layout_marginTop="20dp"
+            android:text="Contact Information"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/bullet1"
+            android:layout_marginLeft="6dp"
+            />
+        <TextView
+            android:id="@+id/tv6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bullet1"
+            android:text="Phone Number : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:id="@+id/contactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv6"
+            android:layout_below="@id/bullet1"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/montserrat_regular"
+            android:text=""/>
+        <TextView
+            android:id="@+id/tv7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactNumber"
+            android:text="Email : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            />
+        <TextView
+            android:id="@+id/studentEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/contactNumber"
+            android:layout_toEndOf="@+id/tv7"
+            android:text=""
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="4dp"
+            />
+
+        <ImageView
+            android:id="@+id/bullet2"
+            android:layout_width="9dp"
+            android:layout_height="18dp"
+            android:layout_below="@id/studentEmail"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/bullet_icon"/>
+        <TextView
+            android:id="@+id/tv8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentEmail"
+            android:layout_marginTop="20dp"
+            android:text="Academic Details"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_toEndOf="@id/bullet1"
+            android:layout_marginLeft="6dp"
+            />
+
+        <TextView
+            android:id="@+id/tv9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv8"
+            android:text="Subject : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="15dp"
+            />
+        <TextView
+            android:id="@+id/studentSubjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv9"
+            android:layout_below="@id/tv8"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/black"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text=""/>
+        <TextView
+            android:id="@+id/tv10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentSubjects"
+            android:text="Parent/Guardian : "
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            />
+        <TextView
+            android:id="@+id/studentGuardian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv10"
+            android:layout_below="@id/studentSubjects"
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text=""/>
+        <TextView
+            android:id="@+id/tv11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/studentGuardian"
+            android:text="Emergency Contact : "
+            android:visibility="gone"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/black"
+            />
+        <TextView
+            android:id="@+id/EmergencyContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv11"
+            android:layout_below="@id/studentGuardian"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginTop="3dp"
+            android:paddingRight="8dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="0300-XXXXXXX "/>
+        <TextView
+            android:id="@+id/guardin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Guardian::"
+            android:layout_below="@id/EmergencyContact"
+            android:textColor="@color/black"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_bold"/>
+
+
+        <ImageView
+            android:id="@+id/btnCall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_toEndOf="@+id/guardin"
+            android:layout_below="@id/EmergencyContact"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/baseline_call_24" />
+
+    </RelativeLayout>
+
+
+
+</ScrollView>

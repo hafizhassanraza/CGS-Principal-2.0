@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CGS Principal</string>
+    <string name="loginToAccount">
+        Please enter your information below in order to\n
+        login to your account
+    </string>
+</resources>
