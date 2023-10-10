@@ -1,4 +1,4 @@
-package com.enfotrix.cgs_principal.Models
+package com.enfotrix.cgs_teacher_portal.Models
 
 import com.google.firebase.Timestamp
 

@@ -29,7 +29,7 @@ class SharedPrefManager(context: Context) {
         }
         editor.commit()
     }
-    fun saveClass(classModel: ClassModel) {
+    fun saveClass(classModel: MutableList<ClassModel>) {
         val jsonString = Gson().toJson(classModel)
         editor.putString(constants.KEY_CLASS_MODEL, jsonString)
         editor.apply() // Use apply() for asynchronous writes
@@ -55,7 +55,7 @@ class SharedPrefManager(context: Context) {
     fun clearSharedPref(){
         sharedPref.edit().clear().apply()
     }
-    fun saveSectionInShared(Section: SectionModel) {
+    fun saveSectionInShared(Section: MutableList<SectionModel>) {
         sharedPref.edit().remove(constants.KEY_SECTION_MODEL)
         val jsonString = Gson().toJson(Section)
         editor.putString(constants.KEY_SECTION_MODEL, jsonString)

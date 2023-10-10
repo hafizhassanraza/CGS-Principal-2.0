@@ -14,4 +14,4 @@ data class ClassModel @JvmOverloads constructor(
     var MedicalFee: String? = null,
     var MedicalHostelFee: String? = null,
     var StationaryFee: String? = null
-):ModelItem
+)

@@ -51,7 +51,7 @@ class ActivityLogin : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val documents = task.result
                             sharedPrefManager.savePrincipal(PrincipalModel(id, password))
-                            val intent = Intent(mContext, MainActivity::class.java)
+                            val intent = Intent(mContext, ActivityClasses::class.java)
                             startActivity(intent)
                             finish()
 

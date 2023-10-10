@@ -1,80 +1,106 @@
 package com.enfotrix.cgs_principal.ui
-import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.ClassesListAdapter
-import com.enfotrix.cgs_principal.ModelItem
+import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.ClassModel
-import com.enfotrix.cgs_principal.Models.ClassViewModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityClassesBinding
+import com.enfotrix.cgs_teacher_portal.Models.AttendenceModel
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+
 
 class ActivityClasses : AppCompatActivity() {
-    private val classes: ClassViewModel by viewModels()
+    private val attendanceViewModel: AttendanceViewModel by viewModels()
     private lateinit var binding: ActivityClassesBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private val constants = Constants()
 
-    private var itemList = mutableListOf<ModelItem>()
+    private var attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var classAdapter: ClassesListAdapter
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClassesBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mContext = this@ActivityClasses
         sharedPrefManager = SharedPrefManager(mContext)
+        getTodayAttendanceList()
+        val classList: ClassModel? = sharedPrefManager.getClass()
+        val sectionList: SectionModel? = sharedPrefManager.getSectionFromShared()
+       val attandance:Toda?=getTodayAttendanceList()
+
+
+
+
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        classAdapter = ClassesListAdapter(mContext, itemList) { item ->
-            // Handle item click here
-        }
+        classAdapter = ClassesListAdapter(mContext,classList,sectionList,getTodayAttendanceList())
         recyclerView.adapter = classAdapter
 
-        // Load classes and sections data
-        getClassesAndSectionsList()
+
+
+
+
     }
 
-    private fun getClassesAndSectionsList() {
-        Toast.makeText(this, "helooo", Toast.LENGTH_SHORT).show()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private  fun getTodayAttendanceList() {
         lifecycleScope.launch {
-            val className = sharedPrefManager.getClass()!!.ClassName
-            val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
+            Toast.makeText(mContext, ""+getCurrentDate(), Toast.LENGTH_SHORT).show()
 
-            Toast.makeText(this@ActivityClasses, ""+className, Toast.LENGTH_SHORT).show()
-
-
-            classes.getAllClasses(className, sectionID)
-
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val documents = task.result
+            attendanceViewModel.getTodayAttendance(getCurrentDate()).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val documents = task.result
+                    if (documents.size() > 0) {
+                        var attendenceModel: AttendenceModel? = null
                         for (document in documents) {
-                            val classes = document.toObject(SectionModel::class.java)
-                            itemList.add(classes)
+                            attendenceModel = document.toObject(AttendenceModel::class.java)
+                            attendanceList.add(attendenceModel)
                         }
-                        Toast.makeText(this@ActivityClasses, ""+itemList.size, Toast.LENGTH_SHORT).show()
-                        classAdapter.notifyDataSetChanged()
-                    } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                        Log.e(TAG, "Error fetching data: ${task.exception}")
+
                     }
+                } else {
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
+            }
+
+
         }
+        Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
+
     }
+
+
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+     fun getCurrentDate(): String {
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        return currentDate.format(formatter)
+    }
+
+
+
 }

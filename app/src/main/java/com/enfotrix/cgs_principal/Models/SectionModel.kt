@@ -11,4 +11,4 @@ class SectionModel @JvmOverloads constructor(
     var Password: String = "", // Not nullable
     var SectionName: String? = "",
 
-):ModelItem
+)

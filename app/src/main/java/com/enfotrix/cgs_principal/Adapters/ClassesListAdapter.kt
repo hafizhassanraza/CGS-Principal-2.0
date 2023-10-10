@@ -5,19 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.enfotrix.cgs_principal.ModelItem
 import com.enfotrix.cgs_principal.Models.ClassModel
-import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
-import com.google.gson.Gson
+import com.enfotrix.cgs_teacher_portal.Models.AttendenceModel
 
 class ClassesListAdapter(
     private val context: Context,
-    private val itemList: List<ModelItem>,
-    private val itemClickListener: (ModelItem) -> Unit
-) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
+    private val classList: ClassModel?,
+    private val sectionList: ClassModel?,
+    private val attandanceList: List<AttendenceModel>
+
+    ) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
+
+
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val classes: TextView = view.findViewById(R.id.classfield)
+        val Sections: TextView = view.findViewById(R.id.section)
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.attandence_item, parent, false)
@@ -25,30 +32,21 @@ class ClassesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = itemList[position]
-
-        when (item) {
-            is ClassModel -> {
-                holder.className.text = item.ClassName
-                holder.sectionName.text = ""
-            }
-            is SectionModel -> {
-                holder.className.text = item.ClassName
-                holder.sectionName.text = item.SectionName
-            }
+        if (position < classList.size) {
+            val classModel = classList[position]
+            holder.classes.text = classModel.ClassName
+            holder.Sections.text = "" // Clear the section text if no section for this class
+        } else {
+            val sectionModel = sectionList[position - classList.size]
+            holder.Sections.text = sectionModel.SectionName
+            holder.classes.text = "" // Clear the class text if no class for this section
         }
-
-        holder.cardView.setOnClickListener { itemClickListener(item) }
     }
+
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return sectionList.size+classList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val className: TextView = itemView.findViewById(R.id.classfield)
-        val sectionName: TextView = itemView.findViewById(R.id.section)
-        val percentage: TextView = itemView.findViewById(R.id.percentage)
-        val cardView: CardView = itemView.findViewById(R.id.cardViewclass)
-    }
+
 }

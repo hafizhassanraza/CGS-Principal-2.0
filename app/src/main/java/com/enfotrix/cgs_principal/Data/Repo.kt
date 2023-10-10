@@ -17,6 +17,7 @@ class Repo(val context: Context) {
     private var ADMIN_COLLECTION = db.collection(constants.ADMIN_COLLECTION)
     private var CLASS_COLLECTION = db.collection(constants.CLASS_COLLECTION)
     private var SECTION_COLLECTION = db.collection(constants.SECTION_COLLECTION)
+    private var ATTENDANCE_COLLECTION=db.collection(constants.ATTENDANCE_REC_COLLECTION)
     fun checkLogin(Id: String,password:String):Task<QuerySnapshot>{
 
         return ADMIN_COLLECTION
@@ -28,14 +29,23 @@ class Repo(val context: Context) {
     suspend fun getAllClasses(): Task<QuerySnapshot> {
         return CLASS_COLLECTION.get()
     }
+    suspend fun getTodayAttendance(date:String): Task<QuerySnapshot> {
+     return ATTENDANCE_COLLECTION.whereEqualTo(constants.FIELD_DATE,date).get()
+
+    }
+
+
+
+
+
+
 
     suspend fun getClass(className: String): Task<QuerySnapshot> {
         return CLASS_COLLECTION.whereEqualTo(constants.FIELD_CLASS_NAME, className).get()
     }
 
-    suspend fun getSection(classID: String): Task<QuerySnapshot> {
+    suspend fun getAllSections(): Task<QuerySnapshot> {
         return SECTION_COLLECTION.get()
-//        whereEqualTo(constants.FIELD_CLASS_ID, classID)
     }
 
 }
