@@ -6,6 +6,7 @@ import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.PrincipalModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enftorix.cgs_principal.Constants
+import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 
 class SharedPrefManager(context: Context) {
@@ -34,23 +35,18 @@ class SharedPrefManager(context: Context) {
         editor.putString(constants.KEY_CLASS_MODEL, jsonString)
         editor.apply() // Use apply() for asynchronous writes
     }
-    fun getClass(): ClassModel? {
+    fun getClassList(): List<ClassModel> {
         val jsonString = sharedPref.getString(constants.KEY_CLASS_MODEL, null)
         return if (jsonString != null) {
-            Gson().fromJson(jsonString, ClassModel::class.java)
+            val listType = object : TypeToken<List<ClassModel>>() {}.type
+            Gson().fromJson(jsonString, listType)
         } else {
-            null
-        }
-    }
-    fun getSectionFromShared():SectionModel?{
-        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
-        return if (jsonString != null) {
-            Gson().fromJson(jsonString, SectionModel::class.java)
-        } else {
-            null
+            emptyList()
         }
 
-    }
+
+}
+
 
     fun clearSharedPref(){
         sharedPref.edit().clear().apply()
@@ -60,6 +56,16 @@ class SharedPrefManager(context: Context) {
         val jsonString = Gson().toJson(Section)
         editor.putString(constants.KEY_SECTION_MODEL, jsonString)
         editor.apply() // Use apply() for asynchronous writes
+    }
+    fun getSectionFromShared():List<SectionModel>{
+        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
+        return if (jsonString != null) {
+            val listType = object : TypeToken<List<SectionModel>>() {}.type
+            Gson().fromJson(jsonString, listType)
+        } else {
+            emptyList()
+        }
+
     }
 
 

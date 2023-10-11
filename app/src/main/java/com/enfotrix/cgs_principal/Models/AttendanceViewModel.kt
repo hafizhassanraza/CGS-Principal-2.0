@@ -17,9 +17,9 @@ class AttendanceViewModel (context: Application) : AndroidViewModel(context) {
 
 
 
-    suspend fun getTodayAttendance(date:String): Task<QuerySnapshot> {
+    suspend fun getTodayAttendance(date:String,Id:String): Task<QuerySnapshot> {
 
-        return repo.getTodayAttendance(date)
+        return repo.getTodayAttendance(date,Id)
 
     }
 

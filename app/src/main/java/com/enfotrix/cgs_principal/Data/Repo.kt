@@ -29,8 +29,10 @@ class Repo(val context: Context) {
     suspend fun getAllClasses(): Task<QuerySnapshot> {
         return CLASS_COLLECTION.get()
     }
-    suspend fun getTodayAttendance(date:String): Task<QuerySnapshot> {
-     return ATTENDANCE_COLLECTION.whereEqualTo(constants.FIELD_DATE,date).get()
+    suspend fun getTodayAttendance(date:String,Id:String): Task<QuerySnapshot> {
+     return ATTENDANCE_COLLECTION.whereEqualTo(constants.FIELD_DATE,date)
+         .whereEqualTo("sectionID",Id)
+         .get()
 
     }
 

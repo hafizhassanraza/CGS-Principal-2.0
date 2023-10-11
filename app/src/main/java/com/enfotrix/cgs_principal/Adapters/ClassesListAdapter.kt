@@ -6,24 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.ClassModel
+import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
-import com.enfotrix.cgs_teacher_portal.Models.AttendenceModel
 
 class ClassesListAdapter(
     private val context: Context,
-    private val classList: ClassModel?,
-    private val sectionList: ClassModel?,
+    private val classList: List<ClassModel>,
+    private val sectionList: List<SectionModel>,
     private val attandanceList: List<AttendenceModel>
 
     ) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
 
-
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val classes: TextView = view.findViewById(R.id.classfield)
         val Sections: TextView = view.findViewById(R.id.section)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,21 +30,14 @@ class ClassesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position < classList.size) {
-            val classModel = classList[position]
-            holder.classes.text = classModel.ClassName
-            holder.Sections.text = "" // Clear the section text if no section for this class
-        } else {
-            val sectionModel = sectionList[position - classList.size]
-            holder.Sections.text = sectionModel.SectionName
-            holder.classes.text = "" // Clear the class text if no class for this section
-        }
-    }
+        val classModel = sectionList[position]
 
+        holder.classes.text = classModel.ClassName
+            holder.Sections.text = classModel.SectionName
+    }
 
     override fun getItemCount(): Int {
-        return sectionList.size+classList.size
+        return sectionList.size
     }
-
 
 }

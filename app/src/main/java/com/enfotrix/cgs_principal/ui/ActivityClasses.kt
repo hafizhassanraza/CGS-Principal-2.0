@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.ClassesListAdapter
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
-import com.enfotrix.cgs_principal.Models.ClassModel
-import com.enfotrix.cgs_principal.Models.SectionModel
+import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityClassesBinding
-import com.enfotrix.cgs_teacher_portal.Models.AttendenceModel
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.properties.Delegates
 
 
 class ActivityClasses : AppCompatActivity() {
@@ -28,7 +27,11 @@ class ActivityClasses : AppCompatActivity() {
     private lateinit var binding: ActivityClassesBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
+    var presentCount=0
+    var totalCount=0
+    var percentageMap: MutableMap<String, Int> = mutableMapOf() // Add a percentageMap property
     private val constants = Constants()
+    private val globalList= mutableListOf<AttendenceModel>()
 
     private var attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var classAdapter: ClassesListAdapter
@@ -41,17 +44,11 @@ class ActivityClasses : AppCompatActivity() {
         mContext = this@ActivityClasses
         sharedPrefManager = SharedPrefManager(mContext)
         getTodayAttendanceList()
-        val classList: ClassModel? = sharedPrefManager.getClass()
-        val sectionList: SectionModel? = sharedPrefManager.getSectionFromShared()
-       val attandance:Toda?=getTodayAttendanceList()
-
-
-
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        classAdapter = ClassesListAdapter(mContext,classList,sectionList,getTodayAttendanceList())
+                                                //save b
+        classAdapter = ClassesListAdapter(mContext,sharedPrefManager.getClassList(),sharedPrefManager.getSectionFromShared(),attendanceList)
         recyclerView.adapter = classAdapter
 
 
@@ -66,7 +63,7 @@ class ActivityClasses : AppCompatActivity() {
         lifecycleScope.launch {
             Toast.makeText(mContext, ""+getCurrentDate(), Toast.LENGTH_SHORT).show()
 
-            attendanceViewModel.getTodayAttendance(getCurrentDate()).addOnCompleteListener { task ->
+            attendanceViewModel.getTodayAttendance(getCurrentDate(),Id).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val documents = task.result
                     if (documents.size() > 0) {
@@ -77,6 +74,8 @@ class ActivityClasses : AppCompatActivity() {
                         }
 
                     }
+                    Toast.makeText(mContext, "vyg"+attendanceList.size, Toast.LENGTH_SHORT).show()
+
                 } else {
                     Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
@@ -85,7 +84,6 @@ class ActivityClasses : AppCompatActivity() {
 
 
         }
-        Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
 
     }
 
@@ -101,6 +99,45 @@ class ActivityClasses : AppCompatActivity() {
         return currentDate.format(formatter)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun counSections(){
+
+
+        var sections=  sharedPrefManager.getSectionFromShared()
+        for (section in sections){
+            for (i in 1..sections.size ){
+                attendanceViewModel.getTodayAttendance(getCurrentDate(),section.ID).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val documents = task.result
+                        if (documents.size() > 0) {
+                            var attendenceModel: AttendenceModel? = null
+                            for (document in documents) {
+                              var status=  document.getString("status")
+                                if (status .equals("Present")){
+                                    presentCount++
+                                }
+
+                                totalCount++
+
+                            }
+
+
+
+
+                        }
+                    }
+                }
+
+
+            }
+            percentageMap.put(section.ID, attandceCount())
+        }
+
+    }
+    fun attandceCount(): Int {
+        var precentage = presentCount / totalCount * 100
+        return precentage
+    }
 
 
 }
