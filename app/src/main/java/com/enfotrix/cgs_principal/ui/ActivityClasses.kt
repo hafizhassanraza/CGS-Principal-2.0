@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
+import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityClassesBinding
@@ -44,6 +45,7 @@ class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickL
         mContext = this@ActivityClasses
         sharedPrefManager = SharedPrefManager(mContext)
         countSections()
+        Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -111,12 +113,14 @@ class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickL
         return currentDate.format(formatter)
     }
 
-    override fun onAttendanceClicked(SectionId: String) {
+    override fun onAttendanceClicked(Sectionname: String,Id:String,className:String) {
         // Handle the item click event here
         // For example, open the ActivityStudentRegister activity.
-        Toast.makeText(this, ""+SectionId, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, ActivityStudentAttendanceRegister::class.java)
-        intent.putExtra("SectionId",SectionId)
+        intent.putExtra("SectionName",Sectionname)
+        intent.putExtra("Id",Id)
+        intent.putExtra("className",className)
+
         startActivity(intent)
 
     }

@@ -1,6 +1,7 @@
 package com.enfotrix.cgs_principal.Adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
+import com.enfotrix.cgs_principal.ui.ActivityStudentProfile
+import com.google.gson.Gson
 
 class AttendanceRecAdapter(private val context: Context,
                            private var attendanceRecList: List<AttendenceModel>,
@@ -36,6 +39,17 @@ class AttendanceRecAdapter(private val context: Context,
             holder.regNO.text = studentModel.RegNumber
             holder.studentName.text = studentModel.FirstName
             holder.status.text = attendenceModel.Status
+            holder.layAttendance.setOnClickListener {
+                val selectedStudentList = mutableListOf<StudentModel>()
+                selectedStudentList.add(studentModel)
+
+                val gson = Gson()
+                val studentListJson = gson.toJson(selectedStudentList)
+                val intent = Intent(context, ActivityStudentProfile::class.java)
+                intent.putExtra("selectedStudentList", studentListJson)
+                intent.putExtra("Section",studentModel.CurrentClass)
+                context.startActivity(intent)
+            }
 
             // Set text color based on status
             when (attendenceModel.Status) {

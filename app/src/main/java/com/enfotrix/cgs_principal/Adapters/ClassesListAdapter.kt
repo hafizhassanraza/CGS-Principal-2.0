@@ -46,7 +46,7 @@ class ClassesListAdapter(
         }
 
         holder.card.setOnClickListener {
-            attendanceClickListener.onAttendanceClicked(sectionList.ID)
+            attendanceClickListener.onAttendanceClicked(sectionList.SectionName.toString(),sectionList.ID,sectionList.ClassName)
         }
     }
 
@@ -57,7 +57,7 @@ class ClassesListAdapter(
 
 
 interface AttendanceClickListener {
-        fun onAttendanceClicked(SectionId: String)
+        fun onAttendanceClicked(Sectionname: String,Id:String,className:String)
 
     }
 

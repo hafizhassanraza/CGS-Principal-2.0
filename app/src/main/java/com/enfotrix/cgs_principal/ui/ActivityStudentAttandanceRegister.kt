@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AttendanceRecAdapter
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
+import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.R
@@ -39,7 +40,9 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 
     private val studentList = mutableListOf<StudentModel>()
     private val attendanceList = mutableListOf<AttendenceModel>()
-    private lateinit var fromActivity:String
+    private lateinit var Section:String
+    private lateinit var ID:String
+    private lateinit var className:String
 
 
     private var constants = Constants()
@@ -51,14 +54,19 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
         binding = ActivityStudentAttandanceRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mContext = this@ActivityStudentAttendanceRegister
-        //sharedPrefManager = SharedPrefManager(mContext)
+        sharedPrefManager = SharedPrefManager(mContext)
+
+
 
         ////////////////// HERE WILL GET INTENT VALUE ///////////////////////
 
-        fromActivity= intent.getStringExtra("SectionId").toString()
-        Toast.makeText(mContext, ""+fromActivity, Toast.LENGTH_SHORT).show()
-        getStudentsList(fromActivity)
-        getAttendanceRecord(getCurrentDate(),fromActivity)
+        Section= intent.getStringExtra("SectionName").toString()
+        ID= intent.getStringExtra("Id").toString()
+        className= intent.getStringExtra("className").toString()
+
+        Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
+        getStudentsList(ID)
+        getAttendanceRecord(getCurrentDate(),ID)
 
 //        if (fromActivity == "Main") {
 //            binding.datePicker.visibility = View.GONE
@@ -66,6 +74,8 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 //        } else {
 //            binding.datePicker.visibility = View.VISIBLE
 //        }
+        binding.ClassName.setText(className)
+        binding.sectionName.setText(Section)
 
 
 
