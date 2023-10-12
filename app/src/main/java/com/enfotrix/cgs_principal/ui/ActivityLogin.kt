@@ -35,12 +35,13 @@ class ActivityLogin : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 binding.etPassword.error = "Enter Password, please"
             } else {
-                loginauthentication(principalId, password)
+                LogInCheck(principalId, password)
             }
         }
     }
 
-    private fun loginauthentication(id: String, password: String) {
+    private fun LogInCheck(id: String, password: String) {
+
 
         lifecycleScope.launch {
             try {

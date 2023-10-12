@@ -1,7 +1,5 @@
 package com.enfotrix.cgs_principal.Models
 
-import com.enfotrix.cgs_principal.ModelItem
-
 data class ClassModel @JvmOverloads constructor(
     var AdmissionFee: String? = null,
     var ClassFee: String? = null,

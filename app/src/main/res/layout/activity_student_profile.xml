@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".StudentProfile">
+    android:layout_height="wrap_content"
+    tools:context=".ui.ActivityStudentProfile">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -350,14 +350,13 @@
             android:id="@+id/btnCall"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_toEndOf="@+id/guardin"
+             android:layout_toEndOf="@+id/guardin"
             android:layout_below="@id/EmergencyContact"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="3dp"
             android:src="@drawable/baseline_call_24" />
 
     </RelativeLayout>
-
 
 
 </ScrollView>

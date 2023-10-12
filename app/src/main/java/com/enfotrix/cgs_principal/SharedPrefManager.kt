@@ -5,9 +5,11 @@ import android.content.SharedPreferences
 import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.PrincipalModel
 import com.enfotrix.cgs_principal.Models.SectionModel
+import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enftorix.cgs_principal.Constants
 import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
+import java.lang.reflect.Type
 
 class SharedPrefManager(context: Context) {
     private var constants = Constants()
@@ -67,6 +69,40 @@ class SharedPrefManager(context: Context) {
         }
 
     }
+    fun getSectionFromSharedmODEL():SectionModel?{
+        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, SectionModel::class.java)
+        } else {
+            null
+        }
+
+    }
+    fun putStudentList(list:List<StudentModel>): Boolean {
+        editor.putString("ListStudents", Gson().toJson(list))
+        editor.commit()
+        return true
+    }
+    fun getStudentList(): List<StudentModel>{
+
+        val json = sharedPref.getString("ListStudents", "") ?: ""
+        val type: Type = object : com.google.gson.reflect.TypeToken<List<StudentModel?>?>() {}.getType()
+
+        return if (!json.isNullOrEmpty()) {
+            Gson().fromJson(json, type) ?: emptyList()
+        } else {
+            emptyList()
+        }
+    }
+    fun getClass(): ClassModel? {
+        val jsonString = sharedPref.getString(constants.KEY_CLASS_MODEL, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, ClassModel::class.java)
+        } else {
+            null
+        }
+    }
+
 
 
 }
