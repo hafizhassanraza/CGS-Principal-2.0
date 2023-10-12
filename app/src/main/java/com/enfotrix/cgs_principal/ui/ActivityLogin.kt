@@ -35,12 +35,13 @@ class ActivityLogin : AppCompatActivity() {
             } else if (password.isEmpty()) {
                 binding.etPassword.error = "Enter Password, please"
             } else {
-                loginauthentication(principalId, password)
+                LogInCheck(principalId, password)
             }
         }
     }
 
-    private fun loginauthentication(id: String, password: String) {
+    private fun LogInCheck(id: String, password: String) {
+
 
         lifecycleScope.launch {
             try {
@@ -50,10 +51,10 @@ class ActivityLogin : AppCompatActivity() {
                 pricipalViewModel.checkLogin(id, password).addOnCompleteListener { task->
                     if (task.isSuccessful) {
                         val documents = task.result
-                            sharedPrefManager.savePrincipal(PrincipalModel(id, password))
-                            val intent = Intent(mContext, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                        sharedPrefManager.savePrincipal(PrincipalModel(id, password))
+                        val intent = Intent(mContext, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
                     } else {
                         Toast.makeText(mContext, "Login failed", Toast.LENGTH_SHORT).show()

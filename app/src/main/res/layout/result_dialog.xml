@@ -1,0 +1,83 @@
+<!-- dialog_with_spinners_layout.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Results"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="19dp"
+            android:textColor="@color/black"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinnerackground"
+            android:layout_marginTop="10dp">
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerSelectClass"
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinnerackground"
+            android:layout_marginTop="5dp">
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerSelectSection"
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinnerackground"
+            android:layout_marginTop="5dp">
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerTerm"
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinnerackground"
+            android:layout_marginTop="5dp">
+
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinnerSelectYear"
+                android:layout_width="match_parent"
+                android:textAlignment="textStart"
+
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

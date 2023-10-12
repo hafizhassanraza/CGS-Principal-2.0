@@ -1,6 +1,5 @@
 package com.enfotrix.cgs_principal.Models
 
-import com.enfotrix.cgs_principal.ModelItem
 
 class SectionModel @JvmOverloads constructor(
 
@@ -11,4 +10,6 @@ class SectionModel @JvmOverloads constructor(
     var Password: String = "", // Not nullable
     var SectionName: String? = "",
 
-):ModelItem
+
+
+    )

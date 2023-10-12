@@ -1,5 +1,3 @@
-package com.enfotrix.cgs_principal.Adapters
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,17 +5,25 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.enfotrix.cgs_principal.ModelItem
 import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
-import com.google.gson.Gson
 
 class ClassesListAdapter(
     private val context: Context,
-    private val itemList: List<ModelItem>,
-    private val itemClickListener: (ModelItem) -> Unit
+    private val classList: List<ClassModel>,
+    private val sectionList: List<SectionModel>,
+    private val attendanceList: MutableMap<String, Double>,
+    private val attendanceClickListener: AttendanceClickListener
+
 ) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val classes: TextView = view.findViewById(R.id.classfield)
+        val sections: TextView = view.findViewById(R.id.section)
+        val percentage: TextView = view.findViewById(R.id.percentage)
+        val card: CardView = view.findViewById(R.id.cardViewclass)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.attandence_item, parent, false)
@@ -25,30 +31,41 @@ class ClassesListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = itemList[position]
+        val sectionList = sectionList[position]
+        val classModel = classList[position]
 
-        when (item) {
-            is ClassModel -> {
-                holder.className.text = item.ClassName
-                holder.sectionName.text = ""
-            }
-            is SectionModel -> {
-                holder.className.text = item.ClassName
-                holder.sectionName.text = item.SectionName
-            }
+        holder.classes.text = classModel.ClassName
+        holder.sections.text = sectionList.SectionName
+
+        val percentage = attendanceList[sectionList.ID]
+        if (percentage != null) {
+            val formattedPercentage = String.format("%.2f%%", percentage)
+            holder.percentage.text = formattedPercentage
+        } else {
+            holder.percentage.text = "N/A"
         }
 
-        holder.cardView.setOnClickListener { itemClickListener(item) }
+        holder.card.setOnClickListener {
+            attendanceClickListener.onAttendanceClicked(sectionList.SectionName.toString(),sectionList.ID,sectionList.ClassName)
+        }
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return sectionList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val className: TextView = itemView.findViewById(R.id.classfield)
-        val sectionName: TextView = itemView.findViewById(R.id.section)
-        val percentage: TextView = itemView.findViewById(R.id.percentage)
-        val cardView: CardView = itemView.findViewById(R.id.cardViewclass)
+
+
+interface AttendanceClickListener {
+        fun onAttendanceClicked(Sectionname: String,Id:String,className:String)
+
     }
+
 }
+
+
+
+
+
+
+
