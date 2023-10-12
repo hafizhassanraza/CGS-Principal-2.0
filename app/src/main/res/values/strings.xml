@@ -4,4 +4,7 @@
         Please enter your information below in order to\n
         login to your account
     </string>
+    <string name="open_navigation_drawer">nevigation opener\n</string>
+    <string name="notification">this is notification icon</string>
+
 </resources>
