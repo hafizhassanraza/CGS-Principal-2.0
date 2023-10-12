@@ -11,6 +11,13 @@ class Constants {
     public var FIELD_CLASS_ID="ClassID"
     public var FIELD_SECTION_NAME="SectionName"
     public var ATTENDANCE_REC_COLLECTION="AttendanceRec"
+    public var STUDENT_COLLECTION = "Students"
+    public var FIELD_SECTION_ID="CurrentSection"
+    public var  DEVICE_TOKEN_COLLECTION="DeviceToken"
+
+
+
+
 
 
 
@@ -18,6 +25,12 @@ class Constants {
 
 
     public var FIELD_DATE="date"
+    public var FIELD_CLASSNAME_IN_SECTION="CurrentClass"
+    public var FIELD_SECTIONID="sectionID"
+    public var FIELD_STUDENT_ID="studentID"
+
+
+
 
 
 

@@ -16,13 +16,37 @@ class AttendanceViewModel (context: Application) : AndroidViewModel(context) {
     private val context = context
 
 
-
-    suspend fun getTodayAttendance(date:String,Id:String): Task<QuerySnapshot> {
-
-        return repo.getTodayAttendance(date,Id)
+    suspend fun saveAttendance(attendenceModel: AttendenceModel): Task<Void> {
+        return repo.saveAttendance(attendenceModel)
 
     }
 
+
+
+
+    suspend fun getAttendanceRec(date:String,sectionID: String): Task<QuerySnapshot> {
+
+        return repo.getAttendanceRec(date,sectionID)
+
+    }
+
+
+    fun getDeviceToken(studentID:String): Task<QuerySnapshot> {
+
+        return repo.getDeviceToken(studentID)
+
+    }
+
+
+
+
+
+
+
+
+    fun getTodayAttendance(date: String, sectionID: String ): Task<QuerySnapshot> {
+        return repo.getTodayAttendance(date,sectionID)
+    }
 
 
 

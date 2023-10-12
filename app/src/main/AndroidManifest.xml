@@ -13,6 +13,9 @@
         android:theme="@style/Theme.CGSPrincipal"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ActivityStudentAttendanceRegister"
+            android:exported="false" />
+        <activity
             android:name=".ui.ActivitySplash"
             android:exported="false" />
         <activity
