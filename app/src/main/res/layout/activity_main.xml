@@ -169,6 +169,7 @@
                                             app:cardElevation="4dp">
 
                                                 <RelativeLayout
+                                                    android:id="@+id/Attendance"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"
                                                     android:padding="10dp"
@@ -209,6 +210,7 @@
                                             app:cardElevation="4dp">
 
                                                 <RelativeLayout
+                                                    android:id="@+id/Results"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"
                                                     android:padding="10dp"
@@ -259,7 +261,7 @@
                                                             android:layout_height="wrap_content"
                                                             android:fontFamily="@font/montserrat_regular"
                                                             android:layout_alignParentBottom="true"
-                                                            android:text="Behaviours"
+                                                            android:text="Student Reports"
                                                             android:textColor="@color/white" />
 
                                                 </RelativeLayout>
