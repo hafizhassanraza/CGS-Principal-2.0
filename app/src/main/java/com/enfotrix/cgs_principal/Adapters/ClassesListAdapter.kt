@@ -15,7 +15,7 @@ class ClassesListAdapter(
     private val context: Context,
     private val classList: List<ClassModel>,
     private val sectionList: List<SectionModel>,
-    private val attendanceList: List<AttendenceModel>,
+    private var attendanceList: List<AttendenceModel>,
     private val attendanceClickListener: AttendanceClickListener
 
 ) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
@@ -73,14 +73,17 @@ class ClassesListAdapter(
 
 
     }
+    fun updateAttendanceData(newAttendanceList: List<AttendenceModel>) {
+        attendanceList = newAttendanceList // Update the attendanceList with the new data
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount(): Int {
         return sectionList.size
     }
 
 
-
-interface AttendanceClickListener {
+    interface AttendanceClickListener {
         fun onAttendanceClicked(sectionID:String , attendacneList:List<AttendenceModel>)
 
     }

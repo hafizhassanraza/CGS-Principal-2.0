@@ -56,12 +56,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ActivityAttendance::class.java)
             startActivity(intent)
         }
-        binding.Results.setOnClickListener {
-            // Define the action you want to perform when the button is clicked.
-            // For example, you can start a new activity here.
-            val intent = Intent(this, ActivityAttendance::class.java)
-            startActivity(intent)
-        }
+//        binding.Results.setOnClickListener {
+//            // Define the action you want to perform when the button is clicked.
+//            // For example, you can start a new activity here.
+//            val intent = Intent(this, ActivityAttendance::class.java)
+//            startActivity(intent)
+//        }
+//
         binding.cardStudentReports.setOnClickListener {
             startActivity(Intent(mContext,ActivityStudentReports::class.java))
         }

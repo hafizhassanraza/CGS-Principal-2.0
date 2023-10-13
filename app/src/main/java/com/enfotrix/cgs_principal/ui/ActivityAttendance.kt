@@ -1,9 +1,11 @@
 package com.enfotrix.cgs_principal.ui
 import ClassesListAdapter
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -20,8 +22,11 @@ import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityAttendanceBinding
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
 
 class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceClickListener {
@@ -61,6 +66,12 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
 
         getAttendance()
+
+        binding.datePicker.setOnClickListener {
+
+            showDatePickerDialog();
+
+        }
 
 
     }
@@ -131,39 +142,6 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-   /* fun countSections() {
-        val sections = sharedPrefManager.getSectionFromShared()
-
-        for (section in sections) {
-            var presentCount = 0
-            var totalCount = 0
-
-            attendanceViewModel.getTodayAttendance(getCurrentDate(), section.ID).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val documents = task.result
-                    if (documents.size() > 0) {
-                        for (document in documents) {
-                            val status = document.getString("status")
-                            if (status.equals("Present", ignoreCase = true)) {
-                                presentCount++
-                            }
-                            totalCount++
-
-                        }
-                        Toast.makeText(this, ""+totalCount, Toast.LENGTH_SHORT).show()
-                        Toast.makeText(this, ""+presentCount, Toast.LENGTH_SHORT).show()
-
-                        val percentage = calculatePercentage(presentCount, totalCount)
-                        Toast.makeText(this, ""+percentage, Toast.LENGTH_SHORT).show()
-
-                        sectionPercentages[section.ID] = percentage
-                    }
-                }
-            }
-        }
-    }
-*/
     // Calculate the percentage
     private fun calculatePercentage(presentCount: Int, totalCount: Int): Double {
         return if (totalCount > 0) {
@@ -190,41 +168,45 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         startActivity(intent)
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showDatePickerDialog() {
+        val calendar: Calendar = Calendar.getInstance()
+        val todayYear: Int = calendar.get(Calendar.YEAR)
+        val todayMonth: Int = calendar.get(Calendar.MONTH)
+        val todayDayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { datePicker, selectedYear, selectedMonth, selectedDay ->
+                // Create a Calendar instance for the selected date
+                val selectedDateCalendar = Calendar.getInstance()
+                selectedDateCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                // Create a Calendar instance for today's date
+                val todayCalendar = Calendar.getInstance()
+
+                // Check if the selected date is today or in the future
+                if (selectedDateCalendar.after(todayCalendar)) {
+                    // The selected date is tomorrow or a future date, show an error message
+                    Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show()
+                    binding.recyclerView.visibility= View.INVISIBLE
+                } else {
+                    // The selected date is valid, format it in "dd-MM-yyyy" and update the EditText
+                    val selectedDateFormatted = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                        .format(selectedDateCalendar.time)
+
+                    binding.datePicker.setText(selectedDateFormatted)
+                    attendanceViewModel.getAttendanceRec (selectedDateFormatted)
+                }
+            },
+            todayYear,
+            todayMonth,
+            todayDayOfMonth
+        )
+
+        datePickerDialog.show()
+    }
+
 
 }
-
-
-//
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    private  fun getTodayAttendanceList() {
-//        lifecycleScope.launch {
-//            Toast.makeText(mContext, ""+getCurrentDate(), Toast.LENGTH_SHORT).show()
-//
-//            attendanceViewModel.getTodayAttendance(getCurrentDate(),sec).addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    val documents = task.result
-//                    if (documents.size() > 0) {
-//                        var attendenceModel: AttendenceModel? = null
-//                        for (document in documents) {
-//                            attendenceModel = document.toObject(AttendenceModel::class.java)
-//                            attendanceList.add(attendenceModel)
-//                        }
-//
-//                    }
-//                    Toast.makeText(mContext, "vyg"+attendanceList.size, Toast.LENGTH_SHORT).show()
-//
-//                } else {
-//                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-//                }
-//
-//            }
-//
-//
-//        }
-//
-//    }
-
-
-
-
 
