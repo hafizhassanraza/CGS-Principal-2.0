@@ -63,15 +63,17 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
         // Create the adapter and pass "this" as the AttendanceClickListener
 
+        binding.datePicker.setText(getCurrentDate())
 
 
-        getAttendance()
+        getAttendance(getCurrentDate())
+
+
 
         binding.datePicker.setOnClickListener {
-
             showDatePickerDialog();
-
         }
+
 
 
     }
@@ -79,10 +81,10 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAttendance(){
+    fun getAttendance(date : String){
 
         lifecycleScope.launch {
-            attendanceViewModel.getAttendanceRec(getCurrentDate())
+            attendanceViewModel.getAttendanceRec(date)
                 .addOnCompleteListener{task->
                     if(task.isSuccessful)
                     {
@@ -117,6 +119,8 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
                             this@ActivityAttendance
                         )
                         recyclerView.adapter = classAdapter
+
+
 
 
                     }
@@ -175,8 +179,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         val todayMonth: Int = calendar.get(Calendar.MONTH)
         val todayDayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(
-            this,
+        val datePickerDialog = DatePickerDialog(this,
             { datePicker, selectedYear, selectedMonth, selectedDay ->
                 // Create a Calendar instance for the selected date
                 val selectedDateCalendar = Calendar.getInstance()
@@ -185,7 +188,23 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
                 // Create a Calendar instance for today's date
                 val todayCalendar = Calendar.getInstance()
 
-                // Check if the selected date is today or in the future
+
+
+                val selectedDateFormatted = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    .format(selectedDateCalendar.time)
+
+
+
+
+
+                binding.datePicker.setText(selectedDateFormatted)
+                getAttendance(selectedDateFormatted)
+
+
+
+
+
+                /*// Check if the selected date is today or in the future
                 if (selectedDateCalendar.after(todayCalendar)) {
                     // The selected date is tomorrow or a future date, show an error message
                     Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show()
@@ -197,7 +216,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
                     binding.datePicker.setText(selectedDateFormatted)
                     attendanceViewModel.getAttendanceRec (selectedDateFormatted)
-                }
+                }*/
             },
             todayYear,
             todayMonth,
