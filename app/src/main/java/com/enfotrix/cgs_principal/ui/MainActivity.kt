@@ -10,6 +10,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
+import com.enfotrix.cgs_principal.Models.AnnouncementModel
+import com.enfotrix.cgs_principal.Models.AnnouncementViewModel
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.ClassModel
@@ -26,6 +28,9 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity() {
 
     private val attendanceViewModel: AttendanceViewModel by viewModels()
+
+    private val announcementViewModel: AnnouncementViewModel by viewModels()
+
 
 
 
@@ -53,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         utils = Utils(mContext)
         constants = Constants()
         sharedPrefManager = SharedPrefManager(mContext)
+        getannouncement()
 
         binding.Attendance.setOnClickListener {
 
@@ -131,4 +137,21 @@ class MainActivity : AppCompatActivity() {
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return currentDate.format(formatter)
     }
+
+
+    private fun getannouncement(){
+        lifecycleScope.launch { announcementViewModel.getAnnouncementModel().addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                val documents = task.result
+                for (document in documents){
+                    val announcement = document.toObject(AnnouncementModel::class.java)
+                    binding.tvAnnouncement.text=announcement.Announcement.toString()
+                }
+            }
+            else{
+                Toast.makeText(mContext,"Sommthing went wrong",Toast.LENGTH_SHORT).show()
+            }
+        } }
+    }
+
 }
