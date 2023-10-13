@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.enfotrix.cgs_principal.Models.PrincipalModel
 import com.enfotrix.cgs_principal.Models.PrincipalViewModel
 import com.enfotrix.cgs_principal.SharedPrefManager
+import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityLoginBinding
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,7 @@ class ActivityLogin : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var mContext: Context
+    private lateinit var utils: Utils
     private val pricipalViewModel: PrincipalViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +27,8 @@ class ActivityLogin : AppCompatActivity() {
         setContentView(binding.root)
         mContext = this@ActivityLogin
         sharedPrefManager = SharedPrefManager(mContext)
+        utils = Utils(mContext)
+
 
         binding.btnLogin.setOnClickListener {
             val principalId = binding.etRegistration.text.toString()
@@ -41,7 +45,7 @@ class ActivityLogin : AppCompatActivity() {
     }
 
     private fun LogInCheck(id: String, password: String) {
-
+        utils.startLoadingAnimation()
 
         lifecycleScope.launch {
             try {
@@ -55,6 +59,7 @@ class ActivityLogin : AppCompatActivity() {
                         val intent = Intent(mContext, MainActivity::class.java)
                         startActivity(intent)
                         finish()
+                        utils.endLoadingAnimation()
 
                     } else {
                         Toast.makeText(mContext, "Login failed", Toast.LENGTH_SHORT).show()

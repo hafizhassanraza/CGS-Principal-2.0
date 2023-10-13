@@ -16,6 +16,7 @@ import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
+import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityMainBinding
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val classesList = mutableListOf<ClassModel>()
     private val sectionList = mutableListOf<SectionModel>()
     private lateinit var dialog : Dialog
+    private lateinit var utils: Utils
 
     private lateinit var binding:ActivityMainBinding
     @RequiresApi(Build.VERSION_CODES.O)
@@ -46,15 +48,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         mContext = this@MainActivity;
+        utils = Utils(mContext)
         constants = Constants()
         sharedPrefManager = SharedPrefManager(mContext)
 
         binding.Attendance.setOnClickListener {
+
+
+
+
+
             // Define the action you want to perform when the button is clicked.
             // For example, you can start a new activity here.
             val intent = Intent(this, ActivityAttendance::class.java)
             startActivity(intent)
+
+
+
         }
 //        binding.Results.setOnClickListener {
 //            // Define the action you want to perform when the button is clicked.
@@ -74,6 +86,7 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getAttendance() {
+
 
 
 

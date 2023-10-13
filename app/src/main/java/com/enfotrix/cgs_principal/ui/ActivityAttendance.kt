@@ -19,6 +19,7 @@ import com.enfotrix.cgs_principal.Models.ClassViewModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
+import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityAttendanceBinding
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
@@ -32,19 +33,15 @@ import java.util.Locale
 class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceClickListener {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
     private val classViewModel: ClassViewModel by viewModels()
+    private lateinit var utils: Utils
 
 
     private lateinit var binding: ActivityAttendanceBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var recyclerView: RecyclerView
-    var presentCount = 0
-    var totalCount = 0
-    private var percentageMap: MutableMap<String, Double> = mutableMapOf()
-    private val constants = Constants()
-    private val globalList = mutableListOf<AttendenceModel>()
 
-    private var attendanceList = mutableListOf<AttendenceModel>()
+
     private lateinit var classAdapter: ClassesListAdapter
     // ...
     private var sectionPercentages: MutableMap<String, Double> = mutableMapOf() // Declare sectionPercentages at the class level
@@ -57,7 +54,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
         Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
-
+        utils = Utils(mContext)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
@@ -82,6 +79,8 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getAttendance(date : String){
+
+        utils.startLoadingAnimation()
 
         lifecycleScope.launch {
             attendanceViewModel.getAttendanceRec(date)

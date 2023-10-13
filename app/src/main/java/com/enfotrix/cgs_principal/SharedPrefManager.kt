@@ -53,17 +53,7 @@ class SharedPrefManager(context: Context) {
         editor.putString(constants.KEY_SECTION_MODEL, jsonString)
         editor.apply() // Use apply() for asynchronous writes
     }
-    fun getSectionFromShared():List<SectionModel>{
-        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
-        return if (jsonString != null) {
-            val listType = object : TypeToken<List<SectionModel>>() {}.type
-            Gson().fromJson(jsonString, listType)
-        } else {
-            emptyList()
-        }
-
-    }
-    fun getSectionFromSharedmODEL():SectionModel?{
+    fun getSectionFromShared():SectionModel?{
         val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
         return if (jsonString != null) {
             Gson().fromJson(jsonString, SectionModel::class.java)
@@ -72,6 +62,15 @@ class SharedPrefManager(context: Context) {
         }
 
     }
+//    fun getSectionFromShared():SectionModel?{
+//        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
+//        return if (jsonString != null) {
+//            Gson().fromJson(jsonString, SectionModel::class.java)
+//        } else {
+//            null
+//        }
+//
+//    }
     fun putStudentList(list:List<StudentModel>): Boolean {
         editor.putString("ListStudents", Gson().toJson(list))
         editor.commit()
