@@ -25,6 +25,8 @@ class Repo(val context: Context) {
     private var SUBJECT_COLLECTION=db.collection(constants.SUBJECT_COLLECTION)
     private var RESULT_COLLECTION=db.collection(constants.RESULT_COLLECTION)
 
+    private var ANNOUNCEMENT_COLLECTION=db.collection(constants.ANNOUNCEMENT_COLLECTION)
+
 
     fun checkLogin(Id: String,password:String):Task<QuerySnapshot>{
 
@@ -78,11 +80,12 @@ class Repo(val context: Context) {
 
 
         return DEVICE_TOKEN_COLLECTION.whereEqualTo(constants.FIELD_STUDENT_ID,studentID).get()
-
-
-
     }
 
+
+    fun getAnnouncementModel():Task<QuerySnapshot> {
+        return ANNOUNCEMENT_COLLECTION.get()
+    }
 
 
 }

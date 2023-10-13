@@ -20,6 +20,7 @@ class Constants {
 
 
     public var STUDENT_ID="studentID"
+    public var ANNOUNCEMENT_COLLECTION="Announcement"
 
 
 
@@ -56,6 +57,7 @@ class Constants {
     public var PRINCIPAL_MODEL="principalModel"
     public  var KEY_CLASS_MODEL="classModel"
     public  var KEY_SECTION_MODEL="classModel"
+
 
 
 
