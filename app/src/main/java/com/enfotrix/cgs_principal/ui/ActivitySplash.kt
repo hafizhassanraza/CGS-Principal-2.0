@@ -23,9 +23,6 @@ import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Timer
 import kotlin.concurrent.schedule
 
@@ -119,7 +116,7 @@ class ActivitySplash : AppCompatActivity() {
                                                                         sharedPrefManager.putStudentList(task.result.map { it.toObject(StudentModel::class.java) })
 
                                                                         if (sharedPrefManager.isLoggedIn() == true) {
-                                                                            startActivity(Intent(mContext, ActivityClasses::class.java))
+                                                                            startActivity(Intent(mContext, ActivityAttendance::class.java))
                                                                             finish()
                                                                         } else if (sharedPrefManager.isLoggedIn() == false) {
                                                                             startActivity(Intent(mContext, ActivityLogin::class.java))
@@ -225,7 +222,7 @@ class ActivitySplash : AppCompatActivity() {
                                      sharedPrefManager.putStudentList(studentsTask.result.map { it.toObject(StudentModel::class.java) })
 
                                      if (sharedPrefManager.isLoggedIn() == true) {
-                                         startActivity(Intent(mContext, ActivityClasses::class.java))
+                                         startActivity(Intent(mContext, ActivityAttendance::class.java))
                                          finish()
                                      } else if (sharedPrefManager.isLoggedIn() == false) {
                                          startActivity(Intent(mContext, ActivityLogin::class.java))

@@ -14,7 +14,6 @@ import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.SectionModel
-import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityMainBinding
@@ -54,13 +53,13 @@ class MainActivity : AppCompatActivity() {
         binding.Attendance.setOnClickListener {
             // Define the action you want to perform when the button is clicked.
             // For example, you can start a new activity here.
-            val intent = Intent(this, ActivityClasses::class.java)
+            val intent = Intent(this, ActivityAttendance::class.java)
             startActivity(intent)
         }
         binding.Results.setOnClickListener {
             // Define the action you want to perform when the button is clicked.
             // For example, you can start a new activity here.
-            val intent = Intent(this, ActivityClasses::class.java)
+            val intent = Intent(this, ActivityAttendance::class.java)
             startActivity(intent)
         }
         binding.cardStudentReports.setOnClickListener {
@@ -86,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                     var counterAbsent : Int
                     var counterLeave : Int
 
-                    counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
+                    counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Present") }.count()
                     counterAbsent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
                     counterLeave = attendanceList.filter { attendance-> attendance.Status.equals("Leave") }.count()
 

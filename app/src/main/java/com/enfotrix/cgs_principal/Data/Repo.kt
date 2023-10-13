@@ -74,7 +74,6 @@ class Repo(val context: Context) {
     }
 
 
-
     fun getDeviceToken(studentID:String): Task<QuerySnapshot> {
 
 

@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ActivityClasses"
+            android:name=".ui.ActivityAttendance"
             android:exported="false" />
         <activity
             android:name=".ui.ActivityStudentProfile"

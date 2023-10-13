@@ -8,24 +8,31 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
-import com.enfotrix.cgs_principal.Models.SectionModel
+import com.enfotrix.cgs_principal.Models.ClassViewModel
+import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
-import com.enfotrix.cgs_principal.databinding.ActivityClassesBinding
+import com.enfotrix.cgs_principal.databinding.ActivityAttendanceBinding
 import com.enftorix.cgs_principal.Constants
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 
-class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickListener {
+class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceClickListener {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
-    private lateinit var binding: ActivityClassesBinding
+    private val classViewModel: ClassViewModel by viewModels()
+
+
+    private lateinit var binding: ActivityAttendanceBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
+    private lateinit var recyclerView: RecyclerView
     var presentCount = 0
     var totalCount = 0
     private var percentageMap: MutableMap<String, Double> = mutableMapOf()
@@ -40,39 +47,99 @@ class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickL
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityClassesBinding.inflate(layoutInflater)
+        binding = ActivityAttendanceBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mContext = this@ActivityClasses
+        mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
-        countSections()
         Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
         // Create the adapter and pass "this" as the AttendanceClickListener
-        classAdapter = ClassesListAdapter(
-            mContext,
-            sharedPrefManager.getClassList(),
-            sharedPrefManager.getSectionFromShared(),
-            sectionPercentages,
-            this
 
-        )
 
-        recyclerView.adapter = classAdapter
+
+        getAttendance()
+
+
     }
 
 
+
     @RequiresApi(Build.VERSION_CODES.O)
-    fun countSections() {
+    fun getAttendance(){
+
+        lifecycleScope.launch {
+            attendanceViewModel.getAttendanceRec(getCurrentDate())
+                .addOnCompleteListener{task->
+                    if(task.isSuccessful)
+                    {
+
+                        val attendanceList= task.result.map { it.toObject(AttendenceModel::class.java) }
+
+                        var counterPresent : Int
+                        var counterAbsent : Int
+                        var counterLeave : Int
+
+                        counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Present") }.count()
+                        counterAbsent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
+                        counterLeave = attendanceList.filter { attendance-> attendance.Status.equals("Leave") }.count()
+
+                        val total = counterPresent + counterAbsent + counterLeave
+                        if (total > 0) {
+                            val percent = (counterPresent.toFloat() / total) * 100
+                            binding.tvAttendanceHeader.text = "Today Attendance: %.2f%%".format(percent)
+                        }
+
+                        binding.studentsPresent.text= counterPresent.toString()
+                        binding.studentsAbsent.text= counterAbsent.toString()
+                        binding.studentsLeave.text= counterLeave.toString()
+
+
+
+                        classAdapter = ClassesListAdapter(
+                            mContext,
+                            classViewModel.getClassList(),
+                            classViewModel.getSectionList(),
+                            attendanceList,
+                            this@ActivityAttendance
+                        )
+                        recyclerView.adapter = classAdapter
+
+
+                    }
+
+
+                }
+                .addOnFailureListener{
+
+                }
+
+
+        }
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+   /* fun countSections() {
         val sections = sharedPrefManager.getSectionFromShared()
 
         for (section in sections) {
             var presentCount = 0
             var totalCount = 0
 
-            /*attendanceViewModel.getTodayAttendance(getCurrentDate(), section.ID).addOnCompleteListener { task ->
+            attendanceViewModel.getTodayAttendance(getCurrentDate(), section.ID).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val documents = task.result
                     if (documents.size() > 0) {
@@ -93,10 +160,10 @@ class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickL
                         sectionPercentages[section.ID] = percentage
                     }
                 }
-            }*/
+            }
         }
     }
-
+*/
     // Calculate the percentage
     private fun calculatePercentage(presentCount: Int, totalCount: Int): Double {
         return if (totalCount > 0) {
@@ -113,14 +180,13 @@ class ActivityClasses : AppCompatActivity(), ClassesListAdapter.AttendanceClickL
         return currentDate.format(formatter)
     }
 
-    override fun onAttendanceClicked(Sectionname: String,Id:String,className:String) {
+    override fun onAttendanceClicked(sectionID:String , attendacneList:List<AttendenceModel>) {
         // Handle the item click event here
         // For example, open the ActivityStudentRegister activity.
         val intent = Intent(this, ActivityStudentAttendanceRegister::class.java)
-        intent.putExtra("SectionName",Sectionname)
-        intent.putExtra("Id",Id)
-        intent.putExtra("className",className)
-
+        //intent.putExtra("SectionName",Sectionname)
+        //intent.putExtra("Id",Id)
+        //intent.putExtra("className",className)
         startActivity(intent)
 
     }

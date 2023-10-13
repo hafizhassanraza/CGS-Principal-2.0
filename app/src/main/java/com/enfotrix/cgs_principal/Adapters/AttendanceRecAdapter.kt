@@ -14,11 +14,7 @@ import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.ui.ActivityStudentProfile
 import com.google.gson.Gson
 
-class AttendanceRecAdapter(private val context: Context,
-                           private var attendanceRecList: List<AttendenceModel>,
-                           private var studentList: List<StudentModel>,
-
-) : RecyclerView.Adapter<AttendanceRecAdapter.ViewHolder>() {
+class AttendanceRecAdapter(private val context: Context, private var attendanceRecList: List<AttendenceModel>, private var studentList: List<StudentModel>, ) : RecyclerView.Adapter<AttendanceRecAdapter.ViewHolder>() {
 
 
 
