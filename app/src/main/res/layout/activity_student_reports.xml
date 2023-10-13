@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/blue"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Student Report"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:textSize="20dp"
+                android:layout_gravity="center_horizontal" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search by name"
+                    android:textColor="@color/white" />
+
+                <SearchView
+                    android:id="@+id/svName"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/green"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/rbRegistration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search by registration no."
+                    android:textColor="@color/white" />
+
+                <SearchView
+                    android:id="@+id/svRegistration"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:background="@color/white"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/rbSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search by section"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/spinnerClassLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/spinnerackground"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinnerSelectClass"
+                        android:layout_width="match_parent"
+                        android:textAlignment="textStart"
+                        android:backgroundTint="@color/black"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/spinnerSectionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@drawable/spinnerackground"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinnerSelectSection"
+                        android:layout_width="match_parent"
+                        android:textAlignment="textStart"
+                        android:backgroundTint="@color/black"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp" />
+                </LinearLayout>
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

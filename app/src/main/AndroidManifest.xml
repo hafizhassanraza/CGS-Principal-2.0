@@ -13,11 +13,14 @@
         android:theme="@style/Theme.CGSPrincipal"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ActivityStudentReports"
+            android:exported="false" />
+        <activity
             android:name=".ui.ActivityStudentAttendanceRegister"
             android:exported="false" />
         <activity
             android:name=".ui.ActivitySplash"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.ActivityLogin"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" />

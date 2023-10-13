@@ -63,6 +63,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ActivityClasses::class.java)
             startActivity(intent)
         }
+        binding.cardStudentReports.setOnClickListener {
+            startActivity(Intent(mContext,ActivityStudentReports::class.java))
+        }
 
         getAttendance()
 
