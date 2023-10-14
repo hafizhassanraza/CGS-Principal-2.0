@@ -44,7 +44,7 @@ class ActivityStudentReports : AppCompatActivity() {
         binding=ActivityStudentReportsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /////////initalize UI elements//////////
+        /////////initialize UI elements//////////
         init()
 
         ////////recycler view////////
@@ -76,6 +76,7 @@ class ActivityStudentReports : AppCompatActivity() {
 
         /////////setting the spinner//////////
         fetchAndInitializeSpinner()
+
     }
     fun init(){
         rbName = findViewById(R.id.rbName)
@@ -89,13 +90,61 @@ class ActivityStudentReports : AppCompatActivity() {
         sharedPrefManager= SharedPrefManager(mContext)
         studentsList= sharedPrefManager.getStudentList() as ArrayList<StudentModel>
 
+        svName.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search submission for svName here (optional)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterStudentsByName(newText.orEmpty())
+                return true
+            }
+        })
+
+        // Set up the query listener for svRegistration
+        svRegistration.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search submission for svRegistration here (optional)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterStudentsByRegistration(newText.orEmpty())
+                return true
+            }
+        })
     }
+
+    private fun filterStudentsByName(nameQuery: String) {
+        val filteredList = if (nameQuery.isBlank()) {
+            studentsList
+        } else {
+            studentsList.filter { student ->
+                student.FirstName.contains(nameQuery, ignoreCase = true)
+            }
+        }
+        studentsAdapter.updateList(filteredList)
+    }
+
+    private fun filterStudentsByRegistration(registrationQuery: String) {
+        val filteredList = if (registrationQuery.isBlank()) {
+            studentsList
+        } else {
+            studentsList.filter { student ->
+                student.RegNumber.contains(registrationQuery, ignoreCase = true)
+            }
+        }
+        studentsAdapter.updateList(filteredList)
+    }
+
     fun settingRV(){
         ///////////set the recycler view//////////////
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         studentsList.clear()
         studentsList= sharedPrefManager.getStudentList() as ArrayList<StudentModel>
+        studentsList.sortBy { it.RegNumber }
         studentsAdapter = AdapterStudentsList(studentsList)
         recyclerView.adapter = studentsAdapter
     }
@@ -138,7 +187,7 @@ class ActivityStudentReports : AppCompatActivity() {
     private fun getSection(classID:String) {
         lifecycleScope.launch {
             if (classID != null) {
-                Toast.makeText(mContext, ""+classID, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mContext, ""+classID, Toast.LENGTH_SHORT).show()
                 val sections = classViewModel.getSectionList(classID)
 
                 val distinct=sections.map { it.SectionName }
@@ -184,6 +233,7 @@ class ActivityStudentReports : AppCompatActivity() {
         // Update the data source with the new list
         studentsList.clear()
         studentsList.addAll(newStudentsList)
+        studentsList.sortBy { it.RegNumber }
 
         // Notify the adapter that the data has changed
         studentsAdapter.notifyDataSetChanged()

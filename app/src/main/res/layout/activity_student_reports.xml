@@ -22,49 +22,85 @@
                 android:layout_height="wrap_content"
                 android:text="Student Report"
                 android:textColor="@color/white"
-                android:fontFamily="@font/montserrate_semi_bold"
+                android:layout_marginVertical="10dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:textSize="20dp"
                 android:layout_gravity="center_horizontal" />
 
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rbName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:text="Search by name"
-                    android:textColor="@color/white" />
+                    android:textSize="9dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginVertical="10dp"
+                    android:padding="5dp"
+                    android:fontFamily="@font/montserrate_semi_bold"
+                    android:background="@drawable/radio_button_background"
+                    android:button="@color/white"
+                    android:textColor="@color/black"
+                    />
 
+                <RadioButton
+                    android:id="@+id/rbRegistration"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="Search by reg"
+                    android:textSize="9dp"
+                    android:padding="5dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:fontFamily="@font/montserrate_semi_bold"
+                    android:background="@drawable/radio_button_background"
+                    android:button="@color/white"
+                    android:textColor="@color/black"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rbSection"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="Search by sec"
+                    android:textSize="9dp"
+                    android:padding="5dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginVertical="10dp"
+                    android:fontFamily="@font/montserrate_semi_bold"
+                    android:background="@drawable/radio_button_background"
+                    android:button="@color/white"
+                    android:textColor="@color/black"  />
+
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
                 <SearchView
                     android:id="@+id/svName"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
-                    android:background="@color/green"
+                    android:background="@color/white"
                     android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rbRegistration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Search by registration no."
-                    android:textColor="@color/white" />
-
                 <SearchView
                     android:id="@+id/svRegistration"
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
+                    android:inputType="number"
                     android:background="@color/white"
                     android:visibility="gone" />
-
-                <RadioButton
-                    android:id="@+id/rbSection"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Search by section"
-                    android:textColor="@color/white" />
 
                 <LinearLayout
                     android:id="@+id/spinnerClassLayout"
@@ -103,7 +139,8 @@
                         android:layout_height="match_parent"
                         android:paddingLeft="10dp" />
                 </LinearLayout>
-            </RadioGroup>
+            </LinearLayout>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

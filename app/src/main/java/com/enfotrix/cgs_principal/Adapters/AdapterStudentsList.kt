@@ -35,4 +35,12 @@ class AdapterStudentsList(private var studentList: List<StudentModel>): Recycler
         val name: TextView = itemView.findViewById(R.id.studentNames)
         val section: TextView = itemView.findViewById(R.id.section)
     }
+
+
+    fun updateList(newList: List<StudentModel>) {
+        studentList = newList
+        notifyDataSetChanged()
+    }
+
+
 }
