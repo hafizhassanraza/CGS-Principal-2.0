@@ -23,7 +23,7 @@ class AttendanceViewModel (context: Application) : AndroidViewModel(context) {
 
 
 
-     fun getAttendanceRec(date:String): Task<QuerySnapshot> { return repo.getAttendance(date) }
+     fun    getAttendanceRec(date:String): Task<QuerySnapshot> { return repo.getAttendance(date) }
     suspend fun getMonthlyAttendanceRec(studentId: String , date:String): Task<QuerySnapshot> {
         return repo.getStudentAttendance(studentId,utils.startOfMonth(date),utils.endOfMonth(date))
     }

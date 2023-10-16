@@ -1,11 +1,11 @@
 package com.enfotrix.cgs_principal.ui
+
 import ClassesListAdapter
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -16,12 +16,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.ClassViewModel
-import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityAttendanceBinding
-import com.enftorix.cgs_principal.Constants
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -53,7 +52,6 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         setContentView(binding.root)
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
-        Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
         utils = Utils(mContext)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -118,8 +116,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
                             this@ActivityAttendance
                         )
                         recyclerView.adapter = classAdapter
-
-
+                        utils.endLoadingAnimation()
 
 
                     }
@@ -161,13 +158,12 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         return currentDate.format(formatter)
     }
 
-    override fun onAttendanceClicked(sectionID:String , attendacneList:List<AttendenceModel>) {
+    override fun onAttendanceClicked(sectionID:String, attendacneList: List<AttendenceModel>) {
         // Handle the item click event here
         // For example, open the ActivityStudentRegister activity.
         val intent = Intent(this, ActivityStudentAttendanceRegister::class.java)
-        //intent.putExtra("SectionName",Sectionname)
-        //intent.putExtra("Id",Id)
-        //intent.putExtra("className",className)
+        intent.putExtra("Id",sectionID)
+        intent.putExtra("studentlist", Gson().toJson(attendacneList))
         startActivity(intent)
 
     }

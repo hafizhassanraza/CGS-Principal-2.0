@@ -63,7 +63,9 @@ class ClassesListAdapter(
 
 
         holder.layAttendance.setOnClickListener {
-            attendanceClickListener.onAttendanceClicked( sectionModel.ID, attendanceList)
+            val listAtten: List<AttendenceModel> = attendanceList.filter { attendance-> attendance.SectionID.equals(sectionModel.ID)}
+
+            attendanceClickListener.onAttendanceClicked( sectionModel.ID, listAtten)
         }
 
 
@@ -84,7 +86,7 @@ class ClassesListAdapter(
 
 
     interface AttendanceClickListener {
-        fun onAttendanceClicked(sectionID:String , attendacneList:List<AttendenceModel>)
+        fun onAttendanceClicked(sectionID:String, attendacneList: List<AttendenceModel>)
 
     }
 
