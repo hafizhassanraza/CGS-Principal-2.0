@@ -17,8 +17,7 @@ class Constants {
     public var EXAMS_COLLECTIONS="Exams"
     public var SUBJECT_COLLECTION="Subjects"
     public var RESULT_COLLECTION="Result"
-
-
+    public var  Exam_Id="exam"
     public var STUDENT_ID="studentID"
     public var ANNOUNCEMENT_COLLECTION="Announcement"
 
@@ -57,6 +56,7 @@ class Constants {
     public var PRINCIPAL_MODEL="principalModel"
     public  var KEY_CLASS_MODEL="classModel"
     public  var KEY_SECTION_MODEL="classModel"
+    public  var KEY_RESULT_MODEL="resultModel"
 
 
 

@@ -16,6 +16,7 @@ import com.enfotrix.cgs_principal.ui.ActivityStudentProfile
 import com.google.gson.Gson
 
 class AttendanceRecAdapter(private val context: Context, private var attendanceRecList: List<AttendenceModel>, private var studentList: List<StudentModel>, ) : RecyclerView.Adapter<AttendanceRecAdapter.ViewHolder>() {
+    var sortedList=studentList.sortedBy { it.RegNumber }
 
 
 
@@ -49,23 +50,7 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
                 context.startActivity(intent)
             }
 
-//            // Set text color based on status
-//            when (attendenceModel.Status) {
-//                "Present" -> holder.status.setTextColor(context.resources.getColor(R.color.green)) // Change R.color.green to your desired color resource
-//                "Absent" -> {
-//                    holder.status.setTextColor(context.resources.getColor(R.color.red))
-//                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.red))
-//                } // Change R.color.red to your desired color resource
-//                "Leave" -> {
-//                    holder.status.setTextColor(context.resources.getColor(R.color.blue))
-//                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.blue ))
-//                } // Change R.color.blue to your desired color resource
-//                else -> holder.status.setTextColor(context.resources.getColor(android.R.color.black))
-//            }
+//
         }
 
 

@@ -16,6 +16,8 @@ import com.enfotrix.cgs_principal.Models.ClassViewModel
 import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ExamViewModel
 import com.enfotrix.cgs_principal.Models.ModelSubject
+import com.enfotrix.cgs_principal.Models.ResultModel
+import com.enfotrix.cgs_principal.Models.ResultViewModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
@@ -31,6 +33,7 @@ class ActivitySplash : AppCompatActivity() {
     private val classViewModel: ClassViewModel by viewModels()
     private val studentViewModel: StudentViewModel by viewModels()
     private val examViewModel: ExamViewModel by viewModels()
+    private val resultViewModel: ResultViewModel by viewModels()
     private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     private lateinit var mContext: Context
@@ -80,73 +83,128 @@ class ActivitySplash : AppCompatActivity() {
 
             lifecycleScope.launch {
 
-                classViewModel.getClasses().addOnCompleteListener { task->
-                    if(task.isSuccessful){
+                classViewModel.getClasses().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         sharedPrefManager.putClassList(task.result.map { it.toObject(ClassModel::class.java) })
-
-
                         lifecycleScope.launch {
 
-                            classViewModel.getSections().addOnCompleteListener { task->
-                                if(task.isSuccessful){
-                                    sharedPrefManager.putSectionList(task.result.map { it.toObject(SectionModel::class.java) })
+                            resultViewModel.getReult().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    sharedPrefManager.putResultList(task.result.map {
+                                        it.toObject(
+                                            ResultModel::class.java
+                                        )
+                                    })
 
 
                                     lifecycleScope.launch {
-                                        examViewModel.getSubjects().addOnCompleteListener { task->
-                                            if(task.isSuccessful){
-                                                sharedPrefManager.putSubjectList(task.result.map { it.toObject(ModelSubject::class.java) })
 
-
+                                        classViewModel.getSections().addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                sharedPrefManager.putSectionList(task.result.map {
+                                                    it.toObject(
+                                                        SectionModel::class.java
+                                                    )
+                                                })
 
 
                                                 lifecycleScope.launch {
-                                                    examViewModel.getExams().addOnCompleteListener { task->
-                                                        if(task.isSuccessful){
-                                                            sharedPrefManager.putExamsList(task.result.map { it.toObject(ExamModel::class.java) })
+                                                    examViewModel.getSubjects()
+                                                        .addOnCompleteListener { task ->
+                                                            if (task.isSuccessful) {
+                                                                sharedPrefManager.putSubjectList(
+                                                                    task.result.map {
+                                                                        it.toObject(ModelSubject::class.java)
+                                                                    })
 
 
 
 
-                                                            lifecycleScope.launch {
-                                                                studentViewModel.getStudents().addOnCompleteListener { task->
-                                                                    if(task.isSuccessful){
+                                                                lifecycleScope.launch {
+                                                                    examViewModel.getExams()
+                                                                        .addOnCompleteListener { task ->
+                                                                            if (task.isSuccessful) {
+                                                                                sharedPrefManager.putExamsList(
+                                                                                    task.result.map {
+                                                                                        it.toObject(
+                                                                                            ExamModel::class.java
+                                                                                        )
+                                                                                    })
 
 
-                                                                        sharedPrefManager.putStudentList(task.result.map { it.toObject(StudentModel::class.java) })
 
-                                                                        if (sharedPrefManager.isLoggedIn() == true) {
-                                                                            startActivity(Intent(mContext, ActivityAttendance::class.java))
-                                                                            finish()
-                                                                        } else if (sharedPrefManager.isLoggedIn() == false) {
-                                                                            startActivity(Intent(mContext, ActivityLogin::class.java))
-                                                                            finish()
+
+                                                                                lifecycleScope.launch {
+                                                                                    studentViewModel.getStudents()
+                                                                                        .addOnCompleteListener { task ->
+                                                                                            if (task.isSuccessful) {
+
+
+                                                                                                sharedPrefManager.putStudentList(
+                                                                                                    task.result.map {
+                                                                                                        it.toObject(
+                                                                                                            StudentModel::class.java
+                                                                                                        )
+                                                                                                    })
+
+                                                                                                if (sharedPrefManager.isLoggedIn() == true) {
+                                                                                                    startActivity(
+                                                                                                        Intent(
+                                                                                                            mContext,
+                                                                                                            ActivityAttendance::class.java
+                                                                                                        )
+                                                                                                    )
+                                                                                                    finish()
+                                                                                                } else if (sharedPrefManager.isLoggedIn() == false) {
+                                                                                                    startActivity(
+                                                                                                        Intent(
+                                                                                                            mContext,
+                                                                                                            ActivityLogin::class.java
+                                                                                                        )
+                                                                                                    )
+                                                                                                    finish()
+                                                                                                }
+
+
+                                                                                            }
+
+
+                                                                                        }
+                                                                                        .addOnFailureListener {
+                                                                                            Toast.makeText(
+                                                                                                mContext,
+                                                                                                "Something went wrong",
+                                                                                                Toast.LENGTH_SHORT
+                                                                                            ).show()
+                                                                                        }
+
+                                                                                }
+
+
+                                                                            }
+
+
+                                                                        }.addOnFailureListener {
+                                                                            Toast.makeText(
+                                                                                mContext,
+                                                                                "Something went wrong",
+                                                                                Toast.LENGTH_SHORT
+                                                                            ).show()
                                                                         }
 
-
-
-
-
-
-                                                                    }
-
-
-                                                                }.addOnFailureListener {
-                                                                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                                                                 }
+
 
                                                             }
 
 
-
-
-
+                                                        }.addOnFailureListener {
+                                                            Toast.makeText(
+                                                                mContext,
+                                                                "Something went wrong",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
                                                         }
-
-
-                                                    }.addOnFailureListener {
-                                                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                                                    }
 
                                                 }
 
@@ -155,45 +213,33 @@ class ActivitySplash : AppCompatActivity() {
 
 
                                         }.addOnFailureListener {
-                                            Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                mContext,
+                                                "Something went wrong",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
 
                                     }
-
-
-
-
-
-
 
                                 }
 
 
                             }.addOnFailureListener {
-                                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT)
+                                    .show()
                             }
 
                         }
 
+
                     }
 
 
-                }.addOnFailureListener {
-                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
                 }
 
-            }
 
-
-
-
-        }
-
-
-    }
-
-
-     /*suspend fun load(){
+                /*suspend fun load(){
 
 
 
@@ -252,9 +298,7 @@ class ActivitySplash : AppCompatActivity() {
     }*/
 
 
-
-
-
-
-
+            }
+        }
+    }
 }

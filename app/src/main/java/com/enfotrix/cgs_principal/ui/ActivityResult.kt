@@ -7,9 +7,12 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -31,7 +34,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ActivityResult : AppCompatActivity(){
+class ActivityResult : AppCompatActivity() {
     private val studentViewModel: StudentViewModel by viewModels()
     private val examViewModel: ExamViewModel by viewModels()
     private lateinit var binding: ActivityResultBinding
@@ -41,34 +44,79 @@ class ActivityResult : AppCompatActivity(){
     private val studentList = mutableListOf<StudentModel>()
     private val resultList = mutableListOf<ResultModel>()
     private lateinit var utils: Utils
+    var examName = ""
 
     //private lateinit var examAdapter: ExamListAdapter
-    var selectedYear: String? =null
+    var selectedYear: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mContext = this@ActivityResult
-        utils=Utils(mContext)
+        utils = Utils(mContext)
         sharedPrefManager = SharedPrefManager(mContext)
-         selectedYear = intent.getStringExtra("selectedYear")
 
-        //getStudentsList()
-        binding.year.text=selectedYear
-        //binding.examTerm.text=sharedPrefManager.getExamModelFromShared()!!.ExamName
+//        //getStudentsList()
+//// Create a list of years (you can replace this with your list of years)
+//        val years = listOf("2023", "2024", "2025", "2026")
+//
+//// Create an ArrayAdapter to populate the Spinner
+//        val yearAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years)
+//        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//
+//// Set the ArrayAdapter on the Spinner
+//        binding.spinnerYearSelection.adapter = yearAdapter
+//        //binding.examTerm.text=sharedPrefManager.getExamModelFromShared()!!.ExamName
+//        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+//        recyclerView.layoutManager = LinearLayoutManager(mContext)
+
+        ///////////////spinner setting/////////////
+        val items = listOf("2023", "2024", "2025", "2026")
+
+        val spinner = findViewById<Spinner>(R.id.spinnerYearSelection)
+        val yearadapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+        yearadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = yearadapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedYear = items[position]
 
 
+            }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(mContext)
-        //examAdapter = ExamListAdapter(mContext, studentList,resultList)
-        //recyclerView.adapter = examAdapter
+            override fun onNothingSelected(parent: AdapterView<*>?) {
 
+            }
+        }
+        val Examterms = sharedPrefManager.getExamsList()
+        val examNames = mutableListOf<String>()
 
+        for (examModel in Examterms) {
+            val examName = examModel.ExamName.toString()
+            examNames.add(examName)
+        }
 
+        val spinnerSelectTerm = findViewById<Spinner>(R.id.spinnerSelectTerm)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, examNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerSelectTerm.adapter = adapter
 
-        ///////for handling the apload button response
+//
+//        val Examterms = sharedPrefManager.getExamsList()
+//
+//            for (i in Examterms.indices)
+//            {
+//                val examModel = Examterms[i]
+//               examName = examModel.ExamName.toString()
+//            }
+//        binding.spinnerSelectTerm.text
 
 
 
@@ -77,47 +125,45 @@ class ActivityResult : AppCompatActivity(){
 
 
 
-    /*private fun getResultList() {
-        lifecycleScope.launch {
-            val subjectId = sharedPrefManager.getSelectedSubjectInShared()!!.ID
-            val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
-            examViewModel.getResultList(selectedYear!!,subjectId!!, sectionID)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
 
-                        val documents = task.result
-                        for (document in documents) {
-                            var result = document.toObject(ResultModel::class.java)
-                            resultList.add(result)
-                            binding.totalMarks.text=result.totalMarks
-                        }
-
-                        // Notify any adapter or UI component that displays the resultList
-                        // Example: adapter.notifyDataSetChanged()
-                         if(resultList.size==0){
-                             Toast.makeText(mContext, "No Result Found", Toast.LENGTH_LONG).show()
-                         }
-
-                        if(resultList.size==0){
-                            binding.recyclerView.visibility=View.INVISIBLE
-                        }
-                        studentList.sortBy { it.RegNumber }
-
-                        examAdapter.notifyDataSetChanged()
-
-                    }
-
-
-
-                    else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
-    }*/
-
-
-
+//    private fun getResultList() {
+//        lifecycleScope.launch {
+//            val subjectId = sharedPrefManager.getSelectedSubjectInShared()!!.ID
+//            val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
+//            examViewModel.getResultList(selectedYear!!,subjectId!!, sectionID)
+//                .addOnCompleteListener { task ->
+//                    if (task.isSuccessful) {
+//
+//                        val documents = task.result
+//                        for (document in documents) {
+//                            var result = document.toObject(ResultModel::class.java)
+//                            resultList.add(result)
+//                            binding.totalMarks.text=result.totalMarks
+//                        }
+//
+//                        // Notify any adapter or UI component that displays the resultList
+//                        // Example: adapter.notifyDataSetChanged()
+//                         if(resultList.size==0){
+//                             Toast.makeText(mContext, "No Result Found", Toast.LENGTH_LONG).show()
+//                         }
+//
+//                        if(resultList.size==0){
+//                            binding.recyclerView.visibility=View.INVISIBLE
+//                        }
+//                        studentList.sortBy { it.RegNumber }
+//
+//                        examAdapter.notifyDataSetChanged()
+//
+//                    }
+//
+//
+//
+//                    else {
+//                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//        }
+//    }
 
 
 
@@ -127,32 +173,9 @@ class ActivityResult : AppCompatActivity(){
 
 
 
-    @SuppressLint("SuspiciousIndentation")
-    /*private fun getStudentsList() {
-        utils.startLoadingAnimation()
-        lifecycleScope.launch {
-            val className = sharedPrefManager.getClass()!!.ClassName
-            val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
 
-            studentViewModel.getStudentsList(className, sectionID)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        utils.endLoadingAnimation()
-                        val documents = task.result
-                        for (document in documents) {
-                            val student = document.toObject(StudentModel::class.java)
-                            studentList.add(student)
 
-                        }
-                        getResultList()
 
-                    } else {
-                        Toast.makeText(mContext, "Something wsent wrong", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-        }
-    }*/
 
     ////     this function will set and update the result so on    ///
 

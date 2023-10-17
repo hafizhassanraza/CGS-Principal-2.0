@@ -24,7 +24,6 @@ class Repo(val context: Context) {
     private var EXAMS_COLLECTION=db.collection(constants.EXAMS_COLLECTIONS)
     private var SUBJECT_COLLECTION=db.collection(constants.SUBJECT_COLLECTION)
     private var RESULT_COLLECTION=db.collection(constants.RESULT_COLLECTION)
-
     private var ANNOUNCEMENT_COLLECTION=db.collection(constants.ANNOUNCEMENT_COLLECTION)
 
 
@@ -47,6 +46,8 @@ class Repo(val context: Context) {
             .whereGreaterThanOrEqualTo( constants.FIELD_ATTENDANCE_DATE_TIMESTAMP, startOfMonth)
             .whereLessThan(constants.FIELD_ATTENDANCE_DATE_TIMESTAMP, endOfMonth)
             .get()
+    } fun getRsult(): Task<QuerySnapshot> {
+        return ATTENDANCE_COLLECTION.get()
     }
     fun getStudentAttendance(studentId: String ): Task<QuerySnapshot> {
         return ATTENDANCE_COLLECTION.whereEqualTo(constants.STUDENT_ID, studentId).get()

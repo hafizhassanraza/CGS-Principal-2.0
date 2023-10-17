@@ -62,6 +62,15 @@ class SharedPrefManager(context: Context) {
         }
 
     }
+    fun getResult():ResultModel?{
+        val jsonString = sharedPref.getString(constants.KEY_RESULT_MODEL, null)
+        return if (jsonString != null) {
+            Gson().fromJson(jsonString, ResultModel::class.java)
+        } else {
+            null
+        }
+
+    }
 //    fun getSectionFromShared():SectionModel?{
 //        val jsonString = sharedPref.getString(constants.KEY_SECTION_MODEL, null)
 //        return if (jsonString != null) {
@@ -95,6 +104,22 @@ class SharedPrefManager(context: Context) {
         editor.putString("ListSections", Gson().toJson(list))
         editor.commit()
         return true
+    }
+    fun putResultList(list:List<ResultModel>): Boolean {
+        editor.putString("ListSections", Gson().toJson(list))
+        editor.commit()
+        return true
+    }
+    fun getresultList(): List<ResultModel>{
+
+        val json = sharedPref.getString("ListResult", "") ?: ""
+        val type: Type = object : com.google.gson.reflect.TypeToken<List<ResultModel?>?>() {}.getType()
+
+        return if (!json.isNullOrEmpty()) {
+            Gson().fromJson(json, type) ?: emptyList()
+        } else {
+            emptyList()
+        }
     }
 
     fun getSectionList(): List<SectionModel>{

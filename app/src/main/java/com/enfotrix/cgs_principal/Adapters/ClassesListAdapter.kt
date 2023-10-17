@@ -19,7 +19,7 @@ class ClassesListAdapter(
     private val attendanceClickListener: AttendanceClickListener
 
 ) : RecyclerView.Adapter<ClassesListAdapter.ViewHolder>() {
-
+    val sortedList=sectionList.sortedBy { it.ClassName }
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvClassSection: TextView = view.findViewById(R.id.tvClassSection)
         val tvPresent: TextView = view.findViewById(R.id.tvPresent)
@@ -39,7 +39,7 @@ class ClassesListAdapter(
 
 
 
-        val sectionModel = sectionList[position]
+        val sectionModel = sortedList[position]
         var counterPresent : Int=0
         var counterAbsent : Int=0
         var counterLeave : Int=0
@@ -55,6 +55,7 @@ class ClassesListAdapter(
             holder. tvPercent.text = percent.toInt().toString()
         }
         else holder. tvPercent.text = "N/A"
+
 
         holder.tvClassSection.text=sectionModel.ClassName+"-"+sectionModel.SectionName
         holder.tvPresent.text= counterPresent.toString()
@@ -83,6 +84,7 @@ class ClassesListAdapter(
     override fun getItemCount(): Int {
         return sectionList.size
     }
+
 
 
     interface AttendanceClickListener {
