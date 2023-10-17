@@ -53,7 +53,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         setContentView(binding.root)
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
-        Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
+        //Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
         utils = Utils(mContext)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -87,6 +87,7 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
                 .addOnCompleteListener{task->
                     if(task.isSuccessful)
                     {
+                        utils.endLoadingAnimation()
 
                         val attendanceList= task.result.map { it.toObject(AttendenceModel::class.java) }
 

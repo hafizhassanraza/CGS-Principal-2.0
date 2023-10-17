@@ -15,15 +15,13 @@ import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.Utils
-import com.enfotrix.cgs_principal.databinding.ActivityStudentListBinding
-import com.enfotrix.cgs_teacher_portal.Adapters.StudentListAdapter
-import com.enfotrix.cgs_teacher_portal.R
+
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
 
 class ActivityStudentList : AppCompatActivity() {
     private val studentViewModel: StudentViewModel by viewModels()
-    private lateinit var binding: ActivityStudentListBinding
+    //private lateinit var binding: ActivityStudentListBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private val constants = Constants()
@@ -35,8 +33,8 @@ class ActivityStudentList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityStudentListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+       // binding = ActivityStudentListBinding.inflate(layoutInflater)
+        //setContentView(binding.root)
         mContext = this@ActivityStudentList
         utils = Utils(mContext)
 
@@ -49,7 +47,7 @@ class ActivityStudentList : AppCompatActivity() {
         recyclerView.adapter = studentAdapter
 
 
-        val searchBar = findViewById<SearchView>(R.id.searchBar)
+        /*val searchBar = findViewById<SearchView>(R.id.searchBar)
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Handle search query submission (if needed)
@@ -64,13 +62,13 @@ class ActivityStudentList : AppCompatActivity() {
                 return true
             }
 
-        })
+        })*/
 
 
         // Load student data
         //getStudentsList()
-        binding.Class.text = sharedPrefManager.getClass()?.ClassName
-        binding.section.text = sharedPrefManager.getSectionFromShared()?.SectionName
+       // binding.Class.text = sharedPrefManager.getClass()?.ClassName
+       // binding.section.text = sharedPrefManager.getSectionFromShared()?.SectionName
     }
 
 
@@ -93,7 +91,7 @@ class ActivityStudentList : AppCompatActivity() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun getStudentsList() {
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             utils.startLoadingAnimation()
             val className = sharedPrefManager.getClass()!!.ClassName
             val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
@@ -125,6 +123,6 @@ class ActivityStudentList : AppCompatActivity() {
 
           //  }
 
-        }
+        }*/
     }
 }
