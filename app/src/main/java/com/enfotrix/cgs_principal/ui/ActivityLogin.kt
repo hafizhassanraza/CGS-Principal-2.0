@@ -49,8 +49,8 @@ class ActivityLogin : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                Toast.makeText(mContext, ""+id, Toast.LENGTH_SHORT).show()
-                Toast.makeText(mContext, ""+password, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(mContext, ""+id, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(mContext, ""+password, Toast.LENGTH_SHORT).show()
 
                 pricipalViewModel.checkLogin(id, password).addOnCompleteListener { task->
                     if (task.isSuccessful) {

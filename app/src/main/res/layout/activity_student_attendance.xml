@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none"
+    tools:context=".ui.ActivityStudentAttendance">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/attendence_page_bg"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgBackArrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back_option"
+                android:padding="5dp"
+                android:layout_margin="20dp"
+                android:layout_marginTop="5dp"
+                />
+            <TextView
+                android:id="@+id/your_textview_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendance History"
+                android:textColor="@color/white"
+                android:textSize="21sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="325dp"
+            android:layout_marginHorizontal="23dp"
+            android:elevation="8dp"
+            app:cardCornerRadius="12dp"
+            android:layout_marginTop="-120dp">
+
+            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                android:id="@+id/materialCalendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:mcv_selectionMode="none"
+                android:padding="16dp"
+                tools:ignore="MissingClass" />
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginVertical="5dp"
+            android:layout_marginHorizontal="23dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="Present"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:textSize="10dp"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="3.5dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/green"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="10dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:text="Absent"
+                    android:gravity="right"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/red"
+                    android:textStyle="bold"
+                    android:textSize="10dp"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="3.5dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/red"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="10dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:text="Leave"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/blue"
+                    android:textStyle="bold"
+                    android:textSize="10dp"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="3.5dp"
+                    android:layout_weight="0.8"
+                    android:background="@color/blue"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginHorizontal="10dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="23dp"
+            android:layout_marginBottom="4dp"
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/black"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_margin="1dp"
+                    android:background="@color/white"/>
+
+
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/black"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Day"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:layout_margin="1dp"
+                    android:background="@color/white"/>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/black"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Attendence"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:gravity="center"
+                    android:layout_margin="1dp"
+                    android:background="@color/white"/>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="23dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:backgroundTint="@color/blue"
+            android:layout_marginHorizontal="23dp"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="4dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="20dp"
+                android:paddingHorizontal="20dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monthly Attendance Summary"
+                    android:textColor="@color/yellow"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="16dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.3"
+                        android:paddingLeft="20dp"
+                        >
+                        <TextView
+                            android:id="@+id/present"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Present"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:textColor="@color/white"
+                            />
+                        <ProgressBar
+                            android:id="@+id/presentProgressBar"
+                            android:layout_width="40dp"
+                            android:layout_height="5dp"
+                            android:layout_toLeftOf="@id/presentTextView"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginRight="8dp"
+                            android:max="100"
+                            android:progress="100"
+                            android:indeterminate="false"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:progressDrawable="@drawable/progress_bar"
+                            />
+                        <TextView
+                            android:id="@+id/presentTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="0"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:layout_alignParentRight="true"
+                            android:textColor="@color/yellow"
+                            />
+                        <TextView
+                            android:id="@+id/absent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/presentTextView"
+                            android:text="Absent"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:textColor="@color/white"
+                            />
+                        <ProgressBar
+                            android:id="@+id/absentProgressBar"
+                            android:layout_width="40dp"
+                            android:layout_height="5dp"
+                            android:layout_toLeftOf="@id/absentTextView"
+                            android:layout_below="@id/presentTextView"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginRight="8dp"
+                            android:max="100"
+                            android:progress="100"
+                            android:indeterminate="false"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:progressDrawable="@drawable/progress_bar"
+                            />
+                        <TextView
+                            android:id="@+id/absentTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="3dp"
+                            android:text="3"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/presentTextView"
+                            android:textColor="@color/yellow"
+                            />
+                        <TextView
+                            android:id="@+id/leave"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/absentTextView"
+                            android:text="Leave"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:textColor="@color/white"
+                            />
+                        <ProgressBar
+                            android:id="@+id/leaveProgressBar"
+                            android:layout_width="40dp"
+                            android:layout_height="5dp"
+                            android:layout_below="@id/absentTextView"
+                            android:layout_toLeftOf="@id/leaveTextView"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="7dp"
+                            android:max="100"
+                            android:progress="60"
+                            android:indeterminate="false"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:progressDrawable="@drawable/progress_bar"
+                            />
+                        <TextView
+                            android:id="@+id/leaveTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:layout_alignParentEnd="true"
+                            android:layout_below="@id/absentTextView"
+                            android:textColor="@color/yellow"
+                            />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        >
+                        <TextView
+                            android:id="@+id/summaryPercentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:textColor="@color/yellow"
+                            android:textSize="30dp"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="%"
+                            android:fontFamily="@font/montserrate_semi_bold"
+                            android:textColor="@color/yellow"
+                            android:textSize="25dp"
+                            />
+
+                    </LinearLayout>
+
+                    <!--&lt;!&ndash;                                            <ProgressBar-->
+                    <!--                            android:id="@+id/presentAbsentProgressBar"-->
+                    <!--                            android:layout_width="70dp"-->
+                    <!--                            android:layout_height="70dp"-->
+                    <!--                            style="?android:attr/progressBarStyle"-->
+                    <!--                            android:indeterminate="false"-->
+                    <!--                            android:max="100"-->
+                    <!--                            android:progress="50"-->
+                    <!--                            android:indeterminateDrawable="@drawable/circular_progress_bar" />-->
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+</ScrollView>
