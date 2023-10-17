@@ -87,5 +87,11 @@ class Repo(val context: Context) {
         return ANNOUNCEMENT_COLLECTION.get()
     }
 
+    fun getAttendence(studentId: String): Task<QuerySnapshot> {
+
+        return ATTENDANCE_COLLECTION
+            .whereEqualTo(constants.STUDENT_ID, studentId)
+            .get()
+    }
 
 }
