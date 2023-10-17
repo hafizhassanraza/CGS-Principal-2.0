@@ -30,7 +30,7 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
 
         val attendenceModel = attendanceRecList[position]
         // Set data from the StudentModel to the corresponding TextViews
-        val studentModel = studentList.firstOrNull { it.StudentId == attendenceModel.StudentID }
+         val studentModel = studentList.firstOrNull { it.StudentId == attendenceModel.StudentID }
 
         if(studentModel!=null){
             holder.regNO.text = studentModel.RegNumber
@@ -49,23 +49,23 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
                 context.startActivity(intent)
             }
 
-//            // Set text color based on status
-//            when (attendenceModel.Status) {
-//                "Present" -> holder.status.setTextColor(context.resources.getColor(R.color.green)) // Change R.color.green to your desired color resource
-//                "Absent" -> {
-//                    holder.status.setTextColor(context.resources.getColor(R.color.red))
-//                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.red))
-//                } // Change R.color.red to your desired color resource
-//                "Leave" -> {
-//                    holder.status.setTextColor(context.resources.getColor(R.color.blue))
-//                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
-//                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.blue ))
-//                } // Change R.color.blue to your desired color resource
-//                else -> holder.status.setTextColor(context.resources.getColor(android.R.color.black))
-//            }
+            // Set text color based on status
+            when (attendenceModel.Status) {
+                "Present" -> holder.status.setTextColor(context.resources.getColor(R.color.green)) // Change R.color.green to your desired color resource
+                "Absent" -> {
+                    holder.status.setTextColor(context.resources.getColor(R.color.red))
+                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
+                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
+                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.red))
+                } // Change R.color.red to your desired color resource
+                "Leave" -> {
+                    holder.status.setTextColor(context.resources.getColor(R.color.blue))
+                    //holder.regNO.setTextColor(context.resources.getColor(R.color.white))
+                    //holder.studentName.setTextColor(context.resources.getColor(R.color.white))
+                    //holder.layAttendance.setBackgroundColor(context.resources.getColor(R.color.blue ))
+                } // Change R.color.blue to your desired color resource
+                else -> holder.status.setTextColor(context.resources.getColor(android.R.color.black))
+            }
         }
 
 

@@ -15,11 +15,7 @@
         <activity
             android:name=".ui.ActivityStudentAttendance"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.ActivityStudentReports"
@@ -30,7 +26,11 @@
         <activity
             android:name=".ui.ActivitySplash"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.ActivityAttendance"

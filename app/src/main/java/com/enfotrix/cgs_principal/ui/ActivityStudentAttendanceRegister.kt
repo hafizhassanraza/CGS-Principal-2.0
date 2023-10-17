@@ -34,7 +34,7 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var attendanceRecAdapter: AttendanceRecAdapter
 
-    private val studentList = mutableListOf<StudentModel>()
+    private val studentList: MutableList<StudentModel> = mutableListOf()
     private val attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var ID:String
 
@@ -49,13 +49,8 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
         setContentView(binding.root)
         mContext = this@ActivityStudentAttendanceRegister
         sharedPrefManager = SharedPrefManager(mContext)
-        val storedStudentList = sharedPrefManager.getStudentList()
-        if (storedStudentList.isNotEmpty()) {
-            studentList.addAll(storedStudentList)
-        } else {
-            // If the list is empty in SharedPreferences, you may fetch it from a different source
-            // studentList.addAll(getStudentsListFromAnotherSource())
-        }
+        studentList.addAll(studentViewModel.getStudentsList())
+
 
 
 
@@ -67,15 +62,11 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
             object : TypeToken<List<AttendenceModel?>?>() {}.getType()
 
         )
-        Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
 
 
-        Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
-        getStudentsList(ID)
-
-
-
-
+        //Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
+        //getStudentsList(ID)
 
 
         //getAttendanceRecord(getCurrentDate(),ID)
@@ -86,15 +77,6 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 //        } else {
 //            binding.datePicker.visibility = View.VISIBLE
 //        }
-
-
-
-
-
-
-
-
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -158,10 +140,10 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
         // Check if the student list is already loaded from SharedPreferences
         if (studentList.isEmpty()) {
             // If not, fetch the list from SharedPreferences
-            val storedStudentList = sharedPrefManager.getStudentList()
+            val storedStudentList = studentViewModel.getStudentsList()
             if (storedStudentList.isNotEmpty()) {
-                studentList.addAll(storedStudentList)
-                attendanceRecAdapter.notifyDataSetChanged()
+                //studentList.addAll(storedStudentList)
+                //attendanceRecAdapter.notifyDataSetChanged()
             }
         }
 
@@ -187,10 +169,4 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 //                        }
 //                    }
             }
-        }
-
-
-
-
-
-
+}

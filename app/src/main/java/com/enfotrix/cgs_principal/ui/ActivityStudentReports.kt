@@ -249,6 +249,7 @@ class ActivityStudentReports : AppCompatActivity(),AdapterStudentsList.StudentCl
         val studentNameDialog = dialogView.findViewById<TextView>(R.id.message_box_header)
         val studentRegDialog = dialogView.findViewById<TextView>(R.id.message_box_content)
         val profileCard = dialogView.findViewById<CardView>(R.id.cvProfile)
+        val attendanceCard = dialogView.findViewById<CardView>(R.id.cvAttendance)
 
         // Set the text to be displayed in the dialog
         studentNameDialog.text = studentName
@@ -263,6 +264,13 @@ class ActivityStudentReports : AppCompatActivity(),AdapterStudentsList.StudentCl
             val gson = Gson()
             val studentListJson = gson.toJson(selectedStudentList)
             val intent = Intent(mContext, ActivityStudentProfile::class.java)
+            intent.putExtra("selectedStudentList", studentListJson)
+            startActivity(intent)
+        }
+        attendanceCard.setOnClickListener {
+            val gson = Gson()
+            val studentListJson = gson.toJson(selectedStudentList)
+            val intent = Intent(mContext, ActivityStudentAttendance::class.java)
             intent.putExtra("selectedStudentList", studentListJson)
             startActivity(intent)
         }

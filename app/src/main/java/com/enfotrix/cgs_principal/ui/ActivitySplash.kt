@@ -113,7 +113,7 @@ class ActivitySplash : AppCompatActivity() {
                                                                     if(task.isSuccessful){
 
 
-                                                                        sharedPrefManager.putStudentList(task.result.map { it.toObject(StudentModel::class.java) })
+                                                                        sharedPrefManager.putStudentList(task.result.map { it.toObject(StudentModel::class.java) }.sortedBy { it.RegNumber })
 
                                                                         if (sharedPrefManager.isLoggedIn() == true) {
                                                                             startActivity(Intent(mContext, ActivityAttendance::class.java))
