@@ -129,7 +129,6 @@ class ActivityStudentAttendance : AppCompatActivity() {
             var absentCount = 0
             var totalCount = 0
             var leaveCount = 0
-            var presentAbsentCount = 0
 
                      try {
                          val documents=attendance
