@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.StudentModel
@@ -29,10 +30,11 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
 
         val attendenceModel = attendanceRecList[position]
         // Set data from the StudentModel to the corresponding TextViews
-        val studentModel = studentList.firstOrNull { it.StudentId == attendenceModel.StudentID }
+         val studentModel = studentList.firstOrNull { it.StudentId == attendenceModel.StudentID }
 
         if(studentModel!=null){
             holder.regNO.text = studentModel.RegNumber
+            Toast.makeText(context, ""+studentModel.RegNumber, Toast.LENGTH_SHORT).show()
             holder.studentName.text = studentModel.FirstName
             holder.status.text = attendenceModel.Status
             holder.layAttendance.setOnClickListener {

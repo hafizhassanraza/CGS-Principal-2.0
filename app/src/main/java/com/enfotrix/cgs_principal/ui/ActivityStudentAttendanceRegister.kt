@@ -1,48 +1,42 @@
 package com.enfotrix.cgs_principal.ui
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AttendanceRecAdapter
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
-import com.enfotrix.cgs_principal.Models.SectionModel
+import com.enfotrix.cgs_principal.Models.ClassViewModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityStudentAttandanceRegisterBinding
 import com.enftorix.cgs_principal.Constants
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Locale
 
 
 class ActivityStudentAttendanceRegister : AppCompatActivity() {
     private val studentViewModel: StudentViewModel by viewModels()
+    private val classViewModel: ClassViewModel by viewModels()
     private val attendanceViewModel: AttendanceViewModel by viewModels()
     private lateinit var binding: ActivityStudentAttandanceRegisterBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var attendanceRecAdapter: AttendanceRecAdapter
 
-    private val studentList = mutableListOf<StudentModel>()
+    private val studentList: MutableList<StudentModel> = mutableListOf()
     private val attendanceList = mutableListOf<AttendenceModel>()
-    private lateinit var Section:String
     private lateinit var ID:String
-    private lateinit var className:String
 
 
     private var constants = Constants()
@@ -55,17 +49,26 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
         setContentView(binding.root)
         mContext = this@ActivityStudentAttendanceRegister
         sharedPrefManager = SharedPrefManager(mContext)
+        studentList.addAll(studentViewModel.getStudentsList())
+
 
 
 
         ////////////////// HERE WILL GET INTENT VALUE ///////////////////////
 
-        Section= intent.getStringExtra("SectionName").toString()
         ID= intent.getStringExtra("Id").toString()
-        className= intent.getStringExtra("className").toString()
+        val attendanceList: List<AttendenceModel> = Gson().fromJson(
+            intent.getStringExtra("studentlist"),
+            object : TypeToken<List<AttendenceModel?>?>() {}.getType()
 
-        Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
+        )
+        //Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
+
+
+        //Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
         //getStudentsList(ID)
+
+
         //getAttendanceRecord(getCurrentDate(),ID)
 
 //        if (fromActivity == "Main") {
@@ -74,24 +77,19 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 //        } else {
 //            binding.datePicker.visibility = View.VISIBLE
 //        }
-        binding.ClassName.setText(className)
-        binding.sectionName.setText(Section)
-
-
-
-
-
-
-
-
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        attendanceRecAdapter = AttendanceRecAdapter(mContext, attendanceList,studentList)
+        attendanceRecAdapter = AttendanceRecAdapter(mContext, attendanceList, studentList)
         recyclerView.adapter = attendanceRecAdapter
 
-//        binding.ClassName.text=sharedPrefManager.getClass()!!.ClassName
-//        binding.sectionName.text=sharedPrefManager.getSectionFromSharedmODEL()!!.SectionName
+        // Retrieve class and section names from shared preferences
+        val className = classViewModel.getSectionModel(ID).ClassName
+        val sectionName = classViewModel.getSectionModel(ID).SectionName
+
+        // Set the class and section names in your UI
+        binding.ClassName.text = className
+        binding.sectionName.text = sectionName
 
 
     }
@@ -138,32 +136,37 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
     }
 
 
-    /*private fun getStudentsList(Id:String) {
-        lifecycleScope.launch {
-
-            //if (sectionID != null && className != null) {
-            studentViewModel.getStudentsList(Id)
-                .addOnCompleteListener { task ->
-
-
-                    if (task.isSuccessful) {
-                        val documents = task.result
-                        for (document in documents) {
-                            val student = document.toObject(StudentModel::class.java)
-                            studentList.add(student)
-                        }
-                        studentList.sortBy { it.RegNumber }
-
-                    } else {
-                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-
-            //  }
-
+    private fun getStudentsList(Id: String) {
+        // Check if the student list is already loaded from SharedPreferences
+        if (studentList.isEmpty()) {
+            // If not, fetch the list from SharedPreferences
+            val storedStudentList = studentViewModel.getStudentsList()
+            if (storedStudentList.isNotEmpty()) {
+                //studentList.addAll(storedStudentList)
+                //attendanceRecAdapter.notifyDataSetChanged()
+            }
         }
-    }*/
 
-
+        // If the list is still empty or not found in SharedPreferences, fetch it from your source
+//        if (studentList.isEmpty()) {
+//            lifecycleScope.launch {
+//                // Fetch the data from your source (e.g., studentViewModel)
+//                studentViewModel.getStudentsList(Id)
+//                    .addOnCompleteListener { task ->
+//                        if (task.isSuccessful) {
+//                            val documents = task.result
+//                            for (document in documents) {
+//                                val student = document.toObject(StudentModel::class.java)
+//                                studentList.add(student)
+//                            }
+//                            studentList.sortBy { it.RegNumber }
+//                            attendanceRecAdapter.notifyDataSetChanged()
+//
+//                            // Save the fetched list in SharedPreferences
+//                            sharedPrefManager.saveStudentList(studentList)
+//                        } else {
+//                            Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+            }
 }

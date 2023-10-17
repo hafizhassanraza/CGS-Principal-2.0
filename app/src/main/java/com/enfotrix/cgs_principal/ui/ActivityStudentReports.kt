@@ -1,19 +1,21 @@
 package com.enfotrix.cgs_principal.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
-import android.widget.Toast
-import androidx.appcompat.widget.AppCompatSpinner
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSpinner
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AdapterStudentsList
 import com.enfotrix.cgs_principal.Models.ClassViewModel
 import com.enfotrix.cgs_principal.Models.StudentModel
@@ -21,9 +23,10 @@ import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.databinding.ActivityStudentReportsBinding
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class ActivityStudentReports : AppCompatActivity() {
+class ActivityStudentReports : AppCompatActivity(),AdapterStudentsList.StudentClickListener {
     private lateinit var binding: ActivityStudentReportsBinding
     private lateinit var rbName: RadioButton
     private lateinit var rbRegistration: RadioButton
@@ -44,7 +47,7 @@ class ActivityStudentReports : AppCompatActivity() {
         binding=ActivityStudentReportsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /////////initalize UI elements//////////
+        /////////initialize UI elements//////////
         init()
 
         ////////recycler view////////
@@ -76,6 +79,7 @@ class ActivityStudentReports : AppCompatActivity() {
 
         /////////setting the spinner//////////
         fetchAndInitializeSpinner()
+
     }
     fun init(){
         rbName = findViewById(R.id.rbName)
@@ -89,14 +93,62 @@ class ActivityStudentReports : AppCompatActivity() {
         sharedPrefManager= SharedPrefManager(mContext)
         studentsList= sharedPrefManager.getStudentList() as ArrayList<StudentModel>
 
+        svName.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search submission for svName here (optional)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterStudentsByName(newText.orEmpty())
+                return true
+            }
+        })
+
+        // Set up the query listener for svRegistration
+        svRegistration.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Handle search submission for svRegistration here (optional)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterStudentsByRegistration(newText.orEmpty())
+                return true
+            }
+        })
     }
+
+    private fun filterStudentsByName(nameQuery: String) {
+        val filteredList = if (nameQuery.isBlank()) {
+            studentsList
+        } else {
+            studentsList.filter { student ->
+                student.FirstName.contains(nameQuery, ignoreCase = true)
+            }
+        }
+        studentsAdapter.updateList(filteredList)
+    }
+
+    private fun filterStudentsByRegistration(registrationQuery: String) {
+        val filteredList = if (registrationQuery.isBlank()) {
+            studentsList
+        } else {
+            studentsList.filter { student ->
+                student.RegNumber.contains(registrationQuery, ignoreCase = true)
+            }
+        }
+        studentsAdapter.updateList(filteredList)
+    }
+
     fun settingRV(){
         ///////////set the recycler view//////////////
         val recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         studentsList.clear()
         studentsList= sharedPrefManager.getStudentList() as ArrayList<StudentModel>
-        studentsAdapter = AdapterStudentsList(studentsList)
+        studentsList.sortBy { it.RegNumber }
+        studentsAdapter = AdapterStudentsList(studentsList,this)
         recyclerView.adapter = studentsAdapter
     }
     private fun fetchAndInitializeSpinner() {
@@ -138,7 +190,7 @@ class ActivityStudentReports : AppCompatActivity() {
     private fun getSection(classID:String) {
         lifecycleScope.launch {
             if (classID != null) {
-                Toast.makeText(mContext, ""+classID, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mContext, ""+classID, Toast.LENGTH_SHORT).show()
                 val sections = classViewModel.getSectionList(classID)
 
                 val distinct=sections.map { it.SectionName }
@@ -184,9 +236,59 @@ class ActivityStudentReports : AppCompatActivity() {
         // Update the data source with the new list
         studentsList.clear()
         studentsList.addAll(newStudentsList)
+        studentsList.sortBy { it.RegNumber }
 
         // Notify the adapter that the data has changed
         studentsAdapter.notifyDataSetChanged()
+    }
+    fun dialogBox(studentID: String,studentName: String,studentReg: String){
+        // Create and customize the AlertDialog
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_student_reports, null)
+        builder.setView(dialogView)
+        val studentNameDialog = dialogView.findViewById<TextView>(R.id.message_box_header)
+        val studentRegDialog = dialogView.findViewById<TextView>(R.id.message_box_content)
+        val profileCard = dialogView.findViewById<CardView>(R.id.cvProfile)
+        val attendanceCard = dialogView.findViewById<CardView>(R.id.cvAttendance)
+
+        // Set the text to be displayed in the dialog
+        studentNameDialog.text = studentName
+        studentRegDialog.text = studentReg
+
+        // Set an OnClickListener for the Button to navigate to a new activity
+
+        val selectedStudentList= mutableListOf<StudentModel>()
+        selectedStudentList.add(studentViewModel.getStudentModel(studentID))
+
+        profileCard.setOnClickListener {
+            val gson = Gson()
+            val studentListJson = gson.toJson(selectedStudentList)
+            val intent = Intent(mContext, ActivityStudentProfile::class.java)
+            intent.putExtra("selectedStudentList", studentListJson)
+            startActivity(intent)
+        }
+        attendanceCard.setOnClickListener {
+            val gson = Gson()
+            val studentListJson = gson.toJson(selectedStudentList)
+            val intent = Intent(mContext, ActivityStudentAttendance::class.java)
+            intent.putExtra("selectedStudentList", studentListJson)
+            startActivity(intent)
+        }
+
+        // Add a button to close the dialog
+        builder.setPositiveButton("Back") { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        // Set a negative button to allow dismissal when clicking outside or pressing back
+        builder.setNegativeButton("", null)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    override fun onStudentClick(studentID: String, studentName: String, studentReg: String) {
+        dialogBox(studentID,studentName,studentReg)
     }
 
 }

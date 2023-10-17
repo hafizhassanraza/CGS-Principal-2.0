@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.ActivityStudentAttendanceRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -139,7 +140,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
-                android:text="Present"
+                android:text="Status"
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"

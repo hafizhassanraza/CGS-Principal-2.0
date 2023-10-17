@@ -58,11 +58,25 @@ class ActivityStudentProfile : AppCompatActivity() {
                 openDialer(phone.toString())
             }
         }
+        binding.btnMessage.setOnClickListener {
+            for (student in selectedStudentList) {
+                val phone = student?.FatherPhoneNumber
+                openMessagingApp(phone.toString())
+            }
+        }
+        binding.btnWataApp.setOnClickListener {
+            Toast.makeText(mContext, "Available soon", Toast.LENGTH_SHORT).show()
+        }
 
     }
     private fun openDialer(phoneNumber: String) {
         val uri = Uri.parse("tel:$phoneNumber")
         val intent = Intent(Intent.ACTION_DIAL, uri)
+        startActivity(intent)
+    }
+    private fun openMessagingApp(phoneNumber: String) {
+        val uri = Uri.parse("smsto:$phoneNumber")
+        val intent = Intent(Intent.ACTION_SENDTO, uri)
         startActivity(intent)
     }
 
