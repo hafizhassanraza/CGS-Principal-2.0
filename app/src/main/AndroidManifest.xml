@@ -16,6 +16,9 @@
             android:name=".ui.ActivityStudentReports"
             android:exported="false" />
         <activity
+            android:name=".ui.ActivityResult"
+            android:exported="false" />
+        <activity
             android:name=".ui.ActivityStudentAttendanceRegister"
             android:exported="false" />
         <activity

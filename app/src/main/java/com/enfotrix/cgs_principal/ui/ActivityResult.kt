@@ -20,6 +20,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.enfotrix.cgs_principal.Adapters.ResultAdapter
+import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ExamViewModel
 import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.StudentModel
@@ -45,6 +47,9 @@ class ActivityResult : AppCompatActivity() {
     private val resultList = mutableListOf<ResultModel>()
     private lateinit var utils: Utils
     var examName = ""
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var resultAdapter: ResultAdapter
+
 
     //private lateinit var examAdapter: ExamListAdapter
     var selectedYear: String? = null
@@ -56,6 +61,9 @@ class ActivityResult : AppCompatActivity() {
         mContext = this@ActivityResult
         utils = Utils(mContext)
         sharedPrefManager = SharedPrefManager(mContext)
+
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(mContext)
 
 //        //getStudentsList()
 //// Create a list of years (you can replace this with your list of years)
@@ -120,10 +128,65 @@ class ActivityResult : AppCompatActivity() {
 
 
 
+        var examID="5VBcr9qxXfnOnibms4dX";
+        var year="2023";
+
+
+        binding.btnGetResult.setOnClickListener{
+            getResult(examID,year)
+        }
+
+
     }
 
+    private fun getResult(examID: String, year: String) {
+        lifecycleScope.launch {
+            examViewModel.getResult(year,examID)
+                .addOnCompleteListener { task->
+                    if(task.isSuccessful){
 
 
+                        Toast.makeText(mContext, "debug1", Toast.LENGTH_SHORT).show()
+
+                        var Listresult = task.result.map { it.toObject(ResultModel::class.java) }
+
+
+
+
+
+
+                        resultAdapter = ResultAdapter(
+                            mContext,
+                            sharedPrefManager.getSectionList(),
+                            Listresult,
+                            sharedPrefManager.getStudentList()
+
+                        )
+                        recyclerView.adapter = resultAdapter
+
+
+
+
+
+
+
+
+
+
+                    }
+
+
+                }.addOnFailureListener {
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+
+
+
+        }
+
+
+
+    }
 
 
 //    private fun getResultList() {
