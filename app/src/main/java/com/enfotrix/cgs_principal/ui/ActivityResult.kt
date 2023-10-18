@@ -20,6 +20,8 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.enfotrix.cgs_principal.Adapters.ResultAdapter
+import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ExamViewModel
 import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.StudentModel
@@ -30,11 +32,12 @@ import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityResultBinding
 
 import com.enftorix.cgs_principal.Constants
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ActivityResult : AppCompatActivity() {
+class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
     private val studentViewModel: StudentViewModel by viewModels()
     private val examViewModel: ExamViewModel by viewModels()
     private lateinit var binding: ActivityResultBinding
@@ -45,9 +48,13 @@ class ActivityResult : AppCompatActivity() {
     private val resultList = mutableListOf<ResultModel>()
     private lateinit var utils: Utils
     var examName = ""
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var resultAdapter: ResultAdapter
+
 
     //private lateinit var examAdapter: ExamListAdapter
     var selectedYear: String? = null
+    var examterm: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +63,9 @@ class ActivityResult : AppCompatActivity() {
         mContext = this@ActivityResult
         utils = Utils(mContext)
         sharedPrefManager = SharedPrefManager(mContext)
+
+        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(mContext)
 
 //        //getStudentsList()
 //// Create a list of years (you can replace this with your list of years)
@@ -96,34 +106,85 @@ class ActivityResult : AppCompatActivity() {
             }
         }
         val Examterms = sharedPrefManager.getExamsList()
-        val examNames = mutableListOf<String>()
 
-        for (examModel in Examterms) {
-            val examName = examModel.ExamName.toString()
-            examNames.add(examName)
-        }
+        val examNames=Examterms.map { it.ExamName }
 
         val spinnerSelectTerm = findViewById<Spinner>(R.id.spinnerSelectTerm)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, examNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerSelectTerm.adapter = adapter
+        spinnerSelectTerm.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedExamTerm = Examterms[position]
+                examterm=selectedExamTerm.ID
+                getResult(examterm!!,selectedYear.toString())
 
-//
-//        val Examterms = sharedPrefManager.getExamsList()
-//
-//            for (i in Examterms.indices)
-//            {
-//                val examModel = Examterms[i]
-//               examName = examModel.ExamName.toString()
-//            }
-//        binding.spinnerSelectTerm.text
 
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
 
 
     }
 
+    private fun getResult(examID: String, year: String) {
+        lifecycleScope.launch {
+            examViewModel.getResult(year,examID)
+                .addOnCompleteListener { task->
+                    if(task.isSuccessful){
 
 
+                        Toast.makeText(mContext, "debug1", Toast.LENGTH_SHORT).show()
+
+                        var Listresult = task.result.map { it.toObject(ResultModel::class.java) }
+
+
+
+
+
+
+                        resultAdapter = ResultAdapter(
+                            mContext,
+                            sharedPrefManager.getSectionList(),
+                            Listresult,
+                            sharedPrefManager.getStudentList(),
+                            this@ActivityResult
+
+                        )
+                        recyclerView.adapter = resultAdapter
+
+
+
+
+
+
+
+
+
+
+                    }
+
+
+                }.addOnFailureListener {
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                }
+
+
+
+        }
+
+
+
+    }
 
 
 //    private fun getResultList() {
@@ -184,6 +245,13 @@ class ActivityResult : AppCompatActivity() {
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return currentDate.format(formatter)
+    }
+
+    override fun onclassClicked(sectionID: String, resultList: List<ResultModel>) {
+        val intent = Intent(this, ActivityClassResult::class.java)
+        intent.putExtra("Id",sectionID)
+        intent.putExtra("studentlist", Gson().toJson(resultList))
+        startActivity(intent)
     }
 
 

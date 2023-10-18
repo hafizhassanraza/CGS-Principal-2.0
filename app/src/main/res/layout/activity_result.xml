@@ -72,8 +72,6 @@
 
 
 
-
-
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +86,7 @@
                 android:id="@+id/tvClassSection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:text="classes"
                 android:textSize="13dp"
                 android:textColor="@color/black"
@@ -99,7 +97,7 @@
                 android:id="@+id/tvPass"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.8"
                 android:text="Pass"
                 android:textSize="13dp"
                 android:textColor="@color/black"
@@ -111,7 +109,7 @@
                 android:id="@+id/tvFail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="0.8"
                 android:text="Fail"
                 android:textSize="13dp"
                 android:textColor="@color/black"
@@ -119,10 +117,10 @@
                 android:gravity="start"
                 />
             <TextView
-                android:id="@+id/tvPercentage"
+                android:id="@+id/tvpercent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:text="Percentage"
                 android:textSize="13dp"
                 android:textColor="@color/black"
