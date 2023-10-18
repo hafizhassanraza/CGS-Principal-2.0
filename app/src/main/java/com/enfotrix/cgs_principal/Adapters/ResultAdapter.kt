@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendenceModel
@@ -18,13 +19,15 @@ class ResultAdapter(
     private val sectionList: List<SectionModel>,
     private val resultList: List<ResultModel>,
     private var studentList: List<StudentModel>,
+    private val classListener: classClickListener
 
 ) : RecyclerView.Adapter<ResultAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvClassSection: TextView = view.findViewById(R.id.tvClassSection)
         val tvPass: TextView = view.findViewById(R.id.tvPass)
         val tvfail: TextView = view.findViewById(R.id.tvFail)
-        //val tvPercentage: TextView = view.findViewById(R.id.tvPercentage)
+        val tvPercentage: TextView = view.findViewById(R.id.tvpercentage)
+        val layout: LinearLayout = view.findViewById(R.id.layAttendance)
     }
 
 
@@ -80,9 +83,11 @@ class ResultAdapter(
             if (total > 0) {
                 val percent = (totalObtain.toFloat() / total) * 100
                 val percentInt = percent.toInt()
+                holder. tvPercentage.text = percent.toInt().toString()
 
                 if (percentInt > 33) counterPass++
                 else counterFail++
+
             }
         }
 
@@ -107,11 +112,19 @@ class ResultAdapter(
         holder.tvClassSection.text=sectionModel.ClassName+"-"+sectionModel.SectionName
         holder.tvPass.text= counterPass.toString()
         holder.tvfail.text= counterFail.toString()
+        holder.layout.setOnClickListener {
+            classListener.onclassClicked( sectionModel.ID, resultList)
+        }
+
 
     }
 
     override fun getItemCount(): Int {
         return sectionList.size
+    }
+    interface classClickListener {
+        fun onclassClicked(sectionID:String, resultList: List<ResultModel>)
+
     }
 
 }

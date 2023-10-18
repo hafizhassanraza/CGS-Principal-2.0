@@ -32,11 +32,12 @@ import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityResultBinding
 
 import com.enftorix.cgs_principal.Constants
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class ActivityResult : AppCompatActivity() {
+class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
     private val studentViewModel: StudentViewModel by viewModels()
     private val examViewModel: ExamViewModel by viewModels()
     private lateinit var binding: ActivityResultBinding
@@ -53,6 +54,7 @@ class ActivityResult : AppCompatActivity() {
 
     //private lateinit var examAdapter: ExamListAdapter
     var selectedYear: String? = null
+    var examterm: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,36 +106,31 @@ class ActivityResult : AppCompatActivity() {
             }
         }
         val Examterms = sharedPrefManager.getExamsList()
-        val examNames = mutableListOf<String>()
 
-        for (examModel in Examterms) {
-            val examName = examModel.ExamName.toString()
-            examNames.add(examName)
-        }
+        val examNames=Examterms.map { it.ExamName }
 
         val spinnerSelectTerm = findViewById<Spinner>(R.id.spinnerSelectTerm)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, examNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerSelectTerm.adapter = adapter
-
-//
-//        val Examterms = sharedPrefManager.getExamsList()
-//
-//            for (i in Examterms.indices)
-//            {
-//                val examModel = Examterms[i]
-//               examName = examModel.ExamName.toString()
-//            }
-//        binding.spinnerSelectTerm.text
-
-
-
-        var examID="5VBcr9qxXfnOnibms4dX";
-        var year="2023";
+        spinnerSelectTerm.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedExamTerm = Examterms[position]
+                examterm=selectedExamTerm.ID
+                getResult(examterm!!,selectedYear.toString())
 
 
-        binding.btnGetResult.setOnClickListener{
-            getResult(examID,year)
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
         }
 
 
@@ -159,7 +156,8 @@ class ActivityResult : AppCompatActivity() {
                             mContext,
                             sharedPrefManager.getSectionList(),
                             Listresult,
-                            sharedPrefManager.getStudentList()
+                            sharedPrefManager.getStudentList(),
+                            this@ActivityResult
 
                         )
                         recyclerView.adapter = resultAdapter
@@ -247,6 +245,13 @@ class ActivityResult : AppCompatActivity() {
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return currentDate.format(formatter)
+    }
+
+    override fun onclassClicked(sectionID: String, resultList: List<ResultModel>) {
+        val intent = Intent(this, ActivityClassResult::class.java)
+        intent.putExtra("Id",sectionID)
+        intent.putExtra("studentlist", Gson().toJson(resultList))
+        startActivity(intent)
     }
 
 

@@ -17,7 +17,7 @@ class ExamViewModel(context: Application) : AndroidViewModel(context) {
 
     suspend fun getExams(): Task<QuerySnapshot> { return repo.getExams() }
     suspend fun getSubjects(): Task<QuerySnapshot> { return repo.getSubjects() }
-    suspend fun getResult(year:String,exam:String): Task<QuerySnapshot> { return repo.getResult(year, exam) }
+   fun getResult(year:String,exam:String): Task<QuerySnapshot> { return repo.getResult(year, exam) }
     suspend fun getResult( studentID: String, year:String,exam:String): Task<QuerySnapshot> { return repo.getResult(studentID,year, exam) }
     fun putExamsList(list: List<ExamModel>){ sharedPrefManager.putExamsList(list) }
     fun putSubjectsList(list: List<ModelSubject>){ sharedPrefManager.putSubjectList(list) }

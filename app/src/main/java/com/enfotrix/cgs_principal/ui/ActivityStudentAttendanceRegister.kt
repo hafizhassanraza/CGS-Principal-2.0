@@ -77,19 +77,26 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 //        } else {
 //            binding.datePicker.visibility = View.VISIBLE
 //        }
-
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        attendanceRecAdapter = AttendanceRecAdapter(mContext, attendanceList, studentList)
+
+// Sort the attendanceList based on registration number
+        val sortedAttendanceList = attendanceList.sortedBy { attendanceModel ->
+            val studentModel = studentList.firstOrNull { it.StudentId == attendanceModel.StudentID }
+            studentModel?.RegNumber ?: ""
+        }
+
+        attendanceRecAdapter = AttendanceRecAdapter(mContext, sortedAttendanceList, studentList)
         recyclerView.adapter = attendanceRecAdapter
 
-        // Retrieve class and section names from shared preferences
+// Retrieve class and section names from shared preferences
         val className = classViewModel.getSectionModel(ID).ClassName
         val sectionName = classViewModel.getSectionModel(ID).SectionName
 
-        // Set the class and section names in your UI
+// Set the class and section names in your UI
         binding.ClassName.text = className
         binding.sectionName.text = sectionName
+
 
 
     }
