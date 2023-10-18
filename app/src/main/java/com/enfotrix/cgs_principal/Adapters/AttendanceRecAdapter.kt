@@ -31,7 +31,7 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
 
         val attendenceModel = attendanceRecList[position]
         // Set data from the StudentModel to the corresponding TextViews
-         val studentModel = sortedList.firstOrNull { it.StudentId == attendenceModel.StudentID }
+         val studentModel = studentList.firstOrNull { it.StudentId == attendenceModel.StudentID }
 
         if(studentModel!=null){
             holder.regNO.text = studentModel.RegNumber
@@ -50,6 +50,9 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
                 context.startActivity(intent)
             }
 
+<<<<<<< HEAD
+//
+=======
             // Set text color based on status
             when (attendenceModel.Status) {
                 "Present" -> holder.status.setTextColor(context.resources.getColor(R.color.green)) // Change R.color.green to your desired color resource
@@ -67,6 +70,7 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
                 } // Change R.color.blue to your desired color resource
                 else -> holder.status.setTextColor(context.resources.getColor(android.R.color.black))
             }
+>>>>>>> origin/main
         }
 
 

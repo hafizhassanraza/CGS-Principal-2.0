@@ -347,6 +347,7 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvContact"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:cardCornerRadius="10dp"
@@ -378,6 +379,50 @@
                     android:layout_weight="1"
                     android:layout_height="30dp"
                     android:src="@drawable/icon_whatsapp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/cvContact"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student Remarks"
+                    android:fontFamily="@font/montserrate_semi_bold"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="10dp"
+                    />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addRemarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/white"
+                    app:cornerRadius="8dp"
+                    android:fontFamily="@font/montserrate_semi_bold"
+                    android:backgroundTint="#1b66c9"
+                    android:layout_marginBottom="15dp"
+                    />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

@@ -20,6 +20,7 @@ class Constants {
     public var  Exam_Id="exam"
     public var STUDENT_ID="studentID"
     public var ANNOUNCEMENT_COLLECTION="Announcement"
+    public var REMARKS_COLLECTION="Remarks"
 
 
 

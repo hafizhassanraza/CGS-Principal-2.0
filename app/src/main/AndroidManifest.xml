@@ -45,6 +45,9 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
+        <activity
+            android:name=".ui.ActivityStudentAttendance"
+            android:exported="false" />
     </application>
 
 </manifest>

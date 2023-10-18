@@ -1,6 +1,7 @@
 package com.enfotrix.cgs_principal.Data
 import android.content.Context
-import com.enfotrix.cgs_principal.Models.AttendenceModel
+import android.widget.Toast
+import com.enfotrix.cgs_principal.Models.StudentRemarksModel
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enftorix.cgs_principal.Constants
 import com.google.android.gms.tasks.Task
@@ -25,6 +26,7 @@ class Repo(val context: Context) {
     private var SUBJECT_COLLECTION=db.collection(constants.SUBJECT_COLLECTION)
     private var RESULT_COLLECTION=db.collection(constants.RESULT_COLLECTION)
     private var ANNOUNCEMENT_COLLECTION=db.collection(constants.ANNOUNCEMENT_COLLECTION)
+    private var REMARKS_COLLECTION=db.collection(constants.REMARKS_COLLECTION)
 
 
     fun checkLogin(Id: String,password:String):Task<QuerySnapshot>{
@@ -93,6 +95,20 @@ class Repo(val context: Context) {
         return ATTENDANCE_COLLECTION
             .whereEqualTo(constants.STUDENT_ID, studentId)
             .get()
+    }
+    fun saveRemarks(studentRemarksModel: StudentRemarksModel){
+
+        REMARKS_COLLECTION.add(studentRemarksModel)
+            .addOnSuccessListener { documentReference ->
+                val documentId = documentReference.id
+                studentRemarksModel.id = documentId
+
+                REMARKS_COLLECTION.document(documentId).set(studentRemarksModel)
+                Toast.makeText(context, "saved!!!", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e->
+                Toast.makeText(context, ""+e.message, Toast.LENGTH_SHORT).show()
+            }
     }
 
 }
