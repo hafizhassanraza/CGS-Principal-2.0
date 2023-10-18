@@ -6,17 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.enfotrix.cgs_principal.Models.AttendenceModel
-import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
 
 class AdapterClassResult(
     private val context: Context,
-    private val resultList: List<ResultModel>,
     private val studentList: List<StudentModel>,
+    private val resultList: List<ResultModel>,
 ) : RecyclerView.Adapter<AdapterClassResult.ViewHolder>() {
 
 
@@ -41,9 +40,10 @@ class AdapterClassResult(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val resultModel = resultList[position]
+        Toast.makeText(context, ""+resultModel, Toast.LENGTH_SHORT).show()
+
 
         val studentModel = studentList.firstOrNull { it.StudentId == resultModel.studentId }
-
         if (studentModel != null) {
             holder.regNO.text = studentModel.RegNumber
             holder.studentName.text = studentModel.FirstName

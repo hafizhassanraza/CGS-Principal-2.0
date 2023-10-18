@@ -62,21 +62,6 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
             object : TypeToken<List<AttendenceModel?>?>() {}.getType()
 
         )
-        //Toast.makeText(mContext, ""+attendanceList.size, Toast.LENGTH_SHORT).show()
-
-
-        //Toast.makeText(mContext, ""+ID, Toast.LENGTH_SHORT).show()
-        //getStudentsList(ID)
-
-
-        //getAttendanceRecord(getCurrentDate(),ID)
-
-//        if (fromActivity == "Main") {
-//            binding.datePicker.visibility = View.GONE
-//
-//        } else {
-//            binding.datePicker.visibility = View.VISIBLE
-//        }
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
 
@@ -96,9 +81,6 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
 // Set the class and section names in your UI
         binding.ClassName.text = className
         binding.sectionName.text = sectionName
-
-
-
     }
 
     /////////////////////////////////  GET STUDENT lIST ////////////////////////////////////

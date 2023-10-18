@@ -66,21 +66,6 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
 
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-
-//        //getStudentsList()
-//// Create a list of years (you can replace this with your list of years)
-//        val years = listOf("2023", "2024", "2025", "2026")
-//
-//// Create an ArrayAdapter to populate the Spinner
-//        val yearAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, years)
-//        yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//
-//// Set the ArrayAdapter on the Spinner
-//        binding.spinnerYearSelection.adapter = yearAdapter
-//        //binding.examTerm.text=sharedPrefManager.getExamModelFromShared()!!.ExamName
-//        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-//        recyclerView.layoutManager = LinearLayoutManager(mContext)
-
         ///////////////spinner setting/////////////
         val items = listOf("2023", "2024", "2025", "2026")
 
@@ -146,12 +131,6 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
                         Toast.makeText(mContext, "debug1", Toast.LENGTH_SHORT).show()
 
                         var Listresult = task.result.map { it.toObject(ResultModel::class.java) }
-
-
-
-
-
-
                         resultAdapter = ResultAdapter(
                             mContext,
                             sharedPrefManager.getSectionList(),
@@ -161,15 +140,6 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
 
                         )
                         recyclerView.adapter = resultAdapter
-
-
-
-
-
-
-
-
-
 
                     }
 
@@ -181,78 +151,18 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
 
 
         }
-
-
-
     }
 
 
-//    private fun getResultList() {
-//        lifecycleScope.launch {
-//            val subjectId = sharedPrefManager.getSelectedSubjectInShared()!!.ID
-//            val sectionID = sharedPrefManager.getSectionFromShared()!!.ID
-//            examViewModel.getResultList(selectedYear!!,subjectId!!, sectionID)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful) {
-//
-//                        val documents = task.result
-//                        for (document in documents) {
-//                            var result = document.toObject(ResultModel::class.java)
-//                            resultList.add(result)
-//                            binding.totalMarks.text=result.totalMarks
-//                        }
-//
-//                        // Notify any adapter or UI component that displays the resultList
-//                        // Example: adapter.notifyDataSetChanged()
-//                         if(resultList.size==0){
-//                             Toast.makeText(mContext, "No Result Found", Toast.LENGTH_LONG).show()
-//                         }
-//
-//                        if(resultList.size==0){
-//                            binding.recyclerView.visibility=View.INVISIBLE
-//                        }
-//                        studentList.sortBy { it.RegNumber }
-//
-//                        examAdapter.notifyDataSetChanged()
-//
-//                    }
-//
-//
-//
-//                    else {
-//                        Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//        }
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ////     this function will set and update the result so on    ///
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCurrentDate(): String {
-        val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        return currentDate.format(formatter)
-    }
-
-    override fun onclassClicked(sectionID: String, resultList: List<ResultModel>) {
+    override fun onclassClicked(sectionID: String, studentList:  List<StudentModel>) {
         val intent = Intent(this, ActivityClassResult::class.java)
         intent.putExtra("Id",sectionID)
-        intent.putExtra("studentlist", Gson().toJson(resultList))
+        intent.putExtra("resultList", Gson().toJson(studentList))
+        intent.putExtra("selectedYear", selectedYear)
+        intent.putExtra("selectedTerm", examterm)
         startActivity(intent)
     }
+
 
 
 }
