@@ -28,6 +28,13 @@ class SharedPrefManager(context: Context) {
         else if(sharedPref.getBoolean("isLoggedIn", false)==true) isLoggedIn =true
         return isLoggedIn
     }
+    fun saveLoginAuth(principal: PrincipalModel?, loggedIn: Boolean){
+        savePrincipal(principal)
+        setLogin(loggedIn)
+    }    fun setLogin(isLoggedIn: Boolean = false) {
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.commit()
+    }
     fun savePrincipal(principal: PrincipalModel?) {
         if (principal != null) {
             editor.putString(constants.PRINCIPAL_MODEL, Gson().toJson(principal))

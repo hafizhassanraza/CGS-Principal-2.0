@@ -53,6 +53,8 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
 
+        //Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
+
         utils = Utils(mContext)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)

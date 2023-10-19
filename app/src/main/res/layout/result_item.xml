@@ -59,17 +59,16 @@
                 android:textSize="13dp"
                 android:gravity="center"
                 />
+
             <TextView
-                android:id="@+id/tvPercent"
+                android:id="@+id/tvpercentage"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
                 android:fontFamily="@font/montserrat_regular"
-                android:text=""
-                android:textSize="13dp"
                 android:gravity="center"
-                />
-
+                android:text=""
+                android:textSize="13dp" />
 
 
         </LinearLayout>
