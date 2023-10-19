@@ -23,7 +23,7 @@ class AdapterClassResult(
         val regNO: TextView = itemView.findViewById(R.id.RegNumber)
         val studentName: TextView = itemView.findViewById(R.id.StudentName)
         val status: TextView = itemView.findViewById(R.id.StudentStatus)
-        val percentage: LinearLayout = itemView.findViewById(R.id.percentage)
+        val percentage: TextView = itemView.findViewById(R.id.percentage)
 
 
     }
@@ -40,15 +40,20 @@ class AdapterClassResult(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val resultModel = resultList[position]
-        Toast.makeText(context, ""+resultModel, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, ""+resultModel, Toast.LENGTH_SHORT).show()
 
 
         val studentModel = studentList.firstOrNull { it.StudentId == resultModel.studentId }
         if (studentModel != null) {
             holder.regNO.text = studentModel.RegNumber
             holder.studentName.text = studentModel.FirstName
-            holder.status.text = resultModel.status
+            holder.status.text = resultModel.obtainMarks
 
         }
     }
+    interface onStudentClickListener {
+        fun onStudentClicked(studentId:String)
+
+    }
+
 }

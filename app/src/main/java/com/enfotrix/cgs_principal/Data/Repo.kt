@@ -77,6 +77,13 @@ class Repo(val context: Context) {
             .whereEqualTo(constants.FIELD_RESULT_YEAR,year)
             .whereEqualTo(constants.FIELD_RESULT_EXAM,exam).get()
     }
+    fun getsectionResult(sectionId:String, year:String,exam:String):Task<QuerySnapshot>{
+
+        return RESULT_COLLECTION
+            .whereEqualTo("sectionId",sectionId)
+            .whereEqualTo(constants.FIELD_RESULT_YEAR,year)
+            .whereEqualTo(constants.FIELD_RESULT_EXAM,exam).get()
+    }
 
 
     fun getDeviceToken(studentID:String): Task<QuerySnapshot> {
