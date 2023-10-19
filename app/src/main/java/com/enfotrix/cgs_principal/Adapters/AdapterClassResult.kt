@@ -39,17 +39,34 @@ class AdapterClassResult(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val resultModel = resultList[position]
-        //Toast.makeText(context, ""+resultModel, Toast.LENGTH_SHORT).show()
 
 
-        val studentModel = studentList.firstOrNull { it.StudentId == resultModel.studentId }
-        if (studentModel != null) {
-            holder.regNO.text = studentModel.RegNumber
-            holder.studentName.text = studentModel.FirstName
-            holder.status.text = resultModel.obtainMarks
+
+        val student = studentList[position]
+
+
+
+
+
+        val tempStudentListResult = resultList.filter { it.studentId == student.StudentId }
+
+        val totalObtain = tempStudentListResult.sumBy { it.obtainMarks?.toInt() ?: 0 }
+        val total = tempStudentListResult.sumBy { it.totalMarks?.toInt() ?: 0 }
+
+        if (total > 0) {
+            val percent = (totalObtain.toFloat() / total) * 100
+            val percentInt = percent.toInt()
+
+            if (percentInt > 33) holder.status.text = "Pass"
+            else holder.status.text = "Fail"
+
+            holder.percentage.text = percent.toInt().toString()
+
 
         }
+        holder.regNO.text = student.RegNumber
+        holder.studentName.text = student.FirstName
+
     }
     interface onStudentClickListener {
         fun onStudentClicked(studentId:String)

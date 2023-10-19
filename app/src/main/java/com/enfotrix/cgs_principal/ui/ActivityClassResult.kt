@@ -54,8 +54,9 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
 
         selectedYear = intent.getStringExtra("selectedYear").toString()
         selectedTerm = intent.getStringExtra("selectedTerm").toString()
-      //  Toast.makeText(mContext, "termmmm"+selectedTerm, Toast.LENGTH_SHORT).show()
         sectionID = intent.getStringExtra("Id").toString()
+
+
       //  Toast.makeText(mContext, "sectionID"+sectionID, Toast.LENGTH_SHORT).show()
 
         getResultList()
@@ -72,28 +73,38 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
                 .addOnCompleteListener { task ->
                     val result = task.result
                     for (document in result) {
-                        var result = document.toObject(ResultModel::class.java)
-                        Toast.makeText(mContext, document.toObject(ResultModel::class.java).totalMarks, Toast.LENGTH_SHORT).show()
 
+
+                        var result = document.toObject(ResultModel::class.java)
+
+                        //Toast.makeText(mContext, document.toObject(ResultModel::class.java).totalMarks, Toast.LENGTH_SHORT).show()
                         resultList.add(result)
 
+
+
+
+
                     }
+
+                    studentList.addAll(studentViewModel.getStudentsList(sectionID))
+
+
+                    // Toast.makeText(mContext, "studentlistSize="+studentList.size, Toast.LENGTH_SHORT).show()
+                    val classCard = classViewModel.getSectionModel(sectionID).ClassName
+                    val sectionCard = classViewModel.getSectionModel(sectionID).SectionName
+                    binding.ClassName.text = classCard
+                    binding.sectionName.text = sectionCard
+                    //passing list to adapter
+                    recyclerView = binding.recyclerView
+                    recyclerView.layoutManager = LinearLayoutManager(mContext)
+                    Toast.makeText(mContext, resultList.size.toString(), Toast.LENGTH_SHORT).show()
+
+                    resultAdapter = AdapterClassResult(mContext,studentList,resultList)
+                    recyclerView.adapter=resultAdapter
                  //   Toast.makeText(mContext, "resultList Size"+resultList.size, Toast.LENGTH_SHORT).show()
                 }
 
 
-
-            studentList.addAll(studentViewModel.getStudentsList(sectionID))
-           // Toast.makeText(mContext, "studentlistSize="+studentList.size, Toast.LENGTH_SHORT).show()
-            val classCard = classViewModel.getSectionModel(sectionID).ClassName
-            val sectionCard = classViewModel.getSectionModel(sectionID).SectionName
-            binding.ClassName.text = classCard
-            binding.sectionName.text = sectionCard
-                                //passing list to adapter
-            recyclerView = binding.recyclerView
-            recyclerView.layoutManager = LinearLayoutManager(mContext)
-            resultAdapter = AdapterClassResult(mContext,studentList,resultList)
-            recyclerView.adapter=resultAdapter
         }
     }
 
