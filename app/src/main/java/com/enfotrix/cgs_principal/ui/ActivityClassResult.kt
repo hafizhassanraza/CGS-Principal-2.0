@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AdapterClassResult
 import com.enfotrix.cgs_principal.Models.ClassViewModel
+import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ExamViewModel
 import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.StudentModel
@@ -56,7 +57,7 @@ class ActivityClassResult : AppCompatActivity() {
             intent.getStringExtra("studentlist"),
             object : TypeToken<List<ResultModel?>?>() {}.getType()
         )
-        Toast.makeText(mContext, "resultlist"+ResultList.size, Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "resultlist"+resltList, Toast.LENGTH_SHORT).show()
         for (student in ResultList) {
             studentID = student.studentId
 

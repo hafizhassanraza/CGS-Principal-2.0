@@ -154,10 +154,9 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
     }
 
 
-    override fun onclassClicked(sectionID: String, studentList:  List<StudentModel>) {
+    override fun onclassClicked(sectionID: String) {
         val intent = Intent(this, ActivityClassResult::class.java)
         intent.putExtra("Id",sectionID)
-        intent.putExtra("resultList", Gson().toJson(studentList))
         intent.putExtra("selectedYear", selectedYear)
         intent.putExtra("selectedTerm", examterm)
         startActivity(intent)

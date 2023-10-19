@@ -122,6 +122,7 @@ class SharedPrefManager(context: Context) {
         val json = sharedPref.getString("ListResult", "") ?: ""
         val type: Type = object : com.google.gson.reflect.TypeToken<List<ResultModel?>?>() {}.getType()
 
+
         return if (!json.isNullOrEmpty()) {
             Gson().fromJson(json, type) ?: emptyList()
         } else {

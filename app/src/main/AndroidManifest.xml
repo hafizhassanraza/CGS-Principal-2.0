@@ -17,7 +17,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.ActivityClassResult"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.ActivityStudentReports"
             android:exported="false" />

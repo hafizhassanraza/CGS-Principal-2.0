@@ -113,7 +113,7 @@ class ResultAdapter(
         holder.tvPass.text= counterPass.toString()
         holder.tvfail.text= counterFail.toString()
         holder.layout.setOnClickListener {
-            classListener.onclassClicked( sectionModel.ID, studentList)
+            classListener.onclassClicked( sectionModel.ID)
         }
 
 
@@ -123,7 +123,7 @@ class ResultAdapter(
         return sectionList.size
     }
     interface classClickListener {
-        fun onclassClicked(sectionID:String, studentList: List<StudentModel>)
+        fun onclassClicked(sectionID:String)
 
     }
 
