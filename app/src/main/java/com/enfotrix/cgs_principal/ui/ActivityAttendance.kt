@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -52,10 +51,8 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         setContentView(binding.root)
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
-<<<<<<< HEAD
         //Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
-=======
->>>>>>> 9a0145219509d0007bcb614f264df2acf9c8dac9
+
         utils = Utils(mContext)
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(mContext)

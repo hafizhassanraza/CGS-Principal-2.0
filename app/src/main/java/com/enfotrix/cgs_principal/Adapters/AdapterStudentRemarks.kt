@@ -1,10 +1,11 @@
 package com.enfotrix.cgs_principal.Adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.StudentRemarksModel
 import com.enfotrix.cgs_principal.R
 
@@ -13,6 +14,8 @@ class AdapterStudentRemarks(private val remarksList: ArrayList<StudentRemarksMod
         val date: TextView = itemView.findViewById(R.id.date)
         val remark: TextView = itemView.findViewById(R.id.remarkDetails)
         val remarkBy: TextView = itemView.findViewById(R.id.remarkedBy)
+        val positive: ImageView = itemView.findViewById(R.id.imgPositive)
+        val negative: ImageView= itemView.findViewById(R.id.imgNegative)
     }
 
     override fun onCreateViewHolder(
@@ -23,8 +26,14 @@ class AdapterStudentRemarks(private val remarksList: ArrayList<StudentRemarksMod
         return ViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: AdapterStudentRemarks.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val remarks=remarksList[position]
+        holder.remark.text=remarks.remarks
+        holder.remarkBy.text="By:"+remarks.remarkedBy
+        holder.date.text=remarks.date
+
+        if (remarks.remarkStatus=="positive") holder.positive.visibility= View.VISIBLE
+        else if (remarks.remarkStatus=="negative") holder.negative.visibility=View.VISIBLE
     }
 
     override fun getItemCount(): Int {

@@ -110,5 +110,10 @@ class Repo(val context: Context) {
                 Toast.makeText(context, ""+e.message, Toast.LENGTH_SHORT).show()
             }
     }
+    fun getRemarks(studentId: String): Task<QuerySnapshot> {
+        return REMARKS_COLLECTION
+            .whereEqualTo("studentId",studentId)
+            .get()
+    }
 
 }

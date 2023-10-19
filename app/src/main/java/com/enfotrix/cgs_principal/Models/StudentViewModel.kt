@@ -22,6 +22,7 @@ class StudentViewModel(context: Application) : AndroidViewModel(context) {
     fun getStudentModel(studentID: String):  StudentModel { return sharedPrefManager.getStudentList().filter { studentModel -> studentModel.StudentId.equals(studentID) }.first()    }
     fun getStudentModel_ByRegNum(regNum: String):  StudentModel { return sharedPrefManager.getStudentList().filter { studentModel -> studentModel.RegNumber.equals(regNum) }.first()    }
     fun getStudentList_ByName(name: String):  List<StudentModel> { return sharedPrefManager.getStudentList().filter { studentModel -> studentModel.FirstName.toLowerCase().contains(name.toLowerCase()) } }
+    fun getRemarks(studentID: String):  Task<QuerySnapshot> { return repo.getRemarks(studentID) }
 
 
 }
