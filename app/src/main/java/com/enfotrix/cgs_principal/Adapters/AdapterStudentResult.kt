@@ -1,15 +1,17 @@
-package com.enfotrix.cgs_principal.Adapters
+package com.enfotrix.cgs_sargodha_student.Adapters
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.enfotrix.cgs_principal.Models.ResultModel
-import com.enfotrix.cgs_principal.R
+import com.enfotrix.cgs_sargodha_student.Models.AttendanceModel
+import com.enfotrix.cgs_sargodha_student.Models.ResultModel
+import com.enfotrix.cgs_sargodha_student.R
 
-class AdapterStudentResult(private val resultList: MutableList<ResultModel>): RecyclerView.Adapter<AdapterStudentResult.ViewHolder>() {
+class AdapterResult(private val resultList: MutableList<ResultModel>): RecyclerView.Adapter<AdapterResult.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.personal_result_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_design_result, parent, false)
         return ViewHolder(view)
     }
 
@@ -17,7 +19,7 @@ class AdapterStudentResult(private val resultList: MutableList<ResultModel>): Re
         val ItemsViewModel = resultList[position]
 
         // sets the text to the textview from our itemHolder class
-        holder.subject.text = "Urdu"
+        holder.subject.text = ItemsViewModel.subjectId
         holder.obtainedMarks.text = ItemsViewModel.obtainMarks
         holder.totalMarks.text = ItemsViewModel.totalMarks
     }

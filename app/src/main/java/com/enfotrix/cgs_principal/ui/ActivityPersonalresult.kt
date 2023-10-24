@@ -70,7 +70,7 @@ class Activity_personalresult : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-            utils.startLoadingAnimation()
+//            utils.startLoadingAnimation()
 
 
 
@@ -91,6 +91,7 @@ class Activity_personalresult : AppCompatActivity() {
                             for (document in documents) {
                                 val student = document.toObject(ResultModel::class.java)
                                 resultList.add(student)
+//                                utils.endLoadingAnimation()
 
                             }
                             adapter.notifyDataSetChanged()
