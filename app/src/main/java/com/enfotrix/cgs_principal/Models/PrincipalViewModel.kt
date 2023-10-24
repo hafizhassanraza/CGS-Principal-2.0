@@ -15,7 +15,7 @@ class PrincipalViewModel (context: Application) : AndroidViewModel(context)  {
     private val sharedPrefManager = SharedPrefManager(context)
     private val contants = Constants()
     private val context = context
-    fun checkLogin(Id: String,password:String): Task<QuerySnapshot> {
-        return userRepo.checkLogin(Id,password)
+    fun checkLogin(name: String,password:String): Task<QuerySnapshot> {
+        return userRepo.checkLogin(name,password)
     }
 }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="none"
-    tools:context=".ui.Activity_personalresult">
+    tools:context=".ui.ActivityPersonalresult">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,12 +70,12 @@
                     android:fontFamily="@font/montserrat_bold"
                     />
                 <TextView
-                    android:id="@+id/paper_term"
+                    android:id="@+id/tvExamType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginEnd="3dp"
-                    android:text="Final Term"
+                    android:text=""
                     android:textColor="@color/yellow"
                     android:fontFamily="@font/montserrat_bold"
                     />
@@ -142,6 +142,7 @@
         </GridLayout>
 
         <!-- RecyclerView -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.enfotrix.cgs_principal.ui
 import android.content.Context
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,26 +9,30 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AdapterStudentResult
-import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ExamViewModel
+import com.enfotrix.cgs_principal.Models.ModelSubject
 import com.enfotrix.cgs_principal.Models.ResultModel
+import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityPersonalresultBinding
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
 
-class Activity_personalresult : AppCompatActivity() {
+class ActivityPersonalresult : AppCompatActivity() {
     private lateinit var binding: ActivityPersonalresultBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private val examViewModel: ExamViewModel by viewModels()
+    private val studetViewmodel: StudentViewModel by viewModels()
     private var examList: List<String>? = null
     private val resultList = mutableListOf<ResultModel>()
+    private var subjectList: MutableList<ModelSubject> = mutableListOf()
     private val constants = Constants()
     var selectedExamTerm: String? = null
     var selectedExamId: String? = null
     private lateinit var utils: Utils
+    lateinit var examtype:TextView
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: AdapterStudentResult
@@ -42,30 +47,43 @@ class Activity_personalresult : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalresultBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        mContext = this@Activity_personalresult
+        mContext = this@ActivityPersonalresult
         sharedPrefManager = SharedPrefManager(mContext)
         utils = Utils(mContext)
-        studentId=intent.getStringExtra("Id").toString()
-        selectedyear=intent.getStringExtra("selectedYear").toString()
-        selectedExam=intent.getStringExtra("selectedTerm").toString()
-        showResult()
+        studentId = intent.getStringExtra("Id").toString()
+        selectedyear = intent.getStringExtra("selectedYear").toString()
+        selectedExam = intent.getStringExtra("selectedTerm").toString()
 
+        val studentModel = studetViewmodel.getStudentModel(studentId)
 
+        // Log the values for debugging purposes
+        Toast.makeText(mContext, "studentId: $studentId", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "examterm: $selectedExam", Toast.LENGTH_SHORT).show()
+        Toast.makeText(mContext, "year: $selectedyear", Toast.LENGTH_SHORT).show()
+
+        val examList = examViewModel.getExamsList()
+        val selectedExamId = selectedExam
+        val examTerm = examList.find { it.ID == selectedExamId }
+        val examName = examTerm?.ExamName
+        binding.tvExamType.text = examName.toString()
         recyclerView = binding.recyclerView
-        adapter = AdapterStudentResult(resultList)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        // Initialize the adapter here
+        adapter = AdapterStudentResult(resultList, subjectList)
+        recyclerView.layoutManager = LinearLayoutManager(mContext)
         recyclerView.adapter = adapter
 
         binding.arrowBack.setOnClickListener {
             super.onBackPressed()
         }
+        var sectionId=studentModel.CurrentSection
 
-
+        // Load subjects based on section
+        getSubject(sectionId)
+        Toast.makeText(mContext, ""+studentModel.CurrentSection, Toast.LENGTH_LONG).show()
     }
     fun showResult(){
 
-        var list= mutableListOf<ExamModel>()
 
 
 
@@ -74,38 +92,32 @@ class Activity_personalresult : AppCompatActivity() {
 
 
 
-            val selectedExamN = list.find { it.ExamName == selectedExam }
-
-
-            if (selectedExamN!=null){
-                selectedExamId=selectedExamN.ID
-                //Toast.makeText(mContext,""+selectedExamId,Toast.LENGTH_SHORT).show()
-            }
-
             examViewModel.getResult(studentId,selectedyear,selectedExam)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        //Toast.makeText(mContext,"reached",Toast.LENGTH_SHORT).show()
-                        try {
-                            val documents = task.result
+                        Toast.makeText(mContext,"reached",Toast.LENGTH_SHORT).show()
+                        val documents = task.result
                             for (document in documents) {
                                 val student = document.toObject(ResultModel::class.java)
                                 resultList.add(student)
+                                //Toast.makeText(mContext, "debug................", Toast.LENGTH_SHORT).show()
 //                                utils.endLoadingAnimation()
 
                             }
-                            adapter.notifyDataSetChanged()
-                            if (resultList.isEmpty())Toast.makeText(mContext,"Nothing to show",Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(mContext, "size of resultList is=="+resultList.size, Toast.LENGTH_SHORT).show()
+
+                        adapter.notifyDataSetChanged()
                             calculateOverallStatistics()
-                        }
-                        catch (e:Exception){
-                            Toast.makeText(mContext,""+e.message, Toast.LENGTH_SHORT).show()
-                        }
+
 
                     } else {
+                        Toast.makeText(mContext,"not-reached",Toast.LENGTH_SHORT).show()
 
                         // Handle the error if fetching data fails
                     }
+                }
+                .addOnFailureListener {e->
+                    Toast.makeText(mContext, ""+e.message, Toast.LENGTH_SHORT).show()
                 }
         }
     }
@@ -122,7 +134,6 @@ class Activity_personalresult : AppCompatActivity() {
                         val highestScore = resultList.maxByOrNull { it.obtainMarks?.toIntOrNull() ?: 0 }
                         val lowestScore = resultList.minByOrNull { it.obtainMarks?.toIntOrNull() ?: 0 }
                         val overallPercentage = (totalObtainedMarks.toDouble() / totalTotalMarks) * 100.0
-
                         // Now you can display or use the calculated statistics as needed.
 
                         binding.averageMarks.text = averageMarks.toString()
@@ -130,6 +141,12 @@ class Activity_personalresult : AppCompatActivity() {
                         binding.lowestScore.text = lowestScore?.obtainMarks ?: "N/A"
                         binding.overallPercentage.text = overallPercentage.toString()
 
+    }
+    fun getSubject(sectionId:String) {
+        subjectList = sharedPrefManager.getSubjectsList().filter { it.SectionID==sectionId }.toMutableList()
+        Toast.makeText(mContext, "subjectList:"+subjectList, Toast.LENGTH_SHORT).show()
+
+        showResult()
     }
 
 

@@ -16,8 +16,11 @@
             android:name=".ui.ActivityStudentRemarks"
             android:exported="false" />
         <activity
+            android:name=".ui.ActivityPersonalresult"
+            android:exported="false" />
+        <activity
             android:name=".ui.ActivityClassResult"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".ui.ActivityStudentReports"
             android:exported="false" />

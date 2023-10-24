@@ -16,7 +16,7 @@ class ExamViewModel(context: Application) : AndroidViewModel(context) {
     private val context = context
 
     suspend fun getExams(): Task<QuerySnapshot> { return repo.getExams() }
-    suspend fun getSubjects(): Task<QuerySnapshot> { return repo.getSubjects() }
+     fun getSubjects(): Task<QuerySnapshot> { return repo.getSubjects() }
    fun getResult(year:String,exam:String): Task<QuerySnapshot> { return repo.getResult(year, exam) }
     fun getResult( studentID: String, year:String,exam:String): Task<QuerySnapshot> { return repo.getResult(studentID,year, exam) }
     fun getsectionResult( sectionID: String, year:String,exam:String): Task<QuerySnapshot> { return repo.getsectionResult(sectionID,year, exam) }

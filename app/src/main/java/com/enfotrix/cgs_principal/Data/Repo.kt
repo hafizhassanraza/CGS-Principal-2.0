@@ -29,10 +29,10 @@ class Repo(val context: Context) {
     private var REMARKS_COLLECTION=db.collection(constants.REMARKS_COLLECTION)
 
 
-    fun checkLogin(Id: String,password:String):Task<QuerySnapshot>{
+    fun checkLogin(name: String,password:String):Task<QuerySnapshot>{
 
         return ADMIN_COLLECTION
-                .whereEqualTo(constants.ADMINID,Id)
+            .whereEqualTo(constants.ADMINID,name)
             .whereEqualTo(constants.PASSWORD,password)
             .get()
      }
@@ -73,7 +73,7 @@ class Repo(val context: Context) {
     fun getResult(studentID:String, year:String,exam:String):Task<QuerySnapshot>{
 
         return RESULT_COLLECTION
-            .whereEqualTo(constants.STUDENT_ID,studentID)
+            .whereEqualTo("studentId",studentID)
             .whereEqualTo(constants.FIELD_RESULT_YEAR,year)
             .whereEqualTo(constants.FIELD_RESULT_EXAM,exam).get()
     }
