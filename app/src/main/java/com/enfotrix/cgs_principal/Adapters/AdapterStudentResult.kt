@@ -11,7 +11,7 @@ import com.enfotrix.cgs_principal.R
 
 
 class AdapterStudentResult(
-    private val resultList: MutableList<ResultModel>,
+    private val resultList: List<ResultModel>,
     private val subjectList: List<ModelSubject> // Change to List instead of MutableList
 ) : RecyclerView.Adapter<AdapterStudentResult.ViewHolder>() {
 
@@ -21,26 +21,26 @@ class AdapterStudentResult(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (position < resultList.size) {
-            val student = resultList[position]
 
-            // Find the subject with the matching ID
-            val subjectResult = subjectList.firstOrNull { it.ID == student.subjectId }
+        val resultModel = resultList[position] // loop
+        val subjectName = subjectList.filter { it.ID == resultModel.subjectId }.first().SubjectName
 
-            // Check if a matching subject was found
-            if (subjectResult != null) {
-                // Set the subject name
-                holder.subject.text = subjectResult.SubjectName
-                // Set obtained and total marks from the ResultModel
-                holder.obtainedMarks.text = student.obtainMarks ?: ""
-                holder.totalMarks.text = student.totalMarks ?: ""
-            } else {
-                // Handle the case where no matching subject is found
-                holder.subject.text = "Subject Not Found"
-                holder.obtainedMarks.text = student.obtainMarks ?: ""
-                holder.totalMarks.text = student.totalMarks ?: ""
-            }
-        }
+        holder.subject.text = subjectName
+        holder.obtainedMarks.text = resultModel.obtainMarks ?: ""
+        holder.totalMarks.text = resultModel.totalMarks ?: ""
+
+
+
+       /* // Check if a matching subject was found
+        if (subjectModel != null) {
+            // Set the subject name
+
+        } else {
+            // Handle the case where no matching subject is found
+            holder.subject.text = "Subject Not Found"
+            holder.obtainedMarks.text = result.obtainMarks ?: ""
+            holder.totalMarks.text = result.totalMarks ?: ""
+        }*/
     }
 
     override fun getItemCount(): Int {

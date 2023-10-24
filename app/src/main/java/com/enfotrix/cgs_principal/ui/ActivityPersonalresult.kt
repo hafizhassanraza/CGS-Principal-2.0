@@ -54,7 +54,6 @@ class ActivityPersonalresult : AppCompatActivity() {
         selectedyear = intent.getStringExtra("selectedYear").toString()
         selectedExam = intent.getStringExtra("selectedTerm").toString()
 
-        val studentModel = studetViewmodel.getStudentModel(studentId)
 
         // Log the values for debugging purposes
         Toast.makeText(mContext, "studentId: $studentId", Toast.LENGTH_SHORT).show()
@@ -69,18 +68,17 @@ class ActivityPersonalresult : AppCompatActivity() {
         recyclerView = binding.recyclerView
 
         // Initialize the adapter here
-        adapter = AdapterStudentResult(resultList, subjectList)
+
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        recyclerView.adapter = adapter
+
 
         binding.arrowBack.setOnClickListener {
             super.onBackPressed()
         }
-        var sectionId=studentModel.CurrentSection
 
+        showResult()
         // Load subjects based on section
-        getSubject(sectionId)
-        Toast.makeText(mContext, ""+studentModel.CurrentSection, Toast.LENGTH_LONG).show()
+
     }
     fun showResult(){
 
@@ -105,9 +103,8 @@ class ActivityPersonalresult : AppCompatActivity() {
 
                             }
                         //Toast.makeText(mContext, "size of resultList is=="+resultList.size, Toast.LENGTH_SHORT).show()
+                        recyclerView.adapter = AdapterStudentResult(resultList, sharedPrefManager.getSubjectsList())
 
-                        adapter.notifyDataSetChanged()
-                            calculateOverallStatistics()
 
 
                     } else {
@@ -142,11 +139,12 @@ class ActivityPersonalresult : AppCompatActivity() {
                         binding.overallPercentage.text = overallPercentage.toString()
 
     }
-    fun getSubject(sectionId:String) {
-        subjectList = sharedPrefManager.getSubjectsList().filter { it.SectionID==sectionId }.toMutableList()
-        Toast.makeText(mContext, "subjectList:"+subjectList, Toast.LENGTH_SHORT).show()
+    fun getSubject(sectionId:String): MutableList<ModelSubject> {
 
-        showResult()
+
+        return sharedPrefManager.getSubjectsList().filter { it.SectionID==sectionId }.toMutableList()
+        //Toast.makeText(mContext, "subjectList:"+subjectList, Toast.LENGTH_SHORT).show()
+
     }
 
 
