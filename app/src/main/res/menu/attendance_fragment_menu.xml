@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu_main.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/FAttandance"
+        android:title="Attandance"
+        />
+
+    <item
+        android:id="@+id/FPresent"
+        android:title="Present"
+        />
+    <item
+        android:id="@+id/FAbsent"
+        android:title="Absent"
+        />
+    <item
+        android:id="@+id/FLeave"
+        android:title="Leave"
+        />
+
+</menu>

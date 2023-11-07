@@ -4,11 +4,11 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.enfotrix.cgs_principal.Models.AnnouncementModel
 import com.enfotrix.cgs_principal.Models.AnnouncementViewModel
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                 if(task.isSuccessful){
                     val attendanceList= task.result.map { it.toObject(AttendenceModel::class.java) }
 
-                    var counterPresent : Int
+                    var counterPresent : Int=0
                     var counterAbsent : Int
                     var counterLeave : Int
 

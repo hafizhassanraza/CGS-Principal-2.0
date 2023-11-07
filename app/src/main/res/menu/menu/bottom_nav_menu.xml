@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Herbal"
+        android:id="@+id/herbal"
+        android:icon="@drawable/herbal"
+
+        />
+    <item
+        android:title="Medicine"
+        android:id="@+id/medicine"
+    android:icon="@drawable/medicine"
+
+
+        />
+    <item
+        android:title=""
+        android:id="@+id/placeholder"
+
+        />
+    <item
+        android:title="Cosmetics"
+        android:id="@+id/cosmetic"
+        android:icon="@drawable/cosmetic"
+        android:iconTint="@color/blue"
+
+        />
+    <item
+        android:title="General"
+        android:id="@+id/general"
+    android:icon="@drawable/general"
+        android:iconTint="@color/black"
+        />
+
+</menu>
