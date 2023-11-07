@@ -61,7 +61,7 @@ class Repo(val context: Context) {
     suspend fun getSections(): Task<QuerySnapshot> {
         return SECTION_COLLECTION.get()
     }
-    suspend fun  getStudents() : Task<QuerySnapshot> {
+    fun  getStudents() : Task<QuerySnapshot> {
         return STUDENT_COLLECTION.get()
     }
     fun getExams(): Task<QuerySnapshot> { return EXAMS_COLLECTION.get() }

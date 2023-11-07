@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                     var counterAbsent : Int
                     var counterLeave : Int
 
+                    counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Present") }.count()
                     counterAbsent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
                     counterLeave = attendanceList.filter { attendance-> attendance.Status.equals("Leave") }.count()
 

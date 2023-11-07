@@ -14,7 +14,7 @@ class StudentViewModel(context: Application) : AndroidViewModel(context) {
     private val constants = Constants()
     private val repo = Repo(context)
     private val context = context
-    suspend fun getStudents(): Task<QuerySnapshot> { return repo.getStudents() }
+    fun getStudents(): Task<QuerySnapshot> { return repo.getStudents() }
     fun putStudentsList (listStudents:List<StudentModel>){ sharedPrefManager.putStudentList(listStudents) }
     fun saveRemarks (studentRemarksModel: StudentRemarksModel){ repo.saveRemarks(studentRemarksModel) }
     fun getStudentsList():  List<StudentModel> { return sharedPrefManager.getStudentList().sortedBy { it.RegNumber } }
