@@ -117,18 +117,16 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
 
             }
         }
-
-
     }
 
     private fun getResult(examID: String, year: String) {
+        utils.startLoadingAnimation()
         lifecycleScope.launch {
             examViewModel.getResult(year,examID)
                 .addOnCompleteListener { task->
                     if(task.isSuccessful){
 
 
-                        Toast.makeText(mContext, "debug1", Toast.LENGTH_SHORT).show()
 
                         var Listresult = task.result.map { it.toObject(ResultModel::class.java) }
                         resultAdapter = ResultAdapter(
@@ -142,17 +140,19 @@ class ActivityResult : AppCompatActivity(),ResultAdapter.classClickListener {
                         recyclerView.adapter = resultAdapter
 
                     }
+                    utils.endLoadingAnimation()
+
 
 
                 }.addOnFailureListener {
                     Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    utils.endLoadingAnimation()
                 }
 
 
 
         }
     }
-
 
     override fun onclassClicked(sectionID: String) {
         val intent = Intent(this, ActivityClassResult::class.java)

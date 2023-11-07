@@ -52,7 +52,7 @@ class ClassesListAdapter(
         val total = counterPresent + counterAbsent + counterLeave
         if (total > 0) {
             val percent = (counterPresent.toFloat() / total) * 100
-            holder. tvPercent.text = percent.toInt().toString()
+            holder. tvPercent.text = percent.toInt().toString()+"%"
         }
         else holder. tvPercent.text = "N/A"
 

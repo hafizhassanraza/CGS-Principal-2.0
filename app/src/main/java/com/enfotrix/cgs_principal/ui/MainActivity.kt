@@ -61,17 +61,28 @@ class MainActivity : AppCompatActivity() {
         getannouncement()
 
         binding.Attendance.setOnClickListener {
-
-
-
-
-
             // Define the action you want to perform when the button is clicked.
             // For example, you can start a new activity here.
             val intent = Intent(this, ActivityAttendance::class.java)
             startActivity(intent)
 
 
+
+        }
+        binding.events.setOnClickListener {
+            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+
+        }
+        binding.profiles.setOnClickListener {
+            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+
+        }
+        binding.Timetable.setOnClickListener {
+            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+
+        }
+        binding.Reports.setOnClickListener {
+            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
 
         }
         binding.Results.setOnClickListener {
@@ -90,10 +101,6 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getAttendance() {
-
-
-
-
         lifecycleScope.launch {
             attendanceViewModel.getAttendanceRec(getCurrentDate()).addOnCompleteListener { task->
                 if(task.isSuccessful){
@@ -103,7 +110,6 @@ class MainActivity : AppCompatActivity() {
                     var counterAbsent : Int
                     var counterLeave : Int
 
-                    counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Present") }.count()
                     counterAbsent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
                     counterLeave = attendanceList.filter { attendance-> attendance.Status.equals("Leave") }.count()
 

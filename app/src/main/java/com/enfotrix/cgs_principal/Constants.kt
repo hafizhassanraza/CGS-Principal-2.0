@@ -52,7 +52,7 @@ class Constants {
 
 ///////////////////////////  KEYS  ///////////////////
 
-    public var ADMINID="name"
+    public var NAME="name"
     public var PASSWORD="password"
     public var PRINCIPAL_MODEL="principalModel"
     public  var KEY_CLASS_MODEL="classModel"

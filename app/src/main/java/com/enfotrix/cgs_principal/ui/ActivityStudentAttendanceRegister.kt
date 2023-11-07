@@ -82,38 +82,6 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
         binding.ClassName.text = className
         binding.sectionName.text = sectionName
     }
-
-    /////////////////////////////////  GET STUDENT lIST ////////////////////////////////////
-    /*private fun getAttendanceRecord(date: String,sectionId:String) {
-        lifecycleScope.launch {
-
-
-            attendanceViewModel.getAttendanceRec(date, sectionId).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-
-
-
-
-
-                    val attendanceList_ = task.result
-                        .map { it.toObject(AttendenceModel::class.java) }
-                        .filterNotNull()
-                    attendanceList.addAll(attendanceList_)
-                    if(attendanceList.size!=0){
-                        binding.recyclerView.visibility=View.VISIBLE
-                    }
-
-                    attendanceRecAdapter.notifyDataSetChanged()
-                } else {
-                    // Handle the case where the task was not successful
-                    Toast.makeText(mContext, "Failed to retrieve attendance data", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }*/
-
-
-
     ////////////////////////////// FUNCTION TO GET CURRENT DATE ///////////////////////////
 
 
@@ -125,37 +93,4 @@ class ActivityStudentAttendanceRegister : AppCompatActivity() {
     }
 
 
-    private fun getStudentsList(Id: String) {
-        // Check if the student list is already loaded from SharedPreferences
-        if (studentList.isEmpty()) {
-            // If not, fetch the list from SharedPreferences
-            val storedStudentList = studentViewModel.getStudentsList()
-            if (storedStudentList.isNotEmpty()) {
-                //studentList.addAll(storedStudentList)
-                //attendanceRecAdapter.notifyDataSetChanged()
-            }
-        }
-
-        // If the list is still empty or not found in SharedPreferences, fetch it from your source
-//        if (studentList.isEmpty()) {
-//            lifecycleScope.launch {
-//                // Fetch the data from your source (e.g., studentViewModel)
-//                studentViewModel.getStudentsList(Id)
-//                    .addOnCompleteListener { task ->
-//                        if (task.isSuccessful) {
-//                            val documents = task.result
-//                            for (document in documents) {
-//                                val student = document.toObject(StudentModel::class.java)
-//                                studentList.add(student)
-//                            }
-//                            studentList.sortBy { it.RegNumber }
-//                            attendanceRecAdapter.notifyDataSetChanged()
-//
-//                            // Save the fetched list in SharedPreferences
-//                            sharedPrefManager.saveStudentList(studentList)
-//                        } else {
-//                            Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-            }
 }

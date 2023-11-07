@@ -54,12 +54,6 @@ class ActivityPersonalresult : AppCompatActivity() {
         selectedyear = intent.getStringExtra("selectedYear").toString()
         selectedExam = intent.getStringExtra("selectedTerm").toString()
 
-
-        // Log the values for debugging purposes
-        Toast.makeText(mContext, "studentId: $studentId", Toast.LENGTH_SHORT).show()
-        Toast.makeText(mContext, "examterm: $selectedExam", Toast.LENGTH_SHORT).show()
-        Toast.makeText(mContext, "year: $selectedyear", Toast.LENGTH_SHORT).show()
-
         val examList = examViewModel.getExamsList()
         val selectedExamId = selectedExam
         val examTerm = examList.find { it.ID == selectedExamId }
@@ -86,26 +80,25 @@ class ActivityPersonalresult : AppCompatActivity() {
 
 
         lifecycleScope.launch {
-//            utils.startLoadingAnimation()
+           utils.startLoadingAnimation()
 
 
 
             examViewModel.getResult(studentId,selectedyear,selectedExam)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(mContext,"reached",Toast.LENGTH_SHORT).show()
                         val documents = task.result
                             for (document in documents) {
                                 val student = document.toObject(ResultModel::class.java)
                                 resultList.add(student)
                                 //Toast.makeText(mContext, "debug................", Toast.LENGTH_SHORT).show()
-//                                utils.endLoadingAnimation()
+                         utils.endLoadingAnimation()
 
                             }
                         //Toast.makeText(mContext, "size of resultList is=="+resultList.size, Toast.LENGTH_SHORT).show()
                         recyclerView.adapter = AdapterStudentResult(resultList, sharedPrefManager.getSubjectsList())
 
-
+                        calculateOverallStatistics()
 
                     } else {
                         Toast.makeText(mContext,"not-reached",Toast.LENGTH_SHORT).show()
@@ -136,7 +129,10 @@ class ActivityPersonalresult : AppCompatActivity() {
                         binding.averageMarks.text = averageMarks.toString()
                         binding.highestScore.text = highestScore?.obtainMarks ?: "N/A"
                         binding.lowestScore.text = lowestScore?.obtainMarks ?: "N/A"
-                        binding.overallPercentage.text = overallPercentage.toString()
+
+
+
+        binding.overallPercentage.text = String.format("%.2f%%", overallPercentage)
 
     }
     fun getSubject(sectionId:String): MutableList<ModelSubject> {

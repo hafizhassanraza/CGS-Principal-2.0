@@ -89,6 +89,7 @@
                 android:layout_weight="1.5"
                 android:text="classes"
                 android:textSize="13dp"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
                 />
@@ -103,7 +104,7 @@
                 android:textColor="@color/black"
                 android:layout_marginStart="7dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center"
                 />
             <TextView
                 android:id="@+id/tvFail"
@@ -114,18 +115,18 @@
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center"
                 />
             <TextView
                 android:id="@+id/tvpercent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Percentage"
+                android:text="Perc."
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center"
                 />
 
         </LinearLayout>

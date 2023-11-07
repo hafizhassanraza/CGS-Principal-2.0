@@ -100,6 +100,7 @@ class ActivityStudentProfile : AppCompatActivity() {
             binding.studentDob.text = student?.DOB ?: ""
             binding.contactNumber.text = student?.FatherPhoneNumber ?: ""
             binding.studentEmail.text = student?.Email ?: ""
+            binding.studentGuardian.text = student?.FatherName ?: ""
             binding.EmergencyContact.text = student?.FatherPhoneNumber ?: ""
             binding.studentClass.text = intent.getStringExtra("Section")
 

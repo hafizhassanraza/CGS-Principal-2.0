@@ -160,8 +160,7 @@ class ActivityStudentRemarks : AppCompatActivity() {
                     remarksList.add(remarks)
                 }
                 remarksList.sortBy { it.date }
-                Toast.makeText(mContext, ""+remarksList.size, Toast.LENGTH_SHORT).show()
-                adapter.notifyDataSetChanged()
+                 adapter.notifyDataSetChanged()
             }
         }
     }

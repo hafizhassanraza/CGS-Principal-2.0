@@ -55,6 +55,10 @@
                         android:layout_weight="1"
                         android:layout_height="80dp"
                         >
+
+
+
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -90,6 +94,7 @@
                             />
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cvresult"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="80dp"

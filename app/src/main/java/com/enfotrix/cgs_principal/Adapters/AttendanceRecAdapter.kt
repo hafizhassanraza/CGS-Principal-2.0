@@ -35,7 +35,6 @@ class AttendanceRecAdapter(private val context: Context, private var attendanceR
 
         if(studentModel!=null){
             holder.regNO.text = studentModel.RegNumber
-            Toast.makeText(context, ""+studentModel.RegNumber, Toast.LENGTH_SHORT).show()
             holder.studentName.text = studentModel.FirstName
             holder.status.text = attendenceModel.Status
             holder.layAttendance.setOnClickListener {

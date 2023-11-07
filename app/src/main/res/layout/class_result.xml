@@ -39,7 +39,7 @@
             android:text=""
             android:textSize="13dp"
             android:fontFamily="@font/montserrat_regular"
-            android:gravity="start"
+            android:gravity="center"
             />
         <TextView
             android:id="@+id/tvmarks"
@@ -49,6 +49,7 @@
             android:text=""
             android:textSize="13dp"
             android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
             />
         <TextView
             android:id="@+id/percentage"
@@ -58,7 +59,7 @@
             android:text=""
             android:textSize="13dp"
             android:fontFamily="@font/montserrat_regular"
-            android:gravity="start"
+            android:gravity="center"
             />
 
     </LinearLayout>

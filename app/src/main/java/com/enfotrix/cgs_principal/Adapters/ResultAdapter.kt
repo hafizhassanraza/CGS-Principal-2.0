@@ -83,7 +83,7 @@ class ResultAdapter(
             if (total > 0) {
                 val percent = (totalObtain.toFloat() / total) * 100
                 val percentInt = percent.toInt()
-                holder. tvPercentage.text = percent.toInt().toString()
+                holder. tvPercentage.text = percent.toInt().toString()+"%"
 
                 if (percentInt > 33) counterPass++
                 else counterFail++

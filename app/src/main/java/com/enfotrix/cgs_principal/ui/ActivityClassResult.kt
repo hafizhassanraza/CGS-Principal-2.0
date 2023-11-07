@@ -16,6 +16,7 @@ import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
 import com.enfotrix.cgs_principal.SharedPrefManager
+import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityClassResultBinding
 import com.enftorix.cgs_principal.Constants
 import kotlinx.coroutines.launch
@@ -28,6 +29,7 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
     private val examViewModel: ExamViewModel by viewModels()
     private lateinit var binding: ActivityClassResultBinding
     private lateinit var mContext: Context
+    private lateinit var utils: Utils
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var resultAdapter: AdapterClassResult
 
@@ -39,13 +41,14 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
     private var constants = Constants()
     var selectedYear = ""
     var selectedTerm = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClassResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
         mContext = this@ActivityClassResult
         sharedPrefManager = SharedPrefManager(mContext)
-
+        utils = Utils(mContext)
 
 
 
@@ -55,10 +58,6 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
         selectedYear = intent.getStringExtra("selectedYear").toString()
         selectedTerm = intent.getStringExtra("selectedTerm").toString()
         sectionID = intent.getStringExtra("Id").toString()
-
-
-      //  Toast.makeText(mContext, "sectionID"+sectionID, Toast.LENGTH_SHORT).show()
-
         getResultList()
 
 
@@ -66,6 +65,7 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
     }
 
     fun getResultList() {
+        utils.startLoadingAnimation()
         lifecycleScope.launch {
 
 
@@ -76,13 +76,11 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
 
 
                         var result = document.toObject(ResultModel::class.java)
-
-                        //Toast.makeText(mContext, document.toObject(ResultModel::class.java).totalMarks, Toast.LENGTH_SHORT).show()
                         resultList.add(result)
                     }
+                    utils.endLoadingAnimation()
 
                     studentList.addAll(studentViewModel.getStudentsList(sectionID))
-                    // Toast.makeText(mContext, "studentlistSize="+studentList.size, Toast.LENGTH_SHORT).show()
                     val classCard = classViewModel.getSectionModel(sectionID).ClassName
                     val sectionCard = classViewModel.getSectionModel(sectionID).SectionName
                     binding.ClassName.text = classCard
@@ -90,14 +88,10 @@ class ActivityClassResult : AppCompatActivity(),AdapterClassResult.onStudentClic
                     //passing list to adapter
                     recyclerView = binding.recyclerView
                     recyclerView.layoutManager = LinearLayoutManager(mContext)
-                    Toast.makeText(mContext, resultList.size.toString(), Toast.LENGTH_SHORT).show()
-
                     resultAdapter = AdapterClassResult(mContext,studentList,resultList,this@ActivityClassResult
                     )
                     recyclerView.adapter=resultAdapter
-                 //   Toast.makeText(mContext, "resultList Size"+resultList.size, Toast.LENGTH_SHORT).show()
                 }
-
 
         }
     }

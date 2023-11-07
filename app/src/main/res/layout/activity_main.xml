@@ -29,13 +29,7 @@
                                     android:layout_marginHorizontal="8dp"
                                     >
 
-                                        <ImageView
-                                            android:id="@+id/hamburgerIcon"
-                                            android:layout_width="25dp"
-                                            android:layout_height="wrap_content"
-                                            android:background="?attr/selectableItemBackgroundBorderless"
-                                            android:contentDescription="@string/open_navigation_drawer"
-                                            android:src="@drawable/baseline_arrow_back_24" />
+
 
                                         <!-- Center: Home text -->
                                         <TextView
@@ -54,17 +48,7 @@
                                             android:layout_height="match_parent"
                                             android:layout_gravity="end"
                                             android:orientation="horizontal">
-                                                <ImageView
-                                                    android:id="@+id/notificationIcon"
-                                                    android:layout_width="40dp"
-                                                    android:layout_height="21dp"
-                                                    android:layout_marginRight="5dp"
-                                                    android:padding="3dp"
-                                                    android:layout_marginTop="18dp"
-                                                    android:background="?attr/selectableItemBackgroundBorderless"
-                                                    android:contentDescription="@string/notification"
-                                                    android:src="@drawable/notification_icon" />
-
+                                            
                                         </LinearLayout>
                                 </androidx.appcompat.widget.Toolbar>
 
@@ -414,8 +398,7 @@
                                                             android:layout_width="50dp"
                                                             android:layout_height="50dp"
                                                             android:layout_centerInParent="true"
-                                                            android:src="@drawable/baseline_event_24"
-                                                            />
+                                                            android:src="@drawable/baseline_event_24" />
 
                                                         <TextView
                                                             android:layout_width="wrap_content"

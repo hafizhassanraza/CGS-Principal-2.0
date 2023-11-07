@@ -47,16 +47,17 @@
                         android:layout_height="200dp"
                         android:layout_gravity="center"
                         android:src="@drawable/logo_bordered" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:textSize="25dp"
-                        android:textColor="@color/black"
                         android:layout_marginTop="15dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:gravity="center"
                         android:text="Login to account"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="25dp" />
+
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

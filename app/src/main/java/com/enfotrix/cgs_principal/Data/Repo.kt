@@ -32,7 +32,7 @@ class Repo(val context: Context) {
     fun checkLogin(name: String,password:String):Task<QuerySnapshot>{
 
         return ADMIN_COLLECTION
-            .whereEqualTo(constants.ADMINID,name)
+            .whereEqualTo(constants.NAME,name)
             .whereEqualTo(constants.PASSWORD,password)
             .get()
      }

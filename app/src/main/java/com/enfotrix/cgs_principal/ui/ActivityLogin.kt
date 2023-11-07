@@ -49,26 +49,62 @@ class ActivityLogin : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-               // Toast.makeText(mContext, ""+id, Toast.LENGTH_SHORT).show()
-               // Toast.makeText(mContext, ""+password, Toast.LENGTH_SHORT).show()
+                val trimmedId = id.trim()
+                val trimmedPassword = password.trim()
 
-                pricipalViewModel.checkLogin(id, password).addOnCompleteListener { task->
+                pricipalViewModel.checkLogin(trimmedId, trimmedPassword).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val documents = task.result
-                        sharedPrefManager.savePrincipal(PrincipalModel(id, password))
-                        val intent = Intent(mContext, MainActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                        utils.endLoadingAnimation()
+                        var isIdCorrect = false
+                        var isPasswordCorrect = false
 
+                        for (document in documents) {
+                            val name = document.getString("name")
+                            val documentpassword = document.getString("password")
+
+                            if (name == trimmedId && documentpassword == trimmedPassword) {
+                                isIdCorrect = true
+                                isPasswordCorrect = true
+                                break // Exit the loop early if credentials match
+                            } else if (name == trimmedId) {
+                                isIdCorrect = true
+                            } else if (documentpassword == trimmedPassword) {
+                                isPasswordCorrect = true
+                            }
+                        }
+
+                        if (isIdCorrect && isPasswordCorrect) {
+                            val intent = Intent(mContext, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                            utils.endLoadingAnimation()
+                        } else {
+                            if (isIdCorrect && isPasswordCorrect) {
+                                // Both are correct
+                                // You can handle this case here
+                            } else if (isIdCorrect) {
+                                // Only ID is correct
+                                // You can handle this case here
+                            } else if (isPasswordCorrect) {
+                                // Only Password is correct
+                                // You can handle this case here
+                            } else {
+                                // Both are incorrect
+                                Toast.makeText(mContext, "Incorrect information", Toast.LENGTH_SHORT).show()
+                            }
+                            utils.endLoadingAnimation()
+                        }
                     } else {
-                        Toast.makeText(mContext, "Login failed", Toast.LENGTH_SHORT).show()
+                        // Handle network error
+                        Toast.makeText(mContext, "Network error", Toast.LENGTH_SHORT).show()
+                        utils.endLoadingAnimation()
                     }
                 }
-
             } catch (e: Exception) {
                 Toast.makeText(mContext, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                utils.endLoadingAnimation()
             }
         }
     }
+
 }

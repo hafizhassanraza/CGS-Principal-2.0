@@ -144,26 +144,27 @@
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Obtain/Total"
+                android:text="Marks"
                 android:textSize="13dp"
                 android:textColor="@color/black"
+                android:gravity="center"
                 android:fontFamily="@font/montserrat_bold"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="Percentage"
+                android:layout_weight="0.9"
+                android:text="Perc."
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center"
                 />
 
         </LinearLayout>
