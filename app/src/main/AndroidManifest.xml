@@ -17,6 +17,7 @@
         <activity
             android:name=".ui.ActivityAttendanceFragments"
             android:exported="false" />
+
         <activity
             android:name=".ui.ActivityReportResult"
             android:exported="false" />

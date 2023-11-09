@@ -45,8 +45,6 @@ class ActivityStudentList : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         studentAdapter = StudentListAdapter(mContext, sharedPrefManager.getStudentList()!!,"StudentListActivity")
         recyclerView.adapter = studentAdapter
-
-
         /*val searchBar = findViewById<SearchView>(R.id.searchBar)
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

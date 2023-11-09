@@ -87,11 +87,6 @@ class ActivityStudentProfile : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-
-
-
-
     private fun displaySelectedStudents(selectedStudentList: List<StudentModel>) {
         for (student in selectedStudentList) {
             binding.studentName.text = student?.FirstName ?: ""

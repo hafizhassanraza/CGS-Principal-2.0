@@ -1,5 +1,4 @@
 package com.enfotrix.cgs_principal.ui
-
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent

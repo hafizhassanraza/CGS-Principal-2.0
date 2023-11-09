@@ -1,6 +1,7 @@
 package com.enfotrix.cgs_principal.ui
-
 import ClassesListAdapter
+import FragmentAbsent
+import FragmentLeave
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -10,7 +11,6 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
@@ -33,16 +33,12 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
     private val classViewModel: ClassViewModel by viewModels()
     private lateinit var utils: Utils
 
-
     private lateinit var binding: ActivityAttendanceBinding
     private lateinit var mContext: Context
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var recyclerView: RecyclerView
 
-
     private lateinit var classAdapter: ClassesListAdapter
-    // ...
-    private var sectionPercentages: MutableMap<String, Double> = mutableMapOf() // Declare sectionPercentages at the class level
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,64 +47,64 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         setContentView(binding.root)
         mContext = this@ActivityAttendance
         sharedPrefManager = SharedPrefManager(mContext)
-        //Toast.makeText(mContext, "sect6ion list is"+sharedPrefManager.getSectionFromShared(), Toast.LENGTH_LONG).show()
         utils = Utils(mContext)
-        recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(mContext)
 
-        // Create the adapter and pass "this" as the AttendanceClickListener
 
         binding.datePicker.setText(getCurrentDate())
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, FragmentAttendance())
+            .commit()
+
+        binding.FAttendance.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, FragmentAttendance())
+                .commit()
+        }
+        binding.FAbsent.setOnClickListener {
+            val fragment = FragmentAbsent.newInstance(getCurrentDate())
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainer, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        binding.FLeave.setOnClickListener {
+            val fragment = FragmentLeave() // Create an instance of your LeaveFragment
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentContainer, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
 
 
         getAttendance(getCurrentDate())
 
-
-
         binding.datePicker.setOnClickListener {
-            showDatePickerDialog();
+            showDatePickerDialog()
         }
-
-
-
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getAttendance(date : String){
-
+    fun getAttendance(date: String) {
         utils.startLoadingAnimation()
-
         lifecycleScope.launch {
             attendanceViewModel.getAttendanceRec(date)
-                .addOnCompleteListener{task->
-                    if(task.isSuccessful)
-                    {
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
                         utils.endLoadingAnimation()
-
-                        val attendanceList= task.result.map { it.toObject(AttendenceModel::class.java) }
-
-                        var counterPresent : Int
-                        var counterAbsent : Int
-                        var counterLeave : Int
-
-                        counterPresent = attendanceList.filter { attendance-> attendance.Status.equals("Present") }.count()
-                        counterAbsent = attendanceList.filter { attendance-> attendance.Status.equals("Absent") }.count()
-                        counterLeave = attendanceList.filter { attendance-> attendance.Status.equals("Leave") }.count()
-
+                        val attendanceList = task.result.map { it.toObject(AttendenceModel::class.java) }
+                        val counterPresent = attendanceList.count { it.Status == "Present" }
+                        val counterAbsent = attendanceList.count { it.Status == "Absent" }
+                        val counterLeave = attendanceList.count { it.Status == "Leave" }
                         val total = counterPresent + counterAbsent + counterLeave
                         if (total > 0) {
                             val percent = (counterPresent.toFloat() / total) * 100
                             binding.tvAttendanceHeader.text = "Today Attendance: %.2f%%".format(percent)
                         }
-
-                        binding.studentsPresent.text= counterPresent.toString()
-                        binding.studentsAbsent.text= counterAbsent.toString()
-                        binding.studentsLeave.text= counterLeave.toString()
-
-
-
+                        binding.studentsPresent.text = counterPresent.toString()
+                        binding.studentsAbsent.text = counterAbsent.toString()
+                        binding.studentsLeave.text = counterLeave.toString()
                         classAdapter = ClassesListAdapter(
                             mContext,
                             classViewModel.getClassList(),
@@ -116,39 +112,12 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
                             attendanceList,
                             this@ActivityAttendance
                         )
-                        recyclerView.adapter = classAdapter
                         utils.endLoadingAnimation()
-
-
                     }
-
-
                 }
-                .addOnFailureListener{
-
+                .addOnFailureListener {
+                    // Handle the failure case
                 }
-
-
-        }
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    // Calculate the percentage
-    private fun calculatePercentage(presentCount: Int, totalCount: Int): Double {
-        return if (totalCount > 0) {
-            (presentCount.toDouble() / totalCount) * 100.0
-        } else {
-            0.0
         }
     }
 
@@ -159,69 +128,39 @@ class ActivityAttendance : AppCompatActivity(), ClassesListAdapter.AttendanceCli
         return currentDate.format(formatter)
     }
 
-    override fun onAttendanceClicked(sectionID:String, attendacneList: List<AttendenceModel>) {
-        // Handle the item click event here
-        // For example, open the ActivityStudentRegister activity.
+    override fun onAttendanceClicked(sectionID: String, attendanceList: List<AttendenceModel>) {
         val intent = Intent(this, ActivityStudentAttendanceRegister::class.java)
-        intent.putExtra("Id",sectionID)
-        intent.putExtra("studentlist", Gson().toJson(attendacneList))
+        intent.putExtra("Id", sectionID)
+        intent.putExtra("studentlist", Gson().toJson(attendanceList))
         startActivity(intent)
-
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun showDatePickerDialog() {
-        val calendar: Calendar = Calendar.getInstance()
-        val todayYear: Int = calendar.get(Calendar.YEAR)
-        val todayMonth: Int = calendar.get(Calendar.MONTH)
-        val todayDayOfMonth: Int = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this,
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val todayYear = calendar.get(Calendar.YEAR)
+        val todayMonth = calendar.get(Calendar.MONTH)
+        val todayDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val datePickerDialog = DatePickerDialog(
+            this,
             { datePicker, selectedYear, selectedMonth, selectedDay ->
-                // Create a Calendar instance for the selected date
                 val selectedDateCalendar = Calendar.getInstance()
                 selectedDateCalendar.set(selectedYear, selectedMonth, selectedDay)
-
-                // Create a Calendar instance for today's date
-                val todayCalendar = Calendar.getInstance()
-
-
-
-                val selectedDateFormatted = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(selectedDateCalendar.time)
-
-
-
-
-
+                val selectedDateFormatted =
+                    SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(selectedDateCalendar.time)
                 binding.datePicker.setText(selectedDateFormatted)
-                getAttendance(selectedDateFormatted)
-
-
-
-
-
-                /*// Check if the selected date is today or in the future
-                if (selectedDateCalendar.after(todayCalendar)) {
-                    // The selected date is tomorrow or a future date, show an error message
-                    Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show()
-                    binding.recyclerView.visibility= View.INVISIBLE
-                } else {
-                    // The selected date is valid, format it in "dd-MM-yyyy" and update the EditText
-                    val selectedDateFormatted = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                        .format(selectedDateCalendar.time)
-
-                    binding.datePicker.setText(selectedDateFormatted)
-                    attendanceViewModel.getAttendanceRec (selectedDateFormatted)
-                }*/
+                showAbsentFragment(selectedDateFormatted)
             },
             todayYear,
             todayMonth,
             todayDayOfMonth
         )
-
         datePickerDialog.show()
     }
 
-
+    private fun showAbsentFragment(selectedDate: String) {
+        val fragment = FragmentAbsent.newInstance(selectedDate)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
+    }
 }
-
