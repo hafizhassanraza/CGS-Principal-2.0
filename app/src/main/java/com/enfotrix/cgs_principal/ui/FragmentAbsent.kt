@@ -1,3 +1,5 @@
+package com.enfotrix.cgs_principal
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -23,87 +25,33 @@ import com.enfotrix.cgs_principal.SharedPrefManager
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener{
+class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
     private val studentViewModel: StudentViewModel by viewModels()
-    private var filteredList = mutableListOf<StudentModel>()
     private var sectionList = mutableListOf<SectionModel>()
+    private var attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var mContext: Context
-
+    private lateinit var recyclerView: RecyclerView
     private var sharedPrefManager: SharedPrefManager? = null
 
     private lateinit var adapterAbsent: AdapterAbsent
-    var selectedDate: String=""
-    companion object {
-        fun newInstance(selectedDate: String): FragmentAbsent {
-            val fragment = FragmentAbsent()
-            fragment.selectedDate = selectedDate
-            return fragment
-        }
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mContext = context
-        sharedPrefManager = SharedPrefManager(mContext)
-    }
+    var selectedDate: String = ""
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mContext = requireContext()
+        sharedPrefManager = SharedPrefManager(mContext)
         val view = inflater.inflate(R.layout.fragment_absent, container, false)
-
-        // Set up the RecyclerView and adapter
-        setUpRecyclerView(view)
-
-        // Display absent students for the current date
-        displayAbsentStudents(getCurrentDate())
-
+        recyclerView = view.findViewById(R.id.recyclerView)
+        attendanceList = (arguments?.getSerializable("attendanceList") as? ArrayList<AttendenceModel>) ?: mutableListOf()
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapterAbsent = AdapterAbsent(mContext, sharedPrefManager!!.getStudentList(), sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Absent" }.toMutableList(), this)
+        recyclerView.adapter = adapterAbsent
         return view
     }
-
-    private fun setUpRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapterAbsent =  AdapterAbsent(mContext, filteredList,sharedPrefManager!!.getSectionList(),this )
-        recyclerView.adapter = adapterAbsent
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun displayAbsentStudents(date: String) {
-
-
-// Step 1: Retrieve a list of all students
-        studentViewModel.getStudents().addOnCompleteListener { studentTask ->
-            if (studentTask.isSuccessful) {
-                val studentList = studentTask.result.map { it.toObject(StudentModel::class.java) }.toMutableList()
-
-                // Step 2: Retrieve a list of attendance records
-                attendanceViewModel.getAttendanceRec(date).addOnCompleteListener { attendanceTask ->
-                    if (attendanceTask.isSuccessful) {
-                        val attendanceList = attendanceTask.result.map { it.toObject(AttendenceModel::class.java) }
-                        // Step 3: Filter students with "Absent" status
-                        val absentStudentNames = studentList.filter { student ->
-                            attendanceList.any { it.StudentID == student.StudentId && it.Status == "Absent" }
-                        }
-
-                        // Update the filtered list
-                        filteredList.clear()
-                        filteredList.addAll(absentStudentNames)
-                        adapterAbsent.notifyDataSetChanged()
-
-
-                    } else {
-                        // Handle the case where attendance data retrieval was not successful
-                    }
-                }
-            } else {
-                // Handle the case where student data retrieval was not successful
-            }
-        }
-
-
-        }
 
     private fun openDialer(phoneNumber: String) {
         val uri = Uri.parse("tel:$phoneNumber")
@@ -111,13 +59,7 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener{
         startActivity(intent)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getCurrentDate(): String {
-        val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-        return currentDate.format(formatter)
-    }
-
     override fun onPhoneIconClick(phoneNumber: String) {
-        openDialer(phoneNumber)    }
+        openDialer(phoneNumber)
+    }
 }

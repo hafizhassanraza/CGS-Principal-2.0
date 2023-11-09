@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CGSPrincipal"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.ActivityAttendanceFragments"
-            android:exported="false" />
 
         <activity
             android:name=".ui.ActivityReportResult"
@@ -41,12 +38,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.ActivitySplash"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.ActivityAttendance"
@@ -59,7 +52,13 @@
             android:exported="true" />
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.ActivityStudentAttendance"
             android:exported="false" />

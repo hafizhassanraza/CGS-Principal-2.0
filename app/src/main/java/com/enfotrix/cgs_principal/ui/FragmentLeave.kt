@@ -1,3 +1,5 @@
+package com.enfotrix.cgs_principal
+
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Adapters.AdapterAbsent
+import com.enfotrix.cgs_principal.FragmentAbsent
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.SectionModel
@@ -56,19 +58,25 @@ class FragmentLeave : Fragment(), AdapterAbsent.PhoneIconClickListener {
         val view = inflater.inflate(R.layout.fragment_absent, container, false)
 
         // Set up the RecyclerView and adapter
-        setUpRecyclerView(view)
+       // setUpRecyclerView(view)
 
         // Display absent students for the current date
-        displayAbsentStudents(getCurrentDate())
+        //displayAbsentStudents(getCurrentDate())
 
         return view
     }
 
     private fun setUpRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapterAbsent =  AdapterAbsent(mContext, filteredList,sharedPrefManager!!.getSectionList(),this )
-        recyclerView.adapter = adapterAbsent
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        adapterAbsent =  AdapterAbsent(
+//            mContext,
+//            filteredList,
+//            sharedPrefManager!!.getSectionList(),
+//            attendanceList,
+//            this
+//        )
+//        recyclerView.adapter = adapterAbsent
     }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun displayAbsentStudents(date: String) {
@@ -93,7 +101,7 @@ class FragmentLeave : Fragment(), AdapterAbsent.PhoneIconClickListener {
                         // Update the filtered list
                         filteredList.clear()
                         filteredList.addAll(absentStudentNames)
-                        adapterAbsent.notifyDataSetChanged()
+                      //  adapterAbsent.notifyDataSetChanged()
                     } else {
                         // Handle the case where attendance data retrieval was not successful
                     }
