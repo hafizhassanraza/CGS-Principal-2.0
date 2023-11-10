@@ -3,10 +3,8 @@ package com.enfotrix.cgs_principal.ui
 import ClassesListAdapter
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +19,6 @@ import com.enfotrix.cgs_principal.R
 import com.enfotrix.cgs_principal.SharedPrefManager
 import com.enfotrix.cgs_principal.Utils
 import com.enfotrix.cgs_principal.databinding.ActivityAttendanceBinding
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -40,7 +37,6 @@ class ActivityAttendance : AppCompatActivity() {
     private lateinit var sharedPrefManager: SharedPrefManager
     private lateinit var recyclerView: RecyclerView
     private var attendanceList: List<AttendenceModel> = emptyList()
-    private lateinit var attendanceDataListener: AttendanceDataListener
 
     private lateinit var classAdapter: ClassesListAdapter
 
@@ -55,76 +51,31 @@ class ActivityAttendance : AppCompatActivity() {
         getAttendance(getCurrentDate())
 
 
-
-
-
-
-
-
-
         binding.FAttendance.setOnClickListener {
-            val fragment = FragmentAttendance()
-
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "attendanceList",
-                ArrayList(attendanceList)
-            )  // Replace "attendanceList" with your list
-
-
-            fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
+                .replace(R.id.fragmentContainer, FragmentAttendance())
                 .commit()
         }
 
 
         binding.FAbsent.setOnClickListener {
-            val fragment = FragmentAbsent()
-            val bundle = Bundle()
-            bundle.putSerializable("attendanceList", ArrayList(attendanceList))
-            fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
+                .replace(R.id.fragmentContainer, FragmentAbsent())
                 .commit()
         }
 
 
 
         binding.FLeave.setOnClickListener {
-            val fragment = FragmentLeave()
-            val bundle = Bundle()
-            bundle.putSerializable(
-                "attendanceList",
-                ArrayList(attendanceList)
-            )  // Replace "attendanceList" with your list
-
-
-            fragment.arguments = bundle
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FragmentLeave())
                 .commit()
         }
 
 
-        openAttendanceFragment()
         binding.datePicker.setOnClickListener {
             showDatePickerDialog()
         }
-    }
-
-
-    private fun openAttendanceFragment() {
-        val fragment = FragmentAttendance()
-        val bundle = Bundle()
-        bundle.putSerializable("attendanceList", ArrayList(attendanceList))
-        fragment.arguments = bundle
-
-        // Set the listener when creating the fragment
-        attendanceDataListener = fragment
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, fragment, "FragmentAttendanceTag")
-            .commit()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -137,24 +88,29 @@ class ActivityAttendance : AppCompatActivity() {
                         utils.endLoadingAnimation()
                         attendanceList =
                             task.result.map { it.toObject(AttendenceModel::class.java) }
-                        val fragment = FragmentAttendance()
-                        val bundle = Bundle()
-                        Toast.makeText(mContext, "passing List" + attendanceList.size, Toast.LENGTH_SHORT).show()
-                        bundle.putSerializable(
-                            "attendanceList",
-                            ArrayList(attendanceList)
-                        )  // Replace "attendanceList" with your list
+
+                        sharedPrefManager.putAttendanceListByDate(attendanceList)
 
 
-                        fragment.arguments = bundle
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragmentContainer, fragment)
-                            .commit()
-
-                        attendanceDataListener.onAttendanceDataReceived(attendanceList)
                         if (attendanceList.isNotEmpty()) {
-//                            openAttendanceFragements()
-//                            updateAttendanceDataInFragment(attendanceList)
+                                         
+                            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+
+                            if (currentFragment is FragmentAttendance) {
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragmentContainer, FragmentAttendance())
+                                    .commit()
+                            } else if (currentFragment is FragmentAbsent) {
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragmentContainer, FragmentAbsent())
+                                    .commit()
+                            }
+                            else if (currentFragment is FragmentLeave) {
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragmentContainer, FragmentLeave())
+                                    .commit()
+                            }
+
                         }
 
                         val counterPresent = attendanceList.count { it.Status == "Present" }
@@ -169,13 +125,7 @@ class ActivityAttendance : AppCompatActivity() {
                         binding.studentsPresent.text = counterPresent.toString()
                         binding.studentsAbsent.text = counterAbsent.toString()
                         binding.studentsLeave.text = counterLeave.toString()
-//                        classAdapter = ClassesListAdapter(
-//                            mContext,
-//                            classViewModel.getClassList(),
-//                            classViewModel.getSectionList(),
-//                            attendanceList,
-//                            this@ActivityAttendance
-//                        )
+
                         utils.endLoadingAnimation()
                     }
                 }
@@ -190,16 +140,6 @@ class ActivityAttendance : AppCompatActivity() {
         val currentDate = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         return currentDate.format(formatter)
-    }
-
-    //    override fun onAttendanceClicked(sectionID: String, attendanceList: List<AttendenceModel>) {
-//        val intent = Intent(this, ActivityStudentAttendanceRegister::class.java)
-//        intent.putExtra("Id", sectionID)
-//        intent.putExtra("studentlist", Gson().toJson(attendanceList))
-//        startActivity(intent)
-//    }
-    interface AttendanceDataListener {
-        fun onAttendanceDataReceived(attendanceList: List<AttendenceModel>)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -229,5 +169,3 @@ class ActivityAttendance : AppCompatActivity() {
     }
 
 }
-
-

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,12 +17,7 @@ import com.enfotrix.cgs_principal.Adapters.AdapterAbsent
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.SectionModel
-import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
-import com.enfotrix.cgs_principal.R
-import com.enfotrix.cgs_principal.SharedPrefManager
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
@@ -32,11 +26,14 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
     private var attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var mContext: Context
     private lateinit var recyclerView: RecyclerView
-    private var sharedPrefManager: SharedPrefManager? = null
+    private lateinit var sharedPrefManager: SharedPrefManager
 
     private lateinit var adapterAbsent: AdapterAbsent
-    var selectedDate: String = ""
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        sharedPrefManager = SharedPrefManager(requireContext())
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +43,7 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
         sharedPrefManager = SharedPrefManager(mContext)
         val view = inflater.inflate(R.layout.fragment_absent, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
-        attendanceList = (arguments?.getSerializable("attendanceList") as? ArrayList<AttendenceModel>) ?: mutableListOf()
+        attendanceList = sharedPrefManager.getAttendanceListByDate().toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapterAbsent = AdapterAbsent(mContext, sharedPrefManager!!.getStudentList(), sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Absent" }.toMutableList(), this)
         recyclerView.adapter = adapterAbsent

@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.SectionModel
@@ -29,23 +28,25 @@ class AdapterAbsent(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-     Toast.makeText(parent.context, "debug", Toast.LENGTH_SHORT).show()
         val view = LayoutInflater.from(parent.context).inflate(R.layout.absent_students, parent, false)
         return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return studentList.size
+        return absentList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val studentModel = studentList[position]
-        val phone = studentModel.FatherPhoneNumber
+        val isAbsent = absentList[position]
 
         // Check if the student is absent by matching their StudentId
-        val isAbsent = absentList.any { it.StudentID == studentModel.StudentId }
+        val studentModel = studentList.find { it.StudentId == isAbsent.StudentID }
 
-        if (isAbsent) {
+        if (studentModel != null) {
+            // Get father's phone number from the student model
+            val phone = studentModel.FatherPhoneNumber
+
+            // Set other values in the ViewHolder
             holder.regNO.text = studentModel.RegNumber
             holder.student.text = studentModel.FirstName
             holder.father.text = studentModel.FatherName
@@ -70,6 +71,7 @@ class AdapterAbsent(
             holder.itemView.visibility = View.GONE
         }
     }
+
 
     interface PhoneIconClickListener {
         fun onPhoneIconClick(phoneNumber: String)

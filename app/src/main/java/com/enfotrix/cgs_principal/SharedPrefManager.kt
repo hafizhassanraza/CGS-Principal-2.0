@@ -2,6 +2,7 @@ package com.enfotrix.cgs_principal
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.ClassModel
 import com.enfotrix.cgs_principal.Models.ExamModel
 import com.enfotrix.cgs_principal.Models.ModelSubject
@@ -10,10 +11,8 @@ import com.enfotrix.cgs_principal.Models.ResultModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enftorix.cgs_principal.Constants
-import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import java.lang.reflect.Type
-import javax.security.auth.Subject
 
 class SharedPrefManager(context: Context) {
     private var constants = Constants()
@@ -129,6 +128,24 @@ class SharedPrefManager(context: Context) {
             emptyList()
         }
     }
+    fun putAttendanceListByDate(list:List<AttendenceModel>): Boolean {
+        editor.putString("attendanceList", Gson().toJson(list))
+        editor.commit()
+        return true
+    }
+    fun getAttendanceListByDate(): List<AttendenceModel>{
+
+        val json = sharedPref.getString("attendanceList", "") ?: ""
+        val type: Type = object : com.google.gson.reflect.TypeToken<List<AttendenceModel?>?>() {}.getType()
+
+
+        return if (!json.isNullOrEmpty()) {
+            Gson().fromJson(json, type) ?: emptyList()
+        } else {
+            emptyList()
+        }
+    }
+
 
     fun getSectionList(): List<SectionModel>{
 
