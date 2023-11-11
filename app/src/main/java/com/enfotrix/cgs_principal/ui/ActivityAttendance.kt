@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +56,13 @@ class ActivityAttendance : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FragmentAttendance())
                 .commit()
+            binding.cvAttendance.visibility=View.VISIBLE
+            binding.cvAbsents.visibility=View.GONE
+            binding.cvLeave.visibility=View.GONE
+
+            binding.FAttendance.visibility=View.GONE
+            binding.FAbsent.visibility=View.VISIBLE
+            binding.FLeave.visibility=View.VISIBLE
         }
 
 
@@ -62,6 +70,13 @@ class ActivityAttendance : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FragmentAbsent())
                 .commit()
+            binding.cvAttendance.visibility=View.GONE
+            binding.cvAbsents.visibility=View.VISIBLE
+            binding.cvLeave.visibility=View.GONE
+
+            binding.FAttendance.visibility=View.VISIBLE
+            binding.FAbsent.visibility=View.GONE
+            binding.FLeave.visibility=View.VISIBLE
         }
 
 
@@ -70,11 +85,21 @@ class ActivityAttendance : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, FragmentLeave())
                 .commit()
+            binding.cvAttendance.visibility=View.GONE
+            binding.cvAbsents.visibility=View.GONE
+            binding.cvLeave.visibility=View.VISIBLE
+
+            binding.FAttendance.visibility=View.VISIBLE
+            binding.FAbsent.visibility=View.VISIBLE
+            binding.FLeave.visibility=View.GONE
         }
 
 
         binding.datePicker.setOnClickListener {
             showDatePickerDialog()
+        }
+        binding.iBA.setOnClickListener {
+            super.onBackPressed()
         }
     }
 
@@ -110,6 +135,11 @@ class ActivityAttendance : AppCompatActivity() {
                                     .replace(R.id.fragmentContainer, FragmentLeave())
                                     .commit()
                             }
+                            else{
+                                supportFragmentManager.beginTransaction()
+                                    .replace(R.id.fragmentContainer, FragmentAttendance())
+                                    .commit()
+                            }
 
                         }
 
@@ -120,7 +150,7 @@ class ActivityAttendance : AppCompatActivity() {
                         if (total > 0) {
                             val percent = (counterPresent.toFloat() / total) * 100
                             binding.tvAttendanceHeader.text =
-                                "Today Attendance: %.2f%%".format(percent)
+                                "Attendance Percentage: %.2f%%".format(percent)
                         }
                         binding.studentsPresent.text = counterPresent.toString()
                         binding.studentsAbsent.text = counterAbsent.toString()

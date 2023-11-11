@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,18 +19,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
-                android:text="classes"
+                android:text="Class"
                 android:textSize="13dp"
                 android:textColor="@color/black"
+                android:gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_bold"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Present"
+                android:text="P"
                 android:textSize="13dp"
-                android:textColor="@color/black"
+                android:textColor="@color/green"
+                android:gravity="center_horizontal"
                 android:fontFamily="@font/montserrat_bold"
                 />
 
@@ -40,21 +40,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Absent"
+                android:text="A"
                 android:textSize="13dp"
-                android:textColor="@color/black"
+                android:textColor="@color/red"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
-                android:text="Leave"
+                android:text="L"
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 />
 
             <TextView
@@ -65,7 +65,7 @@
                 android:textSize="13dp"
                 android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="start"
+                android:gravity="center_horizontal"
                 />
 
 
@@ -80,13 +80,9 @@
                 android:id="@+id/recyclerViewAttendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 />
         </FrameLayout>
 
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>
 
 

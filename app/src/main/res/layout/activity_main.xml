@@ -58,7 +58,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/customToolbar"
                                     android:gravity="left"
-                                    android:layout_marginTop="40dp"
+                                    android:layout_marginVertical="20dp"
                                     android:layout_marginHorizontal="23dp"
                                     android:orientation="vertical">
                                         <LinearLayout
@@ -90,7 +90,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="170dp"
                             android:layout_marginHorizontal="23dp"
-                            android:layout_marginTop="180dp"
+                            android:layout_marginTop="135dp"
                             android:background="@drawable/notice_board"
                             android:orientation="vertical"
                             tools:ignore="NotSibling">
@@ -104,8 +104,6 @@
                                     android:text="Notice board"
                                     android:textColor="@color/white"
                                     android:textSize="16dp" />
-
-
                                 <ScrollView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -117,12 +115,13 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
-                                            android:paddingTop="20dp"
+                                            android:paddingTop="10dp"
                                             android:text=" "
                                             android:fontFamily="@font/montserrat_regular"
                                             android:textColor="@color/white"
-                                            android:textSize="16dp" />
+                                            android:textSize="14dp" />
                                 </ScrollView>
+
 
 
                         </LinearLayout>
@@ -152,8 +151,9 @@
                                                     android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content"
                                                     android:text="Today Attendance: N/A"
-                                                    android:textColor="@color/white"
-                                                    android:fontFamily="@font/montserrat_bold"
+                                                    android:textColor="@color/black"
+                                                    android:textSize="13dp"
+                                                    android:fontFamily="@font/montserrate_semi_bold"
                                                     android:layout_gravity="center_horizontal"
                                                     android:layout_marginTop="4dp"/>
 
@@ -172,15 +172,17 @@
                                                                     android:layout_width="wrap_content"
                                                                     android:layout_height="wrap_content"
                                                                     android:text="Present:"
-                                                                    android:textColor="@color/white"
-                                                                    android:fontFamily="@font/montserrat_bold"
+                                                                    android:textSize="13dp"
+                                                                    android:textColor="@color/black"
+                                                                    android:fontFamily="@font/montserrate_semi_bold"
                                                                     />
                                                                 <TextView
                                                                     android:id="@+id/studentsPresent"
                                                                     android:layout_width="wrap_content"
                                                                     android:layout_height="wrap_content"
                                                                     android:text="N/A"
-                                                                    android:textColor="@color/white"
+                                                                    android:textSize="13dp"
+                                                                    android:textColor="@color/black"
                                                                     android:fontFamily="@font/montserrat_regular"
                                                                     />
                                                         </LinearLayout>
@@ -196,16 +198,18 @@
                                                                     android:layout_width="wrap_content"
                                                                     android:layout_height="wrap_content"
                                                                     android:text="Absent:"
-                                                                    android:textColor="@color/white"
-                                                                    android:fontFamily="@font/montserrat_bold"
+                                                                    android:textSize="13dp"
+                                                                    android:textColor="@color/black"
+                                                                    android:fontFamily="@font/montserrate_semi_bold"
                                                                     />
                                                                 <TextView
                                                                     android:id="@+id/studentsAbsent"
                                                                     android:layout_width="wrap_content"
                                                                     android:layout_height="wrap_content"
                                                                     android:text="N/A"
+                                                                    android:textSize="13dp"
                                                                     android:layout_marginLeft="2dp"
-                                                                    android:textColor="@color/white"
+                                                                    android:textColor="@color/black"
                                                                     android:fontFamily="@font/montserrat_regular"
                                                                     />
                                                         </LinearLayout>
@@ -217,8 +221,9 @@
                                                                     android:layout_width="wrap_content"
                                                                     android:layout_height="wrap_content"
                                                                     android:text="Leave:"
-                                                                    android:textColor="@color/white"
-                                                                    android:fontFamily="@font/montserrat_bold"
+                                                                    android:textSize="13dp"
+                                                                    android:textColor="@color/black"
+                                                                    android:fontFamily="@font/montserrate_semi_bold"
                                                                     />
                                                                 <TextView
                                                                     android:id="@+id/studentsLeave"
@@ -226,8 +231,8 @@
                                                                     android:layout_height="wrap_content"
                                                                     android:text="N/A"
                                                                     android:layout_marginLeft="2dp"
-
-                                                                    android:textColor="@color/white"
+                                                                    android:textSize="13dp"
+                                                                    android:textColor="@color/black"
                                                                     android:fontFamily="@font/montserrat_regular"
                                                                     />
 
@@ -259,9 +264,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="5dp"
                                     android:columnCount="3"
-                                    android:paddingHorizontal="23dp"
                                     android:rowCount="3">
 
                                         <androidx.cardview.widget.CardView
@@ -271,6 +274,7 @@
                                             android:layout_columnWeight="7"
                                             android:backgroundTint="#78BDE7"
                                             app:cardCornerRadius="12dp"
+                                            android:layout_marginLeft="23dp"
                                             app:cardElevation="4dp">
 
                                                 <RelativeLayout
@@ -311,6 +315,7 @@
                                             android:layout_height="123dp"
                                             android:layout_columnWeight="7"
                                             android:backgroundTint="@color/red"
+                                            android:layout_marginEnd="23dp"
                                             app:cardCornerRadius="12dp"
                                             app:cardElevation="4dp">
 
@@ -325,8 +330,7 @@
                                                             android:layout_width="50dp"
                                                             android:layout_height="50dp"
                                                             android:layout_centerInParent="true"
-                                                            android:src="@drawable/attendence_register"
-                                                            />
+                                                            android:src="@drawable/attendence_register" />
                                                         <TextView
                                                             android:layout_width="wrap_content"
                                                             android:layout_height="wrap_content"
@@ -347,6 +351,8 @@
                                             android:layout_columnWeight="1"
                                             android:layout_marginTop="17dp"
                                             android:backgroundTint="@color/red"
+                                            android:layout_marginLeft="23dp"
+                                            android:layout_marginBottom="5dp"
                                             app:cardCornerRadius="12dp">
 
                                                 <RelativeLayout
@@ -385,6 +391,7 @@
                                             android:layout_columnWeight="1"
                                             android:layout_marginTop="17dp"
                                             android:backgroundTint="#78BDE7"
+                                            android:layout_marginEnd="23dp"
                                             app:cardCornerRadius="12dp">
 
                                                 <RelativeLayout

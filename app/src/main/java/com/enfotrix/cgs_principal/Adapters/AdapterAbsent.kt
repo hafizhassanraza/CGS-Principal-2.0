@@ -1,15 +1,19 @@
 package com.enfotrix.cgs_principal.Adapters
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.SectionModel
 import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.R
+import com.enfotrix.cgs_principal.ui.ActivityStudentProfile
+import com.google.gson.Gson
 
 class AdapterAbsent(
     private val context: Context,
@@ -25,6 +29,7 @@ class AdapterAbsent(
         val father: TextView = itemView.findViewById(R.id.ffatherName)
         val sections: TextView = itemView.findViewById(R.id.classes)
         val contactImage: ImageView = itemView.findViewById(R.id.contact)
+        val card:CardView=itemView.findViewById(R.id.cardViewProfile)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,16 +38,18 @@ class AdapterAbsent(
     }
 
     override fun getItemCount(): Int {
-        return absentList.size
+        return studentList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val isAbsent = absentList[position]
+        val  studentModel= studentList[position]
 
         // Check if the student is absent by matching their StudentId
-        val studentModel = studentList.find { it.StudentId == isAbsent.StudentID }
+        val isAbsent = absentList.find { it.StudentID == studentModel.StudentId }
 
-        if (studentModel != null) {
+
+
+        if (isAbsent != null) {
             // Get father's phone number from the student model
             val phone = studentModel.FatherPhoneNumber
 
@@ -50,10 +57,20 @@ class AdapterAbsent(
             holder.regNO.text = studentModel.RegNumber
             holder.student.text = studentModel.FirstName
             holder.father.text = studentModel.FatherName
-            holder.contactImage.setImageResource(R.drawable.baseline_call)
 
             holder.contactImage.setOnClickListener {
                 phoneIconClickListener.onPhoneIconClick(phone)
+            }
+            holder.card.setOnClickListener {
+                val selectedStudentList = mutableListOf<StudentModel>()
+                selectedStudentList.add(studentModel)
+
+                val gson = Gson()
+                val studentListJson = gson.toJson(selectedStudentList)
+                val intent = Intent(context, ActivityStudentProfile::class.java)
+                intent.putExtra("selectedStudentList", studentListJson)
+                context.startActivity(intent)
+
             }
 
             val matchingSectionModel = sectionlist.find { it.ID == studentModel.CurrentSection }
@@ -61,14 +78,14 @@ class AdapterAbsent(
             if (matchingSectionModel != null) {
                 val sectionName = matchingSectionModel.SectionName
                 val className = matchingSectionModel.ClassName
-                holder.sections.text = "$sectionName / $className"
+                holder.sections.text = "$className / $sectionName"
             } else {
                 // If no matching SectionModel is found, display a default message
                 holder.sections.text = "Unknown Section / Class"
             }
         } else {
             // If the student is not absent, hide the view or set any other appropriate behavior
-            holder.itemView.visibility = View.GONE
+            holder.card.visibility=View.GONE
         }
     }
 

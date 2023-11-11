@@ -17,6 +17,7 @@ import com.enfotrix.cgs_principal.Adapters.AdapterAbsent
 import com.enfotrix.cgs_principal.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal.Models.AttendenceModel
 import com.enfotrix.cgs_principal.Models.SectionModel
+import com.enfotrix.cgs_principal.Models.StudentModel
 import com.enfotrix.cgs_principal.Models.StudentViewModel
 
 class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
@@ -44,8 +45,19 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
         val view = inflater.inflate(R.layout.fragment_absent, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         attendanceList = sharedPrefManager.getAttendanceListByDate().toMutableList()
+
+        val allStudentsListFromSharedPref: List<StudentModel> = sharedPrefManager!!.getStudentList()
+
+        // Assuming attendanceList is a list of AttendenceModel
+        val absentStudentsList: List<StudentModel> = allStudentsListFromSharedPref.filter { student ->
+            // Check if there's any attendance record where the StudentID matches and the status is "Absent"
+            attendanceList.any { absent ->
+                absent.StudentID == student.StudentId && absent.Status == "Absent"
+            }
+        }
+
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapterAbsent = AdapterAbsent(mContext, sharedPrefManager!!.getStudentList(), sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Absent" }.toMutableList(), this)
+        adapterAbsent = AdapterAbsent(mContext, absentStudentsList.sortedBy { it.RegNumber }, sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Absent" }.toMutableList(), this)
         recyclerView.adapter = adapterAbsent
         return view
     }

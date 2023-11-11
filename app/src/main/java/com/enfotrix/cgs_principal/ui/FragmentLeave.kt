@@ -52,7 +52,18 @@ class FragmentLeave : Fragment(), AdapterAbsent.PhoneIconClickListener {
         recyclerView = view.findViewById(R.id.recyclerView)
         attendanceList = sharedPrefManager.getAttendanceListByDate().toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapterAbsent = AdapterAbsent(mContext, sharedPrefManager!!.getStudentList(), sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Leave" }.toMutableList(), this)
+
+        val allStudentsListFromSharedPref: List<StudentModel> = sharedPrefManager!!.getStudentList()
+
+        // Assuming attendanceList is a list of AttendenceModel
+        val absentStudentsList: List<StudentModel> = allStudentsListFromSharedPref.filter { student ->
+            // Check if there's any attendance record where the StudentID matches and the status is "Leave"
+            attendanceList.any { absent ->
+                absent.StudentID == student.StudentId && absent.Status == "Leave"
+            }
+        }
+
+        adapterAbsent = AdapterAbsent(mContext, absentStudentsList.sortedBy { it.RegNumber }, sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Leave" }.toMutableList(), this)
         recyclerView.adapter = adapterAbsent
 
         return view
