@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enfotrix.cgs_principal'
+    namespace 'com.enfotrix.cgs_principal_portal'
     compileSdk 34
 
     kotlinOptions {
@@ -13,11 +13,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.enfotrix.cgs_principal"
+        applicationId "com.enfotrix.cgs_principal_portal"
         minSdk 24
         targetSdk 33
-        versionCode 2
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
