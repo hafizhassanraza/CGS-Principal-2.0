@@ -17,12 +17,6 @@ class AttendanceViewModel (context: Application) : AndroidViewModel(context) {
     private val context = context
     private val utils = Utils(context)
 
-
-
-
-
-
-
      fun    getAttendanceRec(date:String): Task<QuerySnapshot> { return repo.getAttendance(date) }
     suspend fun getMonthlyAttendanceRec(studentId: String , date:String): Task<QuerySnapshot> {
         return repo.getStudentAttendance(studentId,utils.startOfMonth(date),utils.endOfMonth(date))

@@ -23,8 +23,6 @@ import com.enfotrix.cgs_principal_portal.Models.StudentViewModel
 class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
     private val studentViewModel: StudentViewModel by viewModels()
-    private var sectionList = mutableListOf<SectionModel>()
-    private var attendanceList = mutableListOf<AttendenceModel>()
     private lateinit var mContext: Context
     private lateinit var recyclerView: RecyclerView
     private lateinit var sharedPrefManager: SharedPrefManager
@@ -35,6 +33,7 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
         super.onAttach(context)
         sharedPrefManager = SharedPrefManager(requireContext())
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,22 +43,46 @@ class FragmentAbsent : Fragment(), AdapterAbsent.PhoneIconClickListener {
         sharedPrefManager = SharedPrefManager(mContext)
         val view = inflater.inflate(R.layout.fragment_absent, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
-        attendanceList = sharedPrefManager.getAttendanceListByDate().toMutableList()
 
-        val allStudentsListFromSharedPref: List<StudentModel> = sharedPrefManager!!.getStudentList()
+        val attendanceList = getAttendanceList()
+        val absentStudentsList = getAbsentStudentsList(attendanceList)
 
-        // Assuming attendanceList is a list of AttendenceModel
-        val absentStudentsList: List<StudentModel> = allStudentsListFromSharedPref.filter { student ->
-            // Check if there's any attendance record where the StudentID matches and the status is "Absent"
+        if (attendanceList.isNotEmpty()) {
+            setupRecyclerView(absentStudentsList, attendanceList)
+        } else {
+            handleEmptyAttendanceList()
+        }
+
+        return view
+    }
+
+    private fun getAttendanceList(): List<AttendenceModel> {
+        return sharedPrefManager.getAttendanceListByDate().toMutableList()
+    }
+
+    private fun getAbsentStudentsList(attendanceList: List<AttendenceModel>): List<StudentModel> {
+        val allStudentsList = sharedPrefManager.getStudentList()
+        return allStudentsList.filter { student ->
             attendanceList.any { absent ->
                 absent.StudentID == student.StudentId && absent.Status == "Absent"
             }
         }
+    }
 
+    private fun setupRecyclerView(absentStudentsList: List<StudentModel>, attendanceList: List<AttendenceModel>) {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapterAbsent = AdapterAbsent(mContext, absentStudentsList.sortedBy { it.RegNumber }, sharedPrefManager!!.getSectionList(), attendanceList.filter { it.Status == "Absent" }.toMutableList(), this)
+        adapterAbsent = AdapterAbsent(
+            mContext,
+            absentStudentsList.sortedBy { it.RegNumber },
+            sharedPrefManager.getSectionList(),
+            attendanceList.filter { it.Status == "Absent" }.toMutableList(),
+            this
+        )
         recyclerView.adapter = adapterAbsent
-        return view
+    }
+
+    private fun handleEmptyAttendanceList() {
+        recyclerView.visibility = View.GONE
     }
 
     private fun openDialer(phoneNumber: String) {

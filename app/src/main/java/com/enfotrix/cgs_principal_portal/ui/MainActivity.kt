@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +21,14 @@ import com.enfotrix.cgs_principal_portal.SharedPrefManager
 import com.enfotrix.cgs_principal_portal.Utils
 import com.enfotrix.cgs_principal_portal.databinding.ActivityMainBinding
 import com.enftorix.cgs_principal.Constants
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -29,6 +38,9 @@ class MainActivity : AppCompatActivity() {
     private val attendanceViewModel: AttendanceViewModel by viewModels()
 
     private val announcementViewModel: AnnouncementViewModel by viewModels()
+
+
+    private lateinit var appUpdateManager: AppUpdateManager
 
 
 
@@ -50,8 +62,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        appUpdateManager= AppUpdateManagerFactory.create(this@MainActivity)
 
-
+        checkUpdates()
 
         mContext = this@MainActivity;
         utils = Utils(mContext)
@@ -98,6 +111,63 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun checkUpdates() {
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
+
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    appUpdateInfo,
+                    activityResultLauncher,
+                    AppUpdateOptions.newBuilder(AppUpdateType.IMMEDIATE).build()
+                )
+            }
+        }
+
+        appUpdateManager.registerListener(listener)
+    }
+
+    private val listener = InstallStateUpdatedListener { state ->
+        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+            popupSnackbarForCompleteUpdate()
+        }
+    }
+
+    private fun popupSnackbarForCompleteUpdate() {
+        Snackbar.make(
+            findViewById(R.id.linear2),
+            "An update has just been downloaded",
+            Snackbar.LENGTH_INDEFINITE
+        ).apply {
+            setAction("Install") { appUpdateManager.completeUpdate() }
+                .setActionTextColor(getColor(android.R.color.holo_blue_dark))
+            show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        appUpdateManager.unregisterListener(listener)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+
+            if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackbarForCompleteUpdate()
+            }
+        }
+    }
+
+    private val activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode != RESULT_OK) {
+                Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_SHORT).show()
+            }
+        }
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getAttendance() {
         lifecycleScope.launch {

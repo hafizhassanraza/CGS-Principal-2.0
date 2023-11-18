@@ -45,10 +45,11 @@ class FragmentAttendance : Fragment() ,ClassesListAdapter.AttendanceClickListene
         utils = Utils(mContext)
         recyclerView = view.findViewById(R.id.recyclerViewAttendance)
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-         attendanceData = sharedPrefManager.getAttendanceListByDate()
 
-
-        if (attendanceData != null) {
+        // Load the initial attendance data
+        attendanceData = sharedPrefManager.getAttendanceListByDate()
+        if (attendanceData.isNotEmpty()) {
+            // Initialize the adapter with the initial data
             classAdapter = ClassesListAdapter(
                 mContext,
                 classViewModel.getClassList(),
@@ -56,11 +57,28 @@ class FragmentAttendance : Fragment() ,ClassesListAdapter.AttendanceClickListene
                 attendanceData,
                 this@FragmentAttendance
             )
+
             recyclerView.adapter = classAdapter
             utils.endLoadingAnimation()
+
+
+        }
+        else{
+            classAdapter = ClassesListAdapter(
+                mContext,
+                classViewModel.getClassList(),
+                classViewModel.getSectionList(),
+                emptyList(),
+                this@FragmentAttendance
+            )
+            recyclerView.adapter = classAdapter
+            utils.endLoadingAnimation()
+            classAdapter.notifyDataSetChanged()
         }
         return view
     }
+
+
     override fun onAttendanceClicked(sectionID: String, attendacneList: List<AttendenceModel>) {
         val intent = Intent(requireContext(), ActivityStudentAttendanceRegister::class.java)
         intent.putExtra("Id", sectionID)
