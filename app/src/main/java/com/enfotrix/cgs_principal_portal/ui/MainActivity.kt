@@ -1,4 +1,5 @@
 package com.enfotrix.cgs_principal_portal.ui
+
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -29,6 +30,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.enfotrix.cgs_principal_portal.BuildConfig
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -117,6 +119,8 @@ class MainActivity : AppCompatActivity() {
 
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)
+                && appUpdateInfo.availableVersionCode() > BuildConfig.VERSION_CODE
+
             ) {
                 appUpdateManager.startUpdateFlowForResult(
                     appUpdateInfo,
