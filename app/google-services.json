@@ -36,9 +36,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:423890786669:android:c5659f8d2af8f27a1c2264",
+        "mobilesdk_app_id": "1:423890786669:android:422c7fd516a48d2a1c2264",
         "android_client_info": {
-          "package_name": "com.enfotrix.cgs_principal_portal"
+          "package_name": "com.enfotrix.cgs_principal_applic"
         }
       },
       "oauth_client": [

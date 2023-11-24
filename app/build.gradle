@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.enfotrix.cgs_principal_portal'
+    namespace 'com.enfotrix.cgs_principal_applic'
     compileSdk 34
 
     kotlinOptions {
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.enfotrix.cgs_principal_portal"
+        applicationId "com.enfotrix.cgs_principal_applic"
         minSdk 24
         targetSdk 33
         versionCode 5
