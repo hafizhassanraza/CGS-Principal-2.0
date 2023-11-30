@@ -17,8 +17,10 @@ import com.enfotrix.cgs_principal_applic.Models.AttendanceViewModel
 import com.enfotrix.cgs_principal_applic.Models.AttendenceModel
 import com.enfotrix.cgs_principal_applic.Models.ClassModel
 import com.enfotrix.cgs_principal_applic.Models.SectionModel
+import com.enfotrix.cgs_principal_applic.R
 import com.enfotrix.cgs_principal_applic.SharedPrefManager
 import com.enfotrix.cgs_principal_applic.Utils
+import com.enfotrix.cgs_principal_applic.databinding.ActivityMainBinding
 import com.enftorix.cgs_principal.Constants
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -28,11 +30,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
-
-import com.enfotrix.cgs_principal_applic.BuildConfig
-import com.enfotrix.cgs_principal_applic.R
-import com.enfotrix.cgs_principal_applic.databinding.ActivityMainBinding
-
+import com.prolificinteractive.materialcalendarview.BuildConfig
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

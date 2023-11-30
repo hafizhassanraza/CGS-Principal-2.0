@@ -9,5 +9,6 @@ data class ResultModel(
     var studentId: String? = "",
     var subjectId: String? = "",
     var totalMarks: String? = "",
-    var year: String? = ""
+    var year: String? = "",
+    var approvingStatus : String?=""
 )

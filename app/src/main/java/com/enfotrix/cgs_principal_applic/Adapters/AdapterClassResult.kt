@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.enfotrix.cgs_principal_applic.Models.ResultModel
 import com.enfotrix.cgs_principal_applic.Models.StudentModel
@@ -50,8 +51,14 @@ class AdapterClassResult(
                 val percent = (totalObtain.toFloat() / total) * 100
                 val percentInt = percent.toInt()
 
-                if (percentInt > 33) holder.status.text = "Pass"
-                else holder.status.text = "Fail"
+                if (percentInt > 33) {
+                    holder.status.text = "Pass"
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.blue))
+                } else {
+                    holder.status.text = "Fail"
+                    holder.status.setTextColor(ContextCompat.getColor(context, R.color.red))
+                }
+
 
                 holder.percentage.text = percent.toInt().toString()+"%"
                 holder.marks.text = "$totalObtain/$total"

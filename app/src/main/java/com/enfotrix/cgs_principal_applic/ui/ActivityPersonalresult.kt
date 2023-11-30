@@ -90,6 +90,7 @@ class ActivityPersonalresult : AppCompatActivity() {
                         val documents = task.result
                             for (document in documents) {
                                 val student = document.toObject(ResultModel::class.java)
+                                Toast.makeText(mContext, ""+student.approvingStatus, Toast.LENGTH_SHORT).show()
                                 resultList.add(student)
                                 //Toast.makeText(mContext, "debug................", Toast.LENGTH_SHORT).show()
                          utils.endLoadingAnimation()
