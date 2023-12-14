@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/diaryCard"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="2dp"
+        android:backgroundTint="@color/blue"
+        app:cardCornerRadius="8dp">
+
+        <TextView
+            android:id="@+id/tvSubjectName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+            android:text="Subject Name"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            android:fontFamily="@font/montserrat_bold"
+             />
+
+        <TextView
+                android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="34dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingRight="24dp"
+            android:paddingBottom="24dp"
+            android:text="Here is testing content"
+            android:textColor="@color/white" />
+
+        <TextView
+                android:id="@+id/tvdueDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="12dp"
+            android:text="Dec 02,2023,2:01 PM"
+            android:textColor="@color/red"
+            />
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

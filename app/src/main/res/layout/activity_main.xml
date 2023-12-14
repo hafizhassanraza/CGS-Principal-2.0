@@ -29,7 +29,13 @@
                                     android:layout_marginHorizontal="8dp"
                                     >
 
-
+                                        <ImageView
+                                            android:id="@+id/hamburgerIcon"
+                                            android:layout_width="25dp"
+                                            android:layout_height="wrap_content"
+                                            android:background="?attr/selectableItemBackgroundBorderless"
+                                            android:contentDescription="@string/open_navigation_drawer"
+                                            android:src="@drawable/hamburger_icon" />
 
                                         <!-- Center: Home text -->
                                         <TextView
@@ -48,7 +54,6 @@
                                             android:layout_height="match_parent"
                                             android:layout_gravity="end"
                                             android:orientation="horizontal">
-                                            
                                         </LinearLayout>
                                 </androidx.appcompat.widget.Toolbar>
 
@@ -440,7 +445,7 @@
                                             app:cardCornerRadius="12dp">
 
                                                 <LinearLayout
-                                                    android:id="@+id/profiles"
+                                                    android:id="@+id/dateSheet"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"
                                                     android:gravity="bottom|start"
@@ -452,7 +457,6 @@
                                                             android:layout_width="35dp"
                                                             android:layout_height="35dp"
                                                             android:layout_marginBottom="5dp"
-                                                            android:src="@drawable/profile"
                                                             />
 
                                                         <TextView
@@ -460,7 +464,7 @@
                                                             android:layout_height="wrap_content"
                                                             android:fontFamily="@font/montserrat_regular"
 
-                                                            android:text="Student Profiles"
+                                                            android:text="Date Sheet"
                                                             android:textColor="@color/Grey" />
 
                                                 </LinearLayout>
@@ -476,7 +480,7 @@
                                             app:cardCornerRadius="12dp">
 
                                                 <LinearLayout
-                                                    android:id="@+id/Timetable"
+                                                    android:id="@+id/DateSheet"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"
                                                     android:gravity="bottom|start"
@@ -495,7 +499,7 @@
                                                             android:layout_width="wrap_content"
                                                             android:layout_height="wrap_content"
                                                             android:fontFamily="@font/montserrat_regular"
-                                                            android:text="Timetable"
+                                                            android:text="Date Sheet"
                                                             android:textColor="@color/Grey" />
 
                                                 </LinearLayout>

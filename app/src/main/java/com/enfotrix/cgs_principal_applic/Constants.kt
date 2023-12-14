@@ -7,9 +7,7 @@ class Constants {
     public var ADMIN_COLLECTION="Admin"
     public var CLASS_COLLECTION = "Class"
     public var SECTION_COLLECTION = "Sections"
-    public var FIELD_CLASS_NAME="ClassName"
     public var FIELD_CLASS_ID="ClassID"
-    public var FIELD_SECTION_NAME="SectionName"
     public var ATTENDANCE_REC_COLLECTION="AttendanceRec"
     public var STUDENT_COLLECTION = "Students"
     public var FIELD_SECTION_ID="CurrentSection"
@@ -21,6 +19,7 @@ class Constants {
     public var STUDENT_ID="studentID"
     public var ANNOUNCEMENT_COLLECTION="Announcement"
     public var REMARKS_COLLECTION="Remarks"
+    public var DIARY_COLLECTION="Diary"
 
 
 
@@ -36,6 +35,10 @@ class Constants {
     public var FIELD_STUDENT_ID="studentID"
     public var FIELD_RESULT_YEAR="year"
     public var FIELD_RESULT_EXAM="exam"
+    public var FIELD_SECTION_NAME="SectionName"
+        public var FIELD_CLASS_NAME="ClassName"
+
+
 
 
 

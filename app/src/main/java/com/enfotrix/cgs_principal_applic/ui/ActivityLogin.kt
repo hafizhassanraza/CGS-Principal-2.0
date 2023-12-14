@@ -22,11 +22,11 @@ class ActivityLogin : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        mContext = this@ActivityLogin
-        sharedPrefManager = SharedPrefManager(mContext)
-        utils = Utils(mContext)
+            binding = ActivityLoginBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            mContext = this@ActivityLogin
+            sharedPrefManager = SharedPrefManager(mContext)
+            utils = Utils(mContext)
 
 
         binding.btnLogin.setOnClickListener {

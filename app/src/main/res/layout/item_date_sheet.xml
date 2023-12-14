@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    >
+    <GridLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:paddingHorizontal="15dp"
+        >
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="0dp"
+            android:layout_height="29dp"
+            android:layout_columnWeight="2"
+            android:background="@drawable/cell_border"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="Date"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/dayTextView"
+            android:layout_width="0dp"
+            android:layout_height="29dp"
+            android:layout_columnWeight="1.5"
+            android:text="Day"
+            android:textSize="12dp"
+            android:background="@drawable/cell_border"
+            android:gravity="center"
+            android:padding="4dp" />
+
+        <TextView
+            android:id="@+id/timingTextView"
+            android:layout_width="0dp"
+            android:layout_height="29dp"
+            android:layout_columnWeight="3"
+            android:text="Timing"
+            android:textSize="12dp"
+            android:background="@drawable/cell_border"
+            android:gravity="center"
+            android:padding="2dp" />
+
+        <TextView
+            android:id="@+id/syllabusTextView"
+            android:layout_width="0dp"
+            android:layout_height="29dp"
+            android:layout_columnWeight="2.5"
+            android:text="Syllabus"
+            android:textSize="12dp"
+            android:gravity="center"
+            android:background="@drawable/cell_border"
+            android:padding="2dp" />
+
+    </GridLayout>
+
+</LinearLayout>

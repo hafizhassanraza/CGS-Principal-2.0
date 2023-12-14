@@ -15,57 +15,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CGSPrincipal"
         tools:targetApi="31">
-
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityReportResult"
+            android:name=".ui.ActivityDateSheet"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityStudentRemarks"
+            android:name=".ui.ActivityDiary"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityPersonalresult"
+            android:name=".ui.cgs_principal_applic"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityClassResult"
+            android:name=".ui.ActivityReportResult"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityStudentReports"
+            android:name=".ui.ActivityStudentRemarks"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityResult"
+            android:name=".ui.ActivityPersonalresult"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityStudentAttendanceRegister"
+            android:name=".ui.ActivityClassResult"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivitySplash"
+            android:name=".ui.ActivityStudentReports"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ActivityResult"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ActivityStudentAttendanceRegister"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ActivitySplash"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityAttendance"
+            android:name=".ui.ActivityAttendance"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityStudentProfile"
+            android:name=".ui.ActivityStudentProfile"
             android:exported="false" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityLogin"
-            android:exported="true">
-        </activity>
-
+            android:name=".ui.ActivityLogin"
+            android:exported="true" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.MainActivity"
-            android:exported="true" >
-
-        </activity>
+            android:name=".ui.MainActivity"
+            android:exported="true" />
         <activity
-            android:name="com.enfotrix.cgs_principal_applic.ui.ActivityStudentAttendance"
+            android:name=".ui.ActivityStudentAttendance"
             android:exported="false" />
     </application>
 

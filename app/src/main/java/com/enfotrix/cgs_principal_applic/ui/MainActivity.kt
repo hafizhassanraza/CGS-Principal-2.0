@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
 import com.enfotrix.cgs_principal_applic.Models.AnnouncementModel
 import com.enfotrix.cgs_principal_applic.Models.AnnouncementViewModel
@@ -76,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         sharedPrefManager = SharedPrefManager(mContext)
         getannouncement()
 
+
+//        binding.hamburgerIcon.setOnClickListener {
+//            binding.drawerLayout.openDrawer(GravityCompat.START)
+//        }
+
         binding.Attendance.setOnClickListener {
             // Define the action you want to perform when the button is clicked.
             // For example, you can start a new activity here.
@@ -89,12 +95,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
 
         }
-        binding.profiles.setOnClickListener {
-            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+        binding.dateSheet.setOnClickListener {
 
+
+            startActivity(Intent(mContext,ActivityDiary::class.java))
         }
-        binding.Timetable.setOnClickListener {
-            Toast.makeText(mContext, "Coming Soon", Toast.LENGTH_SHORT).show()
+        binding.dateSheet.setOnClickListener {
+            startActivity(Intent(mContext,ActivityDateSheet::class.java))
 
         }
         binding.Reports.setOnClickListener {

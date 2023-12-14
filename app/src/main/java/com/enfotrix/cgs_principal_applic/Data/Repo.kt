@@ -27,6 +27,7 @@ class Repo(val context: Context) {
     private var RESULT_COLLECTION=db.collection(constants.RESULT_COLLECTION)
     private var ANNOUNCEMENT_COLLECTION=db.collection(constants.ANNOUNCEMENT_COLLECTION)
     private var REMARKS_COLLECTION=db.collection(constants.REMARKS_COLLECTION)
+    private var DIARY_COLLECTION=db.collection(constants.DIARY_COLLECTION)
 
 
     fun checkLogin(name: String,password:String):Task<QuerySnapshot>{
@@ -122,5 +123,12 @@ class Repo(val context: Context) {
             .whereEqualTo("studentId",studentId)
             .get()
     }
+
+//    fun getAllDiariesList(selectedSection: String, selectedDate: String) {
+//        return DIARY_COLLECTION.whereEqualTo(constants.FIELD_SECTION_NAME,selectedSection).whereEqualTo(constants.FIELD_CLASS_NAME,className).whereEqualTo("dueDate",selectedDate)
+//
+//
+//
+//    }
 
 }

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    tools:context=".ui.ActivityDateSheet">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            >
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:src="@drawable/datesheet_papers" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/backImg"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:padding="3dp"
+                android:src="@drawable/back_option" />
+        </RelativeLayout>
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/logobordered"
+            android:layout_marginTop="-60dp"
+            />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:elevation="4dp"
+            android:layout_marginHorizontal="15dp"
+            app:cardCornerRadius="8dp"
+            android:layout_marginTop="9dp"
+            android:backgroundTint="@color/blue"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datesheet for Exam 2023"
+                android:textColor="@color/yellow"
+                android:textSize="17dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_gravity="center"
+                />
+        </androidx.cardview.widget.CardView>
+
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="15dp"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2"
+                android:text="Date"
+                android:background="@drawable/cell_border"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1.5"
+                android:text="Day"
+                android:background="@drawable/cell_border"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="3"
+                android:text="Timing"
+                android:background="@drawable/cell_border"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:padding="8dp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="2.5"
+                android:text="Subject"
+                android:background="@drawable/cell_border"
+                android:backgroundTint="@color/blue"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:padding="8dp" />
+        </GridLayout>
+
+
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            >
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvKindlyNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kindly note"
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/black"
+                android:layout_marginVertical="15dp"
+                android:textSize="15dp"
+                />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/bullet1"
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_circle"
+                android:layout_below="@id/tvKindlyNote"
+                android:layout_marginTop="-3dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All the students will come to their there examination day"
+                android:layout_toRightOf="@id/bullet1"
+                android:layout_below="@id/tvKindlyNote"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/bullet2"
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_circle"
+                android:layout_below="@id/tv1"
+                android:layout_marginTop="-2dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All the students will come to their there examination day"
+                android:layout_toRightOf="@id/bullet2"
+                android:layout_below="@id/tv1"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/bullet3"
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_circle"
+                android:layout_below="@id/tv2"
+                android:layout_marginTop="-2dp"
+                />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All the students will come to their there examination day"
+                android:layout_toRightOf="@id/bullet3"
+                android:layout_below="@id/tv2"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:textSize="12dp"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/yellow"
+                android:layout_below="@id/tv3"
+                android:layout_marginVertical="10dp"
+                app:cornerRadius="0dp"
+                android:text="Download PDF"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrate_semi_bold"
+                android:textSize="11dp"
+                />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+
+</ScrollView>
